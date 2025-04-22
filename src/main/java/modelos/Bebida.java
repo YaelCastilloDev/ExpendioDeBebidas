@@ -29,7 +29,6 @@ public class Bebida implements Serializable{
 
     public Bebida() {}
 
-    // Getters y Setters
     public Double getPrecio_unitario() { return precio_unitario; }
     public void setPrecio_unitario(Double precio_unitario) { this.precio_unitario = precio_unitario; }
     public Integer getStock_minimo() { return stock_minimo; }

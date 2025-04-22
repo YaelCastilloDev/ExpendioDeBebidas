@@ -1,8 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package company.expendiodebebidas;
+
+import db.BaseDeDatosConeccion;
+
+import controlador.AdminControlador;
+import jakarta.validation.ConstraintViolationException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import vistas.LoginAdmin;
 
 /**
  *
@@ -10,7 +17,33 @@ package company.expendiodebebidas;
  */
 public class ExpendioDeBebidas {
 
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
+    public static void main(String[] args)  { 
+        
+        AdminControlador ad = new AdminControlador();
+        try {
+            ad.autenticarAdmin("q@gmail.com", "12345677");
+            
+            
+            
+            
+            
+            /*
+            SwingUtilities.invokeLater(() -> {
+            try {
+            // Establecer look and feel (opcional)
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception e) {
+            e.printStackTrace();
+            }
+            
+            new LoginAdmin().setVisible(true);
+            });
+        */     } catch (ConstraintViolationException ex) {
+            Logger.getLogger(ExpendioDeBebidas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(ExpendioDeBebidas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ExpendioDeBebidas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+   }
 }
