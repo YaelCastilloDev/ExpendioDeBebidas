@@ -1,4 +1,4 @@
-package seguridad;
+package modelos.utiles.seguridad;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

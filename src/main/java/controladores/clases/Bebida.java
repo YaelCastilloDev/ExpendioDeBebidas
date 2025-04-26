@@ -1,4 +1,4 @@
-package modelos;
+package controladores.clases;
 
 import jakarta.validation.constraints.*;
 import java.io.Serializable;

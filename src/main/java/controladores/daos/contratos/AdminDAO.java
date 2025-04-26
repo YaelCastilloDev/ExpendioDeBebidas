@@ -1,4 +1,4 @@
-package dao.contratos;
+package controladores.daos.contratos;
 
 import java.sql.SQLException;
 

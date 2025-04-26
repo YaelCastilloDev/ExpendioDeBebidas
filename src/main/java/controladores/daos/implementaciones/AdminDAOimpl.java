@@ -1,8 +1,8 @@
-package daos.implementaciones;
+package controladores.daos.implementaciones;
 
-import db.BaseDeDatosConeccion;
-import seguridad.ContrasenaHasher;
-import dao.contratos.AdminDAO;
+import modelos.utiles.validaciones.BaseDeDatosConeccion;
+import modelos.utiles.seguridad.ContrasenaHasher;
+import controladores.daos.contratos.AdminDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

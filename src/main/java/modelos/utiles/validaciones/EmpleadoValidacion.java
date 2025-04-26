@@ -2,7 +2,7 @@ package modelos.utiles.validaciones;
 
 import jakarta.validation.*;
 import java.util.Set;
-import modelos.Empleado;
+import controladores.clases.Empleado;
 
 public class EmpleadoValidacion {
     private final Empleado empleado;

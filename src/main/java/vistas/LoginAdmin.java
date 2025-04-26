@@ -1,6 +1,6 @@
 package vistas;
 
-import controlador.AdminControlador;
+import controladores.clases.AdminControlador;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dao.contratos;
+package controladores.clases;
 
 /**
  *
  * @author yael
  */
-public class ProveedorDAO {
+public class BebidaControlador {
     
 }

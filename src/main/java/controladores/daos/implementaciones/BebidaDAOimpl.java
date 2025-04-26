@@ -1,4 +1,4 @@
-package daos.implementaciones;
+package controladores.daos.implementaciones;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

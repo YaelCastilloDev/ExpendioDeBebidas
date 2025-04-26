@@ -1,4 +1,4 @@
-package db;
+package modelos.utiles.validaciones;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

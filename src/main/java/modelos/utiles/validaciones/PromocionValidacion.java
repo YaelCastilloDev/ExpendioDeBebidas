@@ -3,7 +3,7 @@ package modelos.utiles.validaciones;
 import jakarta.validation.*;
 import java.util.Date;
 import java.util.Set;
-import modelos.Promocion;
+import controladores.clases.Promocion;
 
 public class PromocionValidacion {
     private final Promocion promocion;

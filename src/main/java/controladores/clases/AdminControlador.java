@@ -1,6 +1,6 @@
-package controlador;
+package controladores.clases;
 
-import daos.implementaciones.AdminDAOimpl;
+import controladores.daos.implementaciones.AdminDAOimpl;
 import modelos.utiles.validaciones.AdminValidacion;
 import java.sql.SQLException;
 import jakarta.validation.ConstraintViolationException;
