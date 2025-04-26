@@ -3,7 +3,7 @@ package modelos.utiles.validaciones;
 import jakarta.validation.*;
 import java.util.HashSet;
 import java.util.Set;
-import controladores.clases.Admin;
+import modelos.Admin;
 
 public class AdminValidacion {
     private final Admin admin;

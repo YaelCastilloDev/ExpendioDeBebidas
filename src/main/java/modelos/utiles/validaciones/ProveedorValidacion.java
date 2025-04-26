@@ -2,7 +2,7 @@ package modelos.utiles.validaciones;
 
 import jakarta.validation.*;
 import java.util.Set;
-import controladores.clases.Proveedor;
+import modelos.Proveedor;
 
 public class ProveedorValidacion {
     private final Proveedor proveedor;

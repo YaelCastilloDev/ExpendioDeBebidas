@@ -2,7 +2,7 @@ package modelos.utiles.validaciones;
 
 import jakarta.validation.*;
 import java.util.Set;
-import controladores.clases.Bebida;
+import modelos.Bebida;
 
 public class BebidaValidacion {
     private final Bebida bebida;
