@@ -33,7 +33,7 @@ public class BaseDeDatosConeccion {
         }
     }
 
-public static void tryConneccion() throws SQLException {
+    public static void tryConneccion() throws SQLException {
             BaseDeDatosConeccion.inicializarConnecion();
     }
 }
