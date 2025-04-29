@@ -30,8 +30,8 @@ public class Admin implements Serializable{
     @Override
     public String toString() {
         return "Admin{" +
-                "nombre='" + nombre + '\'' +
-                ", email='" + email + '\'' +
+                "nombre ='" + nombre + '\'' +
+                ", email ='" + email + '\'' +
                 '}';
     }
 }
