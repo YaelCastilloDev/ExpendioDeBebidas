@@ -1,4 +1,4 @@
-package modelos.utiles.validaciones;
+package modelos.conecciones;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,12 +18,12 @@ public class BaseDeDatosConeccion {
         }
     }
 
-    public static Connection obtenerConeccion() throws SQLException {
-        if (connection == null || connection.isClosed()) {
-            throw new SQLException("Connection is not initialized. Call initializeConnection() first.");
-        }
-        return connection;
+public static Connection obtenerConeccion() throws SQLException {
+    if (connection == null || connection.isClosed()) {
+        inicializarConnecion();
     }
+    return connection;
+}
 
     public static void CerrarConneciones() throws SQLException {
         if (connection != null) {

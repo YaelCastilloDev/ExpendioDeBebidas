@@ -15,7 +15,7 @@ public class AdminValidacion {
     }
 
     // Valida todos los campos (para registro/actualización)
-    public void validarCompleto(String nombre, String contraseña, String email) {
+    public void validarCompleto(String nombre, String email, String contraseña) {
         admin.setNombre(nombre);
         admin.setContraseña(contraseña);
         admin.setEmail(email);

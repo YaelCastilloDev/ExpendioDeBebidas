@@ -1,4 +1,4 @@
-package controladores.daos.contratos;
+package modelos.daos.contratos;
 
 public interface EmpleadoDAO {
     boolean postRegistrar(String nombre, String contrasena, String email);

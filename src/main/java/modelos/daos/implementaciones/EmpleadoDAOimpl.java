@@ -1,7 +1,7 @@
-package controladores.daos.implementaciones;
+package modelos.daos.implementaciones;
 
-import controladores.daos.contratos.EmpleadoDAO;
-import modelos.utiles.validaciones.BaseDeDatosConeccion;
+import modelos.daos.contratos.EmpleadoDAO;
+import modelos.conecciones.BaseDeDatosConeccion;
 import modelos.utiles.seguridad.ContrasenaHasher;
 
 import java.sql.Connection;

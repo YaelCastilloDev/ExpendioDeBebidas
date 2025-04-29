@@ -1,8 +1,8 @@
 package company.expendiodebebidas;
 
-import modelos.utiles.validaciones.BaseDeDatosConeccion;
+import modelos.conecciones.BaseDeDatosConeccion;
 
-import controladores.clases.AdminControlador;
+import controladores.AdminControlador;
 import jakarta.validation.ConstraintViolationException;
 import java.sql.SQLException;
 import java.util.logging.Level;

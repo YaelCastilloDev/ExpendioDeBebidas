@@ -1,5 +1,5 @@
 
-package controladores.clases;
+package controladores;
 
 public class ProveedorControlador {
     

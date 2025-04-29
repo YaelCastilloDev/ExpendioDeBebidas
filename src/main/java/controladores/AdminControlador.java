@@ -1,6 +1,6 @@
-package controladores.clases;
+package controladores;
 
-import controladores.daos.implementaciones.AdminDAOimpl;
+import modelos.daos.implementaciones.AdminDAOimpl;
 import modelos.utiles.validaciones.AdminValidacion;
 import java.sql.SQLException;
 import jakarta.validation.ConstraintViolationException;
@@ -9,10 +9,10 @@ public class AdminControlador {
     private final AdminDAOimpl adminDAO = new AdminDAOimpl();
     private final AdminValidacion validacion = new AdminValidacion();
 
-    public void registrarAdmin(String nombre, String contrasena, String email) 
+    public void registrarAdmin(String nombre, String email, String contrasena) 
             throws ConstraintViolationException, IllegalArgumentException, SQLException {
         // Validar todos los campos (nombre, contraseña y email)
-        validacion.validarCompleto(nombre, contrasena, email);
+        validacion.validarCompleto(nombre, email, contrasena);
 
         // Verificar si el admin ya existe
         if (existeAdminPorEmail(email)) {
@@ -25,12 +25,10 @@ public class AdminControlador {
         }
     }
 
-    public void actualizarAdmin(String nombre, String contrasena, String email) 
+    public void actualizarAdmin(String nombre, String email, String contrasena) 
             throws ConstraintViolationException, IllegalArgumentException, SQLException {
-        // Validar todos los campos (nombre, contraseña y email)
-        validacion.validarCompleto(nombre, contrasena, email);
+        validacion.validarCompleto(nombre, email, contrasena);
 
-        // Actualizar en la base de datos
         if (!adminDAO.updateActualizarDatosPersonales(nombre, contrasena, email)) {
             throw new SQLException("No se pudo actualizar el administrador");
         }
@@ -48,15 +46,12 @@ public class AdminControlador {
 
     private boolean existeAdminPorEmail(String email) throws SQLException {
         try {
-            // Usamos validación básica de email primero
-            validacion.validarParaLogin(email, "passwordTemporal");
+            validacion.validarParaLogin(email, "passwordprueba"); // validarParaLogin necesita un argumento contraseña
             
-            return adminDAO.getLogin(email, "cualquiercontrasena");
+            return true;
         } catch (ConstraintViolationException e) {
             // Si el email no es válido, consideramos que no existe
             return false;
-        } catch (SQLException e) {
-            throw new SQLException("Error al verificar existencia del administrador", e);
-        }
+        } 
     }
 }
