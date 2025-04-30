@@ -9,4 +9,6 @@ public interface AdminDAO {
     boolean updateActualizarDatosPersonales(String nombre, String contrasena, String email) throws SQLException;
     
     boolean getLogin(String email, String contrasena) throws SQLException;
+    
+    boolean existeEmail(String email) throws SQLException;
 }

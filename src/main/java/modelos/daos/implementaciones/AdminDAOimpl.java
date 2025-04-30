@@ -85,4 +85,20 @@ public class AdminDAOimpl implements AdminDAO {
         System.out.println("Datos inválidos");
         return false;
     }
+    
+    
+    @Override
+    public boolean existeEmail(String email) throws SQLException {
+        String query = "SELECT 1 FROM Admin WHERE email = ?";
+
+        try (Connection conn = BaseDeDatosConeccion.obtenerConeccion();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, email);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next(); // Retorna true si encontró un registro con ese email
+            }
+        }
+    }
 }

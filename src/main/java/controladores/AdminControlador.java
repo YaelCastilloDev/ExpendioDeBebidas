@@ -37,7 +37,6 @@ public class AdminControlador {
     public void autenticarAdmin(String email, String contrasena) 
             throws ConstraintViolationException, IllegalArgumentException, SQLException {
         validacion.validarParaLogin(email, contrasena);
-
         
         if (!adminDAO.getLogin(email, contrasena)) {
             throw new IllegalArgumentException("Credenciales inválidas");
@@ -46,12 +45,11 @@ public class AdminControlador {
 
     private boolean existeAdminPorEmail(String email) throws SQLException {
         try {
-            validacion.validarParaLogin(email, "passwordprueba"); // validarParaLogin necesita un argumento contraseña
-            
-            return true;
+            validacion.validarParaLogin(email, "passwordprueba");
+            return adminDAO.existeEmail(email);
         } catch (ConstraintViolationException e) {
             // Si el email no es válido, consideramos que no existe
             return false;
-        } 
+        }
     }
 }

@@ -18,10 +18,10 @@ import vistas.LoginAdmin;
 public class ExpendioDeBebidas {
 
     public static void main(String[] args)  { 
-        
+        String dos = "asssd"; 
         AdminControlador ad = new AdminControlador();
         try {
-            ad.autenticarAdmin("q@gmail.com", "12345677");
+            ad.registrarAdmin(dos, "aqaaaa@gmail.com", "12345678");
             
             
             
