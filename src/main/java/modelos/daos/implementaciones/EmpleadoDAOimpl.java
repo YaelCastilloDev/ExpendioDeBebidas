@@ -72,7 +72,6 @@ public class EmpleadoDAOimpl implements EmpleadoDAO {
 
             if (rs.next()) {
                 String contrasenaAlmacenada = rs.getString("contraseña");
-
                 boolean coincide = ContrasenaHasher.matches(contrasena, contrasenaAlmacenada);
                 if (coincide) {
                     System.out.println("Login exitoso.");
@@ -83,11 +82,24 @@ public class EmpleadoDAOimpl implements EmpleadoDAO {
             } else {
                 System.out.println("Empleado no encontrado con ese email.");
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return false;
     }
+    
+    public boolean existeEmail(String email) throws SQLException {
+    String query = "SELECT 1 FROM Empleado WHERE email = ?";
+
+    try (Connection conn = BaseDeDatosConeccion.obtenerConeccion();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+
+        stmt.setString(1, email);
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            return rs.next(); // Retorna true si encontró un registro con ese email
+        }
+    }
+}
 }

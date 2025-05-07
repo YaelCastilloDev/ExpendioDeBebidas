@@ -1,8 +1,7 @@
 package company.expendiodebebidas;
 
-import modelos.conecciones.BaseDeDatosConeccion;
 
-import controladores.AdminControlador;
+import controladores.*;
 import jakarta.validation.ConstraintViolationException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -20,8 +19,10 @@ public class ExpendioDeBebidas {
     public static void main(String[] args)  { 
         String dos = "asssd"; 
         AdminControlador ad = new AdminControlador();
+        EmpleadoControlador d = new EmpleadoControlador();
         try {
-            ad.registrarAdmin(dos, "aqaaaa@gmail.com", "12345678");
+            d.registrarEmpleado("hola", "aqaaa@gmail.com", "12345678");
+            //ad.autenticarAdmin("aqaaaa@gmail.com", "12345678");
             
             
             

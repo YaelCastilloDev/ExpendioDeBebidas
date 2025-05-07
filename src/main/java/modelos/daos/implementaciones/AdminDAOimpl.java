@@ -1,3 +1,4 @@
+
 package modelos.daos.implementaciones;
 
 import modelos.conecciones.BaseDeDatosConeccion;
@@ -87,7 +88,6 @@ public class AdminDAOimpl implements AdminDAO {
     }
     
     
-    @Override
     public boolean existeEmail(String email) throws SQLException {
         String query = "SELECT 1 FROM Admin WHERE email = ?";
 

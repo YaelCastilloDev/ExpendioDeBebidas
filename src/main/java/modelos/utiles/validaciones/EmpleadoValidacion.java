@@ -27,6 +27,19 @@ public class EmpleadoValidacion {
             throw new ConstraintViolationException(violations);
         }
     }
+    
+        public void validarParaLogin(String email, String contraseña) {
+        // Solo necesitamos email y contraseña para login
+        empleado.setEmail(email);
+        empleado.setContraseña(contraseña);
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Set<ConstraintViolation<Empleado>> violations = validator.validate(empleado);
+        
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+    }
+
 
     public Empleado getEmpleadoValidado() {
         return this.empleado;

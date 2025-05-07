@@ -48,7 +48,6 @@ public class AdminControlador {
             validacion.validarParaLogin(email, "passwordprueba");
             return adminDAO.existeEmail(email);
         } catch (ConstraintViolationException e) {
-            // Si el email no es válido, consideramos que no existe
             return false;
         }
     }

@@ -10,5 +10,4 @@ public interface AdminDAO {
     
     boolean getLogin(String email, String contrasena) throws SQLException;
     
-    boolean existeEmail(String email) throws SQLException;
 }
