@@ -1,21 +1,28 @@
 package modelos.utiles.validaciones;
 
-import jakarta.validation.*;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import java.util.HashSet;
 import java.util.Set;
 import modelos.Empleado;
 
 public class EmpleadoValidacion {
     private final Empleado empleado;
+    private final Validator validator;  // Declaración del validator
+
 
     public EmpleadoValidacion() {
         this.empleado = new Empleado();
-    }
+        // Inicialización del validator
+        this.validator = Validation.buildDefaultValidatorFactory().getValidator();    }
 
     public void validarCompleto(
             String nombre,
-            String contraseña,
-            String email) {
-        
+            String email,
+            String contraseña) {
+
         empleado.setNombre(nombre);
         empleado.setContraseña(contraseña);
         empleado.setEmail(email);
@@ -27,21 +34,23 @@ public class EmpleadoValidacion {
             throw new ConstraintViolationException(violations);
         }
     }
-    
-        public void validarParaLogin(String email, String contraseña) {
-        // Solo necesitamos email y contraseña para login
+
+    public void validarParaLogin(String email, String contraseña) {
+        // Validación individual de propiedades
+        Set<ConstraintViolation<Empleado>> violations = new HashSet<>();
+
+        // Validar email
         empleado.setEmail(email);
+        violations.addAll(validator.validateProperty(empleado, "email"));
+
+        // Validar contraseña
         empleado.setContraseña(contraseña);
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        Set<ConstraintViolation<Empleado>> violations = validator.validate(empleado);
-        
+        violations.addAll(validator.validateProperty(empleado, "contraseña"));
+
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
     }
-
-
-    public Empleado getEmpleadoValidado() {
-        return this.empleado;
     }
-}
+
+

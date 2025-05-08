@@ -28,18 +28,20 @@ public class AdminValidacion {
 
     // Valida solo email y contraseña (para login)
     public void validarParaLogin(String email, String contraseña) {
-        // Usamos valores dummy para el nombre ya que no es relevante para login
-        admin.setEmail(email);
-        admin.setContraseña(contraseña);
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-        // Create a mutable Set to store all violations
+        // Validar email
+        Set<ConstraintViolation<Admin>> emailViolations = validator.validateValue(
+                Admin.class, "email", email);
+
+        // Validar contraseña
+        Set<ConstraintViolation<Admin>> passViolations = validator.validateValue(
+                Admin.class, "contraseña", contraseña);
+
+        // Combinar resultados
         Set<ConstraintViolation<Admin>> violations = new HashSet<>();
-        
-        // Add email violations
-        violations.addAll(validator.validateProperty(admin, "email"));
-        
-        // Add password violations
-        violations.addAll(validator.validateProperty(admin, "contraseña"));
+        violations.addAll(emailViolations);
+        violations.addAll(passViolations);
 
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);

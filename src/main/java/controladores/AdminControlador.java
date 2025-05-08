@@ -25,11 +25,11 @@ public class AdminControlador {
         }
     }
 
-    public void actualizarAdmin(String nombre, String email, String contrasena) 
+    public void actualizarAdmin(String nombre, String emailViejo, String emailNuevo, String contrasena) 
             throws ConstraintViolationException, IllegalArgumentException, SQLException {
-        validacion.validarCompleto(nombre, email, contrasena);
+        validacion.validarCompleto(nombre, emailNuevo, contrasena);
 
-        if (!adminDAO.updateActualizarDatosPersonales(nombre, contrasena, email)) {
+        if (!adminDAO.updateActualizarDatosPersonales(nombre, contrasena, emailViejo, emailNuevo)) {
             throw new SQLException("No se pudo actualizar el administrador");
         }
     }
@@ -41,6 +41,7 @@ public class AdminControlador {
         if (!adminDAO.getLogin(email, contrasena)) {
             throw new IllegalArgumentException("Credenciales inválidas");
         }
+        System.out.println("logeado");
     }
 
     private boolean existeAdminPorEmail(String email) throws SQLException {
@@ -49,6 +50,22 @@ public class AdminControlador {
             return adminDAO.existeEmail(email);
         } catch (ConstraintViolationException e) {
             return false;
+        }
+    }
+
+    public void eliminarAdmin(String email)
+            throws ConstraintViolationException, IllegalArgumentException, SQLException {
+        // Validar que el email tenga formato correcto
+        validacion.validarParaLogin(email, "contrasena123");
+
+        // Verificar que el admin exista antes de intentar eliminarlo
+        if (!existeAdminPorEmail(email)) {
+            throw new IllegalArgumentException("No existe un administrador con el email: " + email);
+        }
+
+        // Ejecutar eliminación
+        if (!adminDAO.deleteEliminarAdmin(email)) {
+            throw new SQLException("No se pudo eliminar el administrador. Verifique el email proporcionado");
         }
     }
 }
