@@ -1,12 +1,12 @@
 package controladores;
 
-import modelos.daos.implementaciones.AdminDAOimpl;
+import modelos.daos.implementaciones.AdminDAOImpl;
 import modelos.utiles.validaciones.AdminValidacion;
 import java.sql.SQLException;
 import jakarta.validation.ConstraintViolationException;
 
 public class AdminControlador {
-    private final AdminDAOimpl adminDAO = new AdminDAOimpl();
+    private final AdminDAOImpl adminDAO = new AdminDAOImpl();
     private final AdminValidacion validacion = new AdminValidacion();
 
     public void registrarAdmin(String nombre, String email, String contrasena) 

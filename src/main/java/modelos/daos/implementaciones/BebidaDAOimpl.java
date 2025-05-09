@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BebidaDAOimpl {
+public class BebidaDAOImpl {
     
     public List<String> obtenerNombresBebidasMenosVendidas(Connection conexion) throws SQLException {
         String consulta = "SELECT producto FROM Productos_Menos_Vendidos";
