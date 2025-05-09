@@ -11,5 +11,4 @@ public interface EmpleadoDAO {
     boolean getLogin(String email, String contrasena) throws SQLException;
 
     boolean deleteEliminarEmpleado(String email) throws SQLException;
-
 }

@@ -8,6 +8,6 @@ package modelos.daos.implementaciones;
  *
  * @author yael
  */
-public class PromocionDAOimpl {
+public class PromocionDAOImpl {
     
 }

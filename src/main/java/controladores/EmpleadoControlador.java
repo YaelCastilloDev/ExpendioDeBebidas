@@ -1,12 +1,12 @@
 package controladores;
 
-import modelos.daos.implementaciones.EmpleadoDAOimpl;
+import modelos.daos.implementaciones.EmpleadoDAOImpl;
 import modelos.utiles.validaciones.EmpleadoValidacion;
 import java.sql.SQLException;
 import jakarta.validation.ConstraintViolationException;
 
 public class EmpleadoControlador {
-    private final EmpleadoDAOimpl empleadoDAO = new EmpleadoDAOimpl();
+    private final EmpleadoDAOImpl empleadoDAO = new EmpleadoDAOImpl();
     private final EmpleadoValidacion validacion = new EmpleadoValidacion();
 
     public void registrarEmpleado(String nombre, String email, String contrasena) 

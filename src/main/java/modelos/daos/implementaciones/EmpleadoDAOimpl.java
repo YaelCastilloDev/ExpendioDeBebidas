@@ -1,7 +1,7 @@
 package modelos.daos.implementaciones;
 
 import modelos.daos.contratos.EmpleadoDAO;
-import modelos.conecciones.BaseDeDatosConeccion;
+import modelos.conexiones.BaseDeDatosConexion;
 import modelos.utiles.seguridad.ContrasenaHasher;
 
 import java.sql.Connection;
@@ -9,14 +9,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class EmpleadoDAOimpl implements EmpleadoDAO {
+public class EmpleadoDAOImpl implements EmpleadoDAO {
 
     @Override
     public boolean postRegistrar(String nombre, String contrasena, String email) {
         String contrasenaHasheada = ContrasenaHasher.encodePassword(contrasena);
         String insertEmpleado = "INSERT INTO Empleado (nombre, contraseña, email) VALUES (?, ?, ?)";
 
-        try (Connection conn = BaseDeDatosConeccion.obtenerConeccion();
+        try (Connection conn = BaseDeDatosConexion.obtenerConeccion();
              PreparedStatement stmt = conn.prepareStatement(insertEmpleado)) {
 
             stmt.setString(1, nombre);
@@ -40,7 +40,7 @@ public boolean updateActualizarDatosPersonales(String emailViejo, String nuevoNo
     String contrasenaHasheada = ContrasenaHasher.encodePassword(nuevaContrasena);
     String update = "UPDATE Empleado SET nombre = ?, email = ?, contraseña = ? WHERE email = ?";
 
-    try (Connection conn = BaseDeDatosConeccion.obtenerConeccion();
+    try (Connection conn = BaseDeDatosConexion.obtenerConeccion();
          PreparedStatement stmt = conn.prepareStatement(update)) {
 
         stmt.setString(1, nuevoNombre);
@@ -64,7 +64,7 @@ public boolean updateActualizarDatosPersonales(String emailViejo, String nuevoNo
     public boolean getLogin(String email, String contrasena) {
         String query = "SELECT contraseña FROM Empleado WHERE email = ?";
 
-        try (Connection conn = BaseDeDatosConeccion.obtenerConeccion();
+        try (Connection conn = BaseDeDatosConexion.obtenerConeccion();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, email);
@@ -92,7 +92,7 @@ public boolean updateActualizarDatosPersonales(String emailViejo, String nuevoNo
     public boolean existeEmail(String email) throws SQLException {
     String query = "SELECT 1 FROM Empleado WHERE email = ?";
 
-    try (Connection conn = BaseDeDatosConeccion.obtenerConeccion();
+    try (Connection conn = BaseDeDatosConexion.obtenerConeccion();
          PreparedStatement stmt = conn.prepareStatement(query)) {
 
         stmt.setString(1, email);
@@ -107,7 +107,7 @@ public boolean updateActualizarDatosPersonales(String emailViejo, String nuevoNo
     public boolean deleteEliminarEmpleado(String email) throws SQLException {
         String deleteQuery = "DELETE FROM Empleado WHERE email = ?";
 
-        try (Connection conn = BaseDeDatosConeccion.obtenerConeccion();
+        try (Connection conn = BaseDeDatosConexion.obtenerConeccion();
              PreparedStatement stmt = conn.prepareStatement(deleteQuery)) {
 
             stmt.setString(1, email);
