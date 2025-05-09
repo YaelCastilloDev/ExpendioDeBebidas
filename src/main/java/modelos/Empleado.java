@@ -3,7 +3,7 @@ package modelos;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 
-public class Empleado implements Serializable{
+public class Empleado {
     @NotBlank(message = "Nombre no puede estar vacío")
     @Size(max = 45, message = "El nombre no debe exceder los 45 caracteres")
     private String nombre;

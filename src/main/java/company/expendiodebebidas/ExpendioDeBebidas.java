@@ -23,10 +23,10 @@ public class ExpendioDeBebidas {
           //  ad.eliminarAdmin("dos@gmail.com");
         //      d.actualizarEmpleado("sa@gmail.com", "nuevonombre", "sa@gmail.com", "12345678");
 
-            d.eliminarEmpleado("sa@gmail.com");
+            d.autenticarEmpleado("cssasd@gmail.com", "12345678");
 
         //    ad.actualizarAdmin("dosss", "asd@gmail.com", "nuevoadmin@gmail.com", "12345678");
-      //     ad.autenticarAdmin("aqaaaa@gmail.com", "12345678");
+      //     ad.autenticarEmpleado("aqaaaa@gmail.com", "12345678");
             //     ad.autenticarAdmin("aqaaaa@gmail.com", "12345678");
             
             
