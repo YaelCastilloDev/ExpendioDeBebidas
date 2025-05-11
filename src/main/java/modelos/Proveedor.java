@@ -3,7 +3,7 @@ package modelos;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 
-public class Proveedor implements Serializable{
+public class Proveedor {
     @NotBlank(message = "RFC no puede estar vacío")
     @Size(min = 12, max = 13, message = "RFC debe tener entre 12 y 13 caracteres")
     private String rfc;

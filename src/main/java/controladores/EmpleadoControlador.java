@@ -36,9 +36,9 @@ public void actualizarEmpleado(String emailViejo, String nuevoNombre, String nue
     }
 }
 
-    public void autenticarEmpleado(String nombre, String email, String contrasena) 
+    public void autenticarEmpleado( String email, String contrasena)
             throws ConstraintViolationException, IllegalArgumentException, SQLException {
-        validacion.validarCompleto(nombre, email, contrasena);
+        validacion.validarParaLogin(email, contrasena);
         
         if (!empleadoDAO.getLogin(email, contrasena)) {
             throw new IllegalArgumentException("Credenciales inválidas");

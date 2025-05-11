@@ -3,7 +3,7 @@ package modelos;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 
-public class Bebida implements Serializable{
+public class Bebida {
     @NotNull(message = "Precio no puede ser nulo")
     @Positive(message = "Precio debe ser positivo")
     private Double precio_unitario;

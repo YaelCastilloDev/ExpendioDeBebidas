@@ -4,7 +4,7 @@ import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Promocion implements Serializable {
+public class Promocion  {
 
     @NotNull(message = "Porcentaje no puede ser nulo")
     @DecimalMin(value = "0.0", message = "Porcentaje no puede ser negativo")

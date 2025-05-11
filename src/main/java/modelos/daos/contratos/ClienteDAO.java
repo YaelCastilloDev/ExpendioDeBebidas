@@ -8,6 +8,6 @@ package modelos.daos.contratos;
  *
  * @author yael
  */
-public class ClienteDAO {
+public interface ClienteDAO {
     
 }
