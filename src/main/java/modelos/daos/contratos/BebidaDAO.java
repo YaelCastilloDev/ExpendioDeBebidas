@@ -21,8 +21,6 @@ public interface BebidaDAO {
     public boolean updateActualizarDatosPersonales(String emailViejo, String nuevoNombre, String nuevoEmail, String nuevaContrasena)
             throws SQLException;
 
-    boolean getLogin(String email, String contrasena) throws SQLException;
-
     boolean deleteEliminarEmpleado(String email) throws SQLException;
 
     public List<Bebida> obtenerNombresBebidasMenosVendidas(Connection conexion) throws SQLException;

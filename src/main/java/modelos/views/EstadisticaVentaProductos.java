@@ -1,12 +1,12 @@
 package modelos.views;
 
-
-public class ResultadoBebidaMenosVendida {
+// se usa para las views: ""
+public class EstadisticaVentaProductos {
     private String nombre;
     private int totalVendido;
 
     // Constructor
-    public ResultadoBebidaMenosVendida(String nombre, int totalVendido) {
+    public EstadisticaVentaProductos(String nombre, int totalVendido) {
         this.nombre = nombre;
         this.totalVendido = totalVendido;
     }
