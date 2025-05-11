@@ -1,10 +1,10 @@
-package modelos.conecciones;
+package modelos.conexiones;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class BaseDeDatosConeccion {
+public class BaseDeDatosConexion {
     private static Connection connection;
 
     public static void inicializarConnecion() throws SQLException {
@@ -34,6 +34,6 @@ public static Connection obtenerConeccion() throws SQLException {
     }
 
     public static void tryConneccion() throws SQLException {
-            BaseDeDatosConeccion.inicializarConnecion();
+            BaseDeDatosConexion.inicializarConnecion();
     }
 }

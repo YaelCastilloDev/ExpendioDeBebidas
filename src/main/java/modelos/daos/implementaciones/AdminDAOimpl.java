@@ -1,7 +1,7 @@
 
 package modelos.daos.implementaciones;
 
-import modelos.conecciones.BaseDeDatosConeccion;
+import modelos.conexiones.BaseDeDatosConexion;
 import modelos.utiles.seguridad.ContrasenaHasher;
 import modelos.daos.contratos.AdminDAO;
 
@@ -10,14 +10,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AdminDAOimpl implements AdminDAO {
+public class AdminDAOImpl implements AdminDAO {
 
     @Override
     public boolean postRegistrar(String nombre, String contrasena, String email) throws SQLException {
         String contrasenaHasheada = ContrasenaHasher.encodePassword(contrasena);
         String insertAdmin = "INSERT INTO Admin (nombre, contraseña, email) VALUES (?, ?, ?)";
 
-        Connection conn = BaseDeDatosConeccion.obtenerConeccion();
+        Connection conn = BaseDeDatosConexion.obtenerConeccion();
         PreparedStatement stmt = conn.prepareStatement(insertAdmin);
 
         stmt.setString(1, nombre);
@@ -40,7 +40,7 @@ public class AdminDAOimpl implements AdminDAO {
         String contrasenaHasheada = ContrasenaHasher.encodePassword(contrasena);
         String updateAdmin = "UPDATE Admin SET nombre = ?, contraseña = ?, email = ? WHERE email = ?";
 
-        Connection conn = BaseDeDatosConeccion.obtenerConeccion();
+        Connection conn = BaseDeDatosConexion.obtenerConeccion();
         PreparedStatement stmt = conn.prepareStatement(updateAdmin);
 
         try {
@@ -63,7 +63,7 @@ public class AdminDAOimpl implements AdminDAO {
     public boolean getLogin(String email, String contrasena) throws SQLException {
         String query = "SELECT contraseña FROM Admin WHERE email = ?";
 
-        Connection conn = BaseDeDatosConeccion.obtenerConeccion();
+        Connection conn = BaseDeDatosConexion.obtenerConeccion();
         PreparedStatement stmt = conn.prepareStatement(query);
         stmt.setString(1, email);
 
@@ -92,7 +92,7 @@ public class AdminDAOimpl implements AdminDAO {
     public boolean existeEmail(String email) throws SQLException {
         String query = "SELECT 1 FROM Admin WHERE email = ?";
 
-        try (Connection conn = BaseDeDatosConeccion.obtenerConeccion();
+        try (Connection conn = BaseDeDatosConexion.obtenerConeccion();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, email);
@@ -107,7 +107,7 @@ public class AdminDAOimpl implements AdminDAO {
     public boolean deleteEliminarAdmin(String email) throws SQLException {
         String deleteQuery = "DELETE FROM Admin WHERE email = ?";
 
-        try (Connection conn = BaseDeDatosConeccion.obtenerConeccion();
+        try (Connection conn = BaseDeDatosConexion.obtenerConeccion();
              PreparedStatement stmt = conn.prepareStatement(deleteQuery)) {
 
             stmt.setString(1, email);
