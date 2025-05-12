@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class EmpleadoDAOImpl implements EmpleadoDAO {
+public class EmpleadoDAOimpl implements EmpleadoDAO {
 
     @Override
     public boolean postRegistrar(String nombre, String contrasena, String email) {

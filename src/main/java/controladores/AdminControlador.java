@@ -1,15 +1,15 @@
 package controladores;
 
-import modelos.daos.implementaciones.AdminDAOImpl;
+import modelos.daos.implementaciones.AdminDAOimpl;
 import modelos.utiles.validaciones.AdminValidacion;
 import java.sql.SQLException;
 import jakarta.validation.ConstraintViolationException;
 
 public class AdminControlador {
-    private final AdminDAOImpl adminDAO = new AdminDAOImpl();
+    private final AdminDAOimpl adminDAO = new AdminDAOimpl();
     private final AdminValidacion validacion = new AdminValidacion();
 
-    public void registrarAdmin(String nombre, String email, String contrasena) 
+    public void registrarAdmin(String nombre, String email, String contrasena)
             throws ConstraintViolationException, IllegalArgumentException, SQLException {
         // Validar todos los campos (nombre, contraseña y email)
         validacion.validarCompleto(nombre, email, contrasena);
@@ -25,7 +25,7 @@ public class AdminControlador {
         }
     }
 
-    public void actualizarAdmin(String nombre, String emailViejo, String emailNuevo, String contrasena) 
+    public void actualizarAdmin(String nombre, String emailViejo, String emailNuevo, String contrasena)
             throws ConstraintViolationException, IllegalArgumentException, SQLException {
         validacion.validarCompleto(nombre, emailNuevo, contrasena);
 
@@ -34,10 +34,10 @@ public class AdminControlador {
         }
     }
 
-    public void autenticarAdmin(String email, String contrasena) 
+    public void autenticarAdmin(String email, String contrasena)
             throws ConstraintViolationException, IllegalArgumentException, SQLException {
         validacion.validarParaLogin(email, contrasena);
-        
+
         if (!adminDAO.getLogin(email, contrasena)) {
             throw new IllegalArgumentException("Credenciales inválidas");
         }

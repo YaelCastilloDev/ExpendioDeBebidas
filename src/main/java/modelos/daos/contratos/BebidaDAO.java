@@ -16,14 +16,15 @@ import java.util.List;
  */
 public interface BebidaDAO {
 
-    boolean postRegistrar(String nombre, String contrasena, String email) throws SQLException;
+    public boolean postRegistrar(Bebida bebida) throws SQLException;
 
-    public boolean updateActualizarDatosPersonales(String emailViejo, String nuevoNombre, String nuevoEmail, String nuevaContrasena)
-            throws SQLException;
-
-    boolean deleteEliminarEmpleado(String email) throws SQLException;
+    boolean deleteEliminar(String email) throws SQLException;
 
     public List<Bebida> obtenerNombresBebidasMenosVendidas(Connection conexion) throws SQLException;
 
+    public boolean existeEnPromocionBebida(int idBebida) throws SQLException;
 
+    public boolean existeEnDetallePedidoProveedor(int idBebida) throws SQLException;
+
+    public boolean existeEnDetallePedidoCliente(int idBebida) throws SQLException;
 }
