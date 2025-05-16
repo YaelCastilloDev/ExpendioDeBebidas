@@ -4,18 +4,21 @@
  */
 package vistas;
 
+import vistas.empleado.PrincipalEmpleado;
+import vistas.admin.PrincipalAdmin;
 import controladores.AdminControlador;
 import controladores.EmpleadoControlador;
 import jakarta.validation.ConstraintViolationException;
-import java.awt.TrayIcon;
 import java.sql.SQLException;
+import java.util.Arrays;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author perso
  */
-public class Login extends javax.swing.JFrame {
+public class Login extends JFrame {
     private AdminControlador adminControlador;
     private EmpleadoControlador empleadoControlador;
 
@@ -54,6 +57,7 @@ public class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("INICIO DE SESIÓN");
         setBackground(new java.awt.Color(255, 255, 255));
+        setPreferredSize(new java.awt.Dimension(600, 400));
         setResizable(false);
 
         header.setBackground(new java.awt.Color(0, 43, 91));
@@ -80,7 +84,11 @@ public class Login extends javax.swing.JFrame {
         );
 
         lblBienvenida.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        lblBienvenida.setText("Bienvenido(a) a la aplicación. Por favor, ingrese sus credenciales para ingresar.");
+        lblBienvenida.setForeground(new java.awt.Color(33, 33, 33));
+        lblBienvenida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBienvenida.setText("Bienvenido(a) a la aplicación. Por favor, ingrese sus credenciales para continuar.");
+
+        separado1.setForeground(new java.awt.Color(224, 224, 224));
 
         cbxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empleado", "Administrador" }));
 
@@ -96,13 +104,9 @@ public class Login extends javax.swing.JFrame {
         lblPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/password.png"))); // NOI18N
         lblPassword.setText("Contraseña");
 
-        pwdfPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pwdfPasswordActionPerformed(evt);
-            }
-        });
+        separador2.setForeground(new java.awt.Color(224, 224, 224));
 
-        btnIniciarSesion.setBackground(new java.awt.Color(0, 43, 91));
+        btnIniciarSesion.setBackground(new java.awt.Color(0, 80, 157));
         btnIniciarSesion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnIniciarSesion.setText("Iniciar Sesión");
@@ -117,26 +121,23 @@ public class Login extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(separado1)
+                    .addComponent(lblRol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblBienvenida, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)
+                    .addComponent(cbxRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtfEmail)
+                    .addComponent(pwdfPassword)
+                    .addComponent(lblPassword, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(separador2))
+                .addGap(14, 14, 14))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(lblBienvenida))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblPassword)
-                            .addComponent(separado1)
-                            .addComponent(lblRol, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cbxRol, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
-                            .addComponent(txtfEmail)
-                            .addComponent(pwdfPassword)
-                            .addComponent(separador2)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(244, 244, 244)
-                        .addComponent(btnIniciarSesion)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGap(244, 244, 244)
+                .addComponent(btnIniciarSesion)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,35 +147,33 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(lblBienvenida)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(separado1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblRol)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbxRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblEmail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblPassword)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pwdfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(18, 18, 18)
                 .addComponent(separador2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnIniciarSesion)
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void pwdfPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwdfPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pwdfPasswordActionPerformed
-
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         String email = txtfEmail.getText().trim();
-        String password = pwdfPassword.getPassword().toString();
+        char[] passwordChars = pwdfPassword.getPassword();
+        String password = new String(passwordChars);
+        Arrays.fill(passwordChars, '\0');
         
         if (email.isEmpty() || password.isEmpty()) {
             mostrarDialogo("Por favor complete todos los campos",
@@ -193,20 +192,23 @@ public class Login extends javax.swing.JFrame {
     private void autenticarAdmin(String email, String password) {
         try {
             adminControlador.autenticarAdmin(email, password);
-            mostrarDialogo("Login exitoso. Bienvenido(a)",
+            mostrarDialogo("Login exitoso. Bienvenido(a) al sistema.",
                     "ÉXITO",
                     JOptionPane.INFORMATION_MESSAGE);
+            PrincipalAdmin principalAdmin = new PrincipalAdmin();
+            principalAdmin.setVisible(true);
+            this.dispose();
         } catch (ConstraintViolationException e) {
             mostrarErrorValidaciones(e);
         } catch (IllegalArgumentException e) {
             mostrarDialogo(e.getMessage(),
                     "ERROR DE AUTENTICACIÓN",
                     JOptionPane.ERROR_MESSAGE);
-        } /*catch (SQLException e) {
+        } catch (SQLException e) {
             mostrarDialogo(e.getMessage(),
                     "ERROR DE CONEXIÓN",
                     JOptionPane.ERROR_MESSAGE);
-        }*/ catch (Exception e) {
+        } catch (Exception e) {
             mostrarDialogo("Error inesperado: " + e.getMessage(),
                     "ERROR",
                     JOptionPane.ERROR_MESSAGE);
@@ -218,18 +220,24 @@ public class Login extends javax.swing.JFrame {
     
     private void autenticarEmpleado(String email, String password) {
         try {
-            // TODO
+            empleadoControlador.autenticarEmpleado(email, password);
+            mostrarDialogo("Login exitoso. Bienvenido(a) al sistema.", 
+                    "ÉXITO",
+                    JOptionPane.INFORMATION_MESSAGE);
+            PrincipalEmpleado principalEmpleado = new PrincipalEmpleado();
+            principalEmpleado.setVisible(true);
+            this.dispose();
         } catch (ConstraintViolationException e) {
             mostrarErrorValidaciones(e);
         } catch (IllegalArgumentException e) {
             mostrarDialogo(e.getMessage(),
                     "ERROR DE AUTENTICACIÓN",
                     JOptionPane.ERROR_MESSAGE);
-        } /*catch (SQLException e) {
+        } catch (SQLException e) {
             mostrarDialogo(e.getMessage(),
                     "ERROR DE CONEXIÓN",
                     JOptionPane.ERROR_MESSAGE);
-        }*/ catch (Exception e) {
+        } catch (Exception e) {
             mostrarDialogo("Error inesperado: " + e.getMessage(),
                     "ERROR",
                     JOptionPane.ERROR_MESSAGE);
