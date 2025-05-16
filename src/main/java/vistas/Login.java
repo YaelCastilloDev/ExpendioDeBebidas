@@ -4,6 +4,8 @@
  */
 package vistas;
 
+import vistas.empleado.PrincipalEmpleado;
+import vistas.admin.PrincipalAdmin;
 import controladores.AdminControlador;
 import controladores.EmpleadoControlador;
 import jakarta.validation.ConstraintViolationException;
@@ -102,12 +104,6 @@ public class Login extends JFrame {
         lblPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/password.png"))); // NOI18N
         lblPassword.setText("Contraseña");
 
-        pwdfPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pwdfPasswordActionPerformed(evt);
-            }
-        });
-
         separador2.setForeground(new java.awt.Color(224, 224, 224));
 
         btnIniciarSesion.setBackground(new java.awt.Color(0, 80, 157));
@@ -172,10 +168,6 @@ public class Login extends JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void pwdfPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwdfPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pwdfPasswordActionPerformed
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         String email = txtfEmail.getText().trim();
