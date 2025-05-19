@@ -58,8 +58,24 @@
         <artifactId>spring-security-crypto</artifactId>
         <version>6.2.1</version>
     </dependency>
-    
-    <!-- Apache Commons Logging (requerida por Spring) -->
+
+        <!-- JUnit Jupiter for testing -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.0</version> <!-- Use the latest version -->
+            <scope>test</scope>
+        </dependency>
+        <!-- Optional: Add this if you also want JUnit Jupiter engine for running tests -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.0</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- Apache Commons Logging (requerida por Spring) -->
     <dependency>
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>

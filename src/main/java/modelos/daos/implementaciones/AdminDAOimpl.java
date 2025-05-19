@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AdminDAOImpl implements AdminDAO {
+public class AdminDAOimpl implements AdminDAO {
 
     @Override
     public boolean postRegistrar(String nombre, String contrasena, String email) throws SQLException {
