@@ -1,8 +1,9 @@
+
 package vistas.admin;
 
-public class VentanaCompras extends javax.swing.JFrame {
+public class VentanaBebidas extends javax.swing.JFrame {
 
-    public VentanaCompras() {
+    public VentanaBebidas() {
         initComponents();
         setLocationRelativeTo(null);
     }

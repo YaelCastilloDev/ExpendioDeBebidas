@@ -1,20 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package vistas.empleado;
 
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author perso
- */
 public class PrincipalEmpleado extends javax.swing.JFrame {
 
-    /**
-     * Creates new form PrincipalEmpleado
-     */
     public PrincipalEmpleado() {
         initComponents();
         setLocationRelativeTo(null);
@@ -198,15 +187,15 @@ public class PrincipalEmpleado extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
-        VentanaVentas ventanaVentas = new VentanaVentas();
+        new VentanaVentas().setVisible(true);
     }//GEN-LAST:event_btnVentasActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-        VentanaClientes ventanaClientes = new VentanaClientes();
+        new VentanaClientes().setVisible(true);
     }//GEN-LAST:event_btnClientesActionPerformed
 
     private void btnInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarioActionPerformed
-        VentanaInventario ventanaInventario = new VentanaInventario();
+        new VentanaInventario().setVisible(true);
     }//GEN-LAST:event_btnInventarioActionPerformed
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
