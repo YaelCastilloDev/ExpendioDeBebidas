@@ -5,6 +5,7 @@ import modelos.daos.implementaciones.BebidaDAOimpl;
 import modelos.utiles.validaciones.BebidaValidacion;
 import jakarta.validation.ConstraintViolationException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class BebidaControlador {
     private final BebidaDAOimpl bebidaDAO = new BebidaDAOimpl();
@@ -31,7 +32,6 @@ public class BebidaControlador {
     }
 
     public void eliminarBebida(String nombreBebida) throws SQLException, IllegalArgumentException, IllegalStateException {
-
         // Obtener ID y verificar existencia
         Integer idBebida = bebidaDAO.obtenerIdPorNombre(nombreBebida);
         if (idBebida == null) {
@@ -44,8 +44,10 @@ public class BebidaControlador {
         }
 
         // Eliminación final
-        if (!bebidaDAO.deleteEliminar(nombreBebida)) {
-            throw new SQLException("Error al eliminar la bebida");
-        }
+        bebidaDAO.deleteEliminar(nombreBebida);
+    }
+    public List<Bebida> obtenerTodasLasBebidas() throws SQLException {
+        return bebidaDAO.getAllBebidas();
     }
 }
+
