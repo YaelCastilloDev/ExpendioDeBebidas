@@ -8,6 +8,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import modelos.Empleado;
 
 public class EmpleadoDAOimpl implements EmpleadoDAO {
 
@@ -115,5 +118,27 @@ public boolean updateActualizarDatosPersonales(String emailViejo, String nuevoNo
 
             return rowsAffected > 0;
         }
+    }
+    
+    public List<Empleado> obtenerEmpleados() throws SQLException {
+        List<Empleado> empleados = new ArrayList<>();
+        String query = "SELECT nombre, email FROM empleado";
+        
+        Connection connection = BaseDeDatosConexion.obtenerConeccion();
+        PreparedStatement statement = connection.prepareStatement(query);
+        ResultSet resultSet = statement.executeQuery();
+        
+        while (resultSet.next()) {
+            Empleado empleado = new Empleado();
+            empleado.setNombre(resultSet.getString("nombre"));
+            empleado.setEmail(resultSet.getString("email"));
+            empleado.setContraseña("");
+            empleados.add(empleado);
+        }
+        connection.close();
+        statement.close();
+        resultSet.close();
+        
+        return empleados;
     }
 }

@@ -4,6 +4,8 @@ import modelos.daos.implementaciones.EmpleadoDAOimpl;
 import modelos.utiles.validaciones.EmpleadoValidacion;
 import java.sql.SQLException;
 import jakarta.validation.ConstraintViolationException;
+import java.util.List;
+import modelos.Empleado;
 
 public class EmpleadoControlador {
     private final EmpleadoDAOimpl empleadoDAO = new EmpleadoDAOimpl();
@@ -70,5 +72,7 @@ public class EmpleadoControlador {
         }
     }
 
-
+    public List<Empleado> obtenerEmpleados() throws SQLException {
+        return empleadoDAO.obtenerEmpleados();
+    }
 }

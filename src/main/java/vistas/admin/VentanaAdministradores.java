@@ -141,7 +141,7 @@ public class VentanaAdministradores extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("ADMINISTRADORES");
+        setTitle("GESTIÓN DE ADMINISTRADORES");
         setAlwaysOnTop(true);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
