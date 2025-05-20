@@ -9,6 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import modelos.Admin;
 
 public class AdminDAOimpl implements AdminDAO {
 
@@ -115,5 +118,29 @@ public class AdminDAOimpl implements AdminDAO {
 
             return rowsAffected > 0;
         }
+    }
+
+    @Override
+    public List<Admin> getAdministradores() throws SQLException {
+        List<Admin> admins = new ArrayList<>();
+        String query = "SELECT nombre, email FROM admin";
+        
+        Connection connection = BaseDeDatosConexion.obtenerConeccion();
+        PreparedStatement statement = connection.prepareStatement(query);
+        ResultSet resultSet = statement.executeQuery();
+        
+        while (resultSet.next()) {
+            Admin admin = new Admin();
+            admin.setNombre(resultSet.getString("nombre"));
+            admin.setEmail(resultSet.getString("email"));
+            admin.setContraseña("");
+            admins.add(admin);
+        }
+        
+        connection.close();
+        statement.close();
+        resultSet.close();
+        
+        return admins;
     }
 }
