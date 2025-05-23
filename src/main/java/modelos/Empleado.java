@@ -4,6 +4,17 @@ import jakarta.validation.constraints.*;
 import java.io.Serializable;
 
 public class Empleado {
+    
+        private int id; 
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     @NotBlank(message = "Nombre no puede estar vacío")
     @Size(max = 45, message = "El nombre no debe exceder los 45 caracteres")
     private String nombre;

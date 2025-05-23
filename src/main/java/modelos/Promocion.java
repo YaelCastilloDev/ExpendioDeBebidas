@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Promocion  {
+    
+    private int id; 
 
     @NotNull(message = "Porcentaje no puede ser nulo")
     @DecimalMin(value = "0.0", message = "Porcentaje no puede ser negativo")
@@ -20,6 +22,8 @@ public class Promocion  {
 
     public Promocion() {}
 
+    public int getId() {return id;}
+    public void setId(int id) {this.id = id;}
     // Getters y Setters
     public Double getPorcentaje() { return porcentaje; }
     public void setPorcentaje(Double porcentaje) { this.porcentaje = porcentaje; }

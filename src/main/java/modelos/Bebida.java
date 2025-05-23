@@ -1,9 +1,19 @@
 package modelos;
 
 import jakarta.validation.constraints.*;
-import java.io.Serializable;
 
 public class Bebida {
+    
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     @NotNull(message = "Precio no puede ser nulo")
     @Positive(message = "Precio debe ser positivo")
     private Double precio_unitario;

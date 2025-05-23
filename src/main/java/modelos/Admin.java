@@ -1,9 +1,11 @@
 package modelos;
 
 import jakarta.validation.constraints.*;
-import java.io.Serializable;
 
 public class Admin {
+    
+    private int id; 
+    
     @NotBlank(message = "Nombre no puede estar vacío")
     @Size(max = 45, message = "El nombre no debe exceder los 45 caracteres")
     private String nombre;
@@ -20,6 +22,8 @@ public class Admin {
     public Admin() {}
 
     // Getters y Setters
+    public int getId() {return id;}
+    public void setId(int id) {this.id = id;}
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public String getContraseña() { return contraseña; }
