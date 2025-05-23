@@ -1,11 +1,35 @@
-
 package vistas.admin;
 
-public class VentanaBebidas extends javax.swing.JFrame {
+import controladores.BebidaControlador;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.sql.SQLException;
+import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import modelos.Bebida;
 
+public class VentanaBebidas extends javax.swing.JFrame {
+    private boolean modoEditar = false;
+    private String nombreAnterior = null;
+    private int stockActual = 0;
+    private BebidaControlador controlador = new BebidaControlador();
+    
     public VentanaBebidas() {
         initComponents();
         setLocationRelativeTo(null);
+        cargarTablaBebidas();
+        personalizarTabla(tablaBebidas);
+        forzarColorEncabezado(tablaBebidas);
     }
 
     /**
@@ -17,23 +41,426 @@ public class VentanaBebidas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        formularioBebidas = new javax.swing.JDialog();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        lblNombre = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        lblTamaño = new javax.swing.JLabel();
+        txtTamaño = new javax.swing.JTextField();
+        lblStockMinimo = new javax.swing.JLabel();
+        btnGuardar = new javax.swing.JButton();
+        lblCategoria = new javax.swing.JLabel();
+        txtStockMinimo = new javax.swing.JTextField();
+        cboxCategoria = new javax.swing.JComboBox<>();
+        txtPrecioUnitario = new javax.swing.JTextField();
+        lblPrecioUnitario = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaBebidas = new javax.swing.JTable();
+        btnAgregar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setText("Datos de la bebida");
+
+        lblNombre.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblNombre.setText("Nombre:");
+
+        lblTamaño.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblTamaño.setText("Tamaño (ml):");
+
+        lblStockMinimo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblStockMinimo.setText("Stock Mínimo:");
+
+        btnGuardar.setBackground(new java.awt.Color(0, 80, 157));
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        lblCategoria.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblCategoria.setText("Categoría:");
+
+        cboxCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "REFRESCO", "JUGO", "AGUA", "CERVEZA", "ENERGÉTICA", "TE", "CAFE", "LACTEO" }));
+
+        lblPrecioUnitario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblPrecioUnitario.setText("Precio Unitario:");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtStockMinimo, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblStockMinimo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(lblTamaño, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtTamaño, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 25, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtPrecioUnitario, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cboxCategoria, 0, 171, Short.MAX_VALUE)
+                            .addComponent(lblPrecioUnitario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblCategoria, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator1)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(149, 149, 149)
+                .addComponent(btnGuardar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblNombre)
+                .addGap(10, 10, 10)
+                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(lblTamaño))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(lblPrecioUnitario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtTamaño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(39, 39, 39)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblStockMinimo)
+                    .addComponent(lblCategoria))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtStockMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnGuardar)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout formularioBebidasLayout = new javax.swing.GroupLayout(formularioBebidas.getContentPane());
+        formularioBebidas.getContentPane().setLayout(formularioBebidasLayout);
+        formularioBebidasLayout.setHorizontalGroup(
+            formularioBebidasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        formularioBebidasLayout.setVerticalGroup(
+            formularioBebidasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GESTIÓN DE BEBIDAS");
         setResizable(false);
+
+        jPanel1.setBackground(new java.awt.Color(0, 43, 91));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Bebidas");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tablaBebidas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaBebidas);
+
+        btnAgregar.setBackground(new java.awt.Color(0, 80, 157));
+        btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btnAgregar.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+
+        btnModificar.setBackground(new java.awt.Color(0, 80, 157));
+        btnModificar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btnModificar.setForeground(new java.awt.Color(255, 255, 255));
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+
+        btnEliminar.setBackground(new java.awt.Color(0, 80, 157));
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1200, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAgregar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnModificar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEliminar))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 968, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnModificar)
+                    .addComponent(btnAgregar))
+                .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        modoEditar = false;
+        
+        txtNombre.setText("");
+        txtStockMinimo.setText("");
+        txtTamaño.setText("");
+        txtPrecioUnitario.setText("");
+        cboxCategoria.setSelectedItem(0);
+        
+        formularioBebidas.setTitle("AGREGAR BEBIDA");
+        formularioBebidas.pack();
+        formularioBebidas.setLocationRelativeTo(this);
+        formularioBebidas.setVisible(true);
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        int fila = tablaBebidas.getSelectedRow();
+        if (fila >= 0) {
+            modoEditar = true;
+            nombreAnterior = tablaBebidas.getValueAt(fila, 0).toString();
+            
+            txtNombre.setText(nombreAnterior);
+            txtPrecioUnitario.setText(tablaBebidas.getValueAt(fila, 1).toString());
+            txtTamaño.setText(tablaBebidas.getValueAt(fila, 2).toString());
+            txtStockMinimo.setText(tablaBebidas.getValueAt(fila, 3).toString());
+            stockActual = Integer.parseInt(tablaBebidas.getValueAt(fila, 4).toString());
+            cboxCategoria.setSelectedItem(tablaBebidas.getValueAt(fila, 5));
+            
+            formularioBebidas.setTitle("MODIFICAR BEBIDA");
+            formularioBebidas.pack();
+            formularioBebidas.setLocationRelativeTo(this);
+            formularioBebidas.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona una bebida de la tabla.");
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int fila = tablaBebidas.getSelectedRow();
+        if (fila >= 0) {
+            String nombre = tablaBebidas.getValueAt(fila, 0).toString();
+            int confirmacion = JOptionPane.showConfirmDialog(this,
+                    "¿Deseas eliminar la bebida: " + nombre + "?",
+                    "CONFIRMAR ELIMINACIÓN",
+                    JOptionPane.YES_NO_OPTION
+            );
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                try {
+                    controlador.eliminarBebida(nombre);
+                    cargarTablaBebidas();
+                    JOptionPane.showMessageDialog(this, "Bebida eliminada con éxito.");
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(this, e.getMessage(),
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                } catch (IllegalStateException e) {
+                    JOptionPane.showMessageDialog(this, e.getMessage(),
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona una bebida de la tabla.");
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        String nombre = txtNombre.getText().trim();
+        double precioUnitario = Double.parseDouble(txtPrecioUnitario.getText().trim());
+        int tamaño = Integer.parseInt(txtTamaño.getText().trim());
+        int stockMinimo = Integer.parseInt(txtStockMinimo.getText().trim());
+        String categoria = cboxCategoria.getSelectedItem().toString();
+
+        try {
+            if (modoEditar) {
+                controlador.actualizarBebida(nombreAnterior, precioUnitario, stockMinimo, stockActual, nombre, tamaño, categoria);
+                JOptionPane.showMessageDialog(this, "Bebida actualizada con éxito.");
+            } else {
+                controlador.registrarBebida(precioUnitario, stockMinimo, 0, nombre, tamaño, categoria);
+                JOptionPane.showMessageDialog(this, "Bebida registrada con éxito.");
+            }
+            formularioBebidas.setVisible(false);
+            cargarTablaBebidas();
+        } catch (ConstraintViolationException e) {
+            mostrarErroresValidacion(e);
+        } catch (IllegalStateException | SQLException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+    
+    private void mostrarErroresValidacion(ConstraintViolationException e) {
+        StringBuilder errores = new StringBuilder();
+        for (ConstraintViolation<?> v : e.getConstraintViolations()) {
+            errores.append("- ").append(v.getMessage()).append("\n");
+        }
+        JOptionPane.showMessageDialog(this,
+                errores.toString(),
+                "ERRORES DE VALIDACIÓN",
+                JOptionPane.WARNING_MESSAGE
+        );
+    }
+    
+    private void cargarTablaBebidas() {
+        try {
+            List<Bebida> bebidas = controlador.obtenerTodasLasBebidas();
+            DefaultTableModel modelo = new DefaultTableModel();
+            
+            modelo.setColumnIdentifiers(new Object[]{"Nombre", "Precio Unitario",
+                "Tamaño (ml)", "Stock Mínimo", "Stock Actual", "Categoría"});
+            for (Bebida b : bebidas) {
+                modelo.addRow(new Object[]{
+                    b.getNombre(),
+                    b.getPrecio_unitario(),
+                    b.getTamaño(),
+                    b.getStock_minimo(),
+                    b.getStock_actual(),
+                    b.getCategoria()
+                });
+            }
+            tablaBebidas.setModel(modelo);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar las bebidas: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
+    private void personalizarTabla(JTable tabla) {
+        tabla.setRowHeight(28);
+        tabla.setShowGrid(false);
+        tabla.setIntercellSpacing(new Dimension(0, 0));
+        
+        tabla.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tabla.setForeground(new Color(30, 30, 30));
+        tabla.setBackground(new Color(240, 240, 240));
+        
+        JTableHeader header = tabla.getTableHeader();
+        header.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        header.setBackground(new Color(0, 43, 91));
+        header.setForeground(Color.WHITE);
+        header.setReorderingAllowed(false);
+        
+        tabla.setSelectionBackground(new Color(142, 197, 252));
+        tabla.setSelectionForeground(Color.WHITE);
+    }
+    
+    private void forzarColorEncabezado(JTable tabla) {
+        JTableHeader header = tabla.getTableHeader();
+        header.setDefaultRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+
+                JLabel lbl = (JLabel) super.getTableCellRendererComponent(
+                        table, value, isSelected, hasFocus, row, column);
+
+                lbl.setBackground(new Color(0, 43, 91));
+                lbl.setForeground(Color.WHITE);
+                lbl.setFont(new Font("Segoe UI", Font.BOLD, 15));
+                lbl.setHorizontalAlignment(SwingConstants.CENTER);
+                lbl.setOpaque(true);
+                return lbl;
+            }
+        });
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JComboBox<String> cboxCategoria;
+    private javax.swing.JDialog formularioBebidas;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblCategoria;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblPrecioUnitario;
+    private javax.swing.JLabel lblStockMinimo;
+    private javax.swing.JLabel lblTamaño;
+    private javax.swing.JTable tablaBebidas;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPrecioUnitario;
+    private javax.swing.JTextField txtStockMinimo;
+    private javax.swing.JTextField txtTamaño;
     // End of variables declaration//GEN-END:variables
 }

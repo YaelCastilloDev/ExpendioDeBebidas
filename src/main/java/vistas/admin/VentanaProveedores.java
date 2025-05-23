@@ -322,7 +322,7 @@ public class VentanaProveedores extends javax.swing.JFrame {
         txtCiudad.setText("");
         txtEstado.setText("");
         
-        formularioProveedores.setTitle("AGREGAR EMPLEADO");
+        formularioProveedores.setTitle("AGREGAR PROVEEDOR");
         formularioProveedores.pack();
         formularioProveedores.setLocationRelativeTo(this);
         formularioProveedores.setVisible(true);
