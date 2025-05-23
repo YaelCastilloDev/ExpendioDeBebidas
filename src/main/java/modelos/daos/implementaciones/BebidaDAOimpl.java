@@ -112,6 +112,45 @@ public class BebidaDAOimpl implements BebidaDAO {
         }
         return resultados;
     }
+    
+    public Bebida obtenerBebida(String nombre) throws SQLException {
+        String sql = "SELECT id_bebida, precio_unitario, stock_minimo, stock_actual, nombre, tamaño, categoria FROM Bebida"
+                + "WHERE nombre = ?";
+        Bebida bebida = new Bebida();
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = BaseDeDatosConexion.obtenerConeccion();
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nombre);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                bebida.setPrecio_unitario(rs.getDouble("precio_unitario"));
+                bebida.setStock_minimo(rs.getInt("stock_minimo"));
+                bebida.setStock_actual(rs.getInt("stock_actual"));
+                bebida.setNombre(rs.getString("nombre"));
+                bebida.setTamaño(rs.getInt("tamaño"));
+                bebida.setCategoria(rs.getString("categoria"));
+            }
+        } finally {
+            // Cerrar recursos en orden inverso
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return bebida;
+    }
 
     public Integer obtenerIdPorNombre(String nombreBebida) throws SQLException {
         String sql = "SELECT id_bebida FROM Bebida WHERE nombre = ?";

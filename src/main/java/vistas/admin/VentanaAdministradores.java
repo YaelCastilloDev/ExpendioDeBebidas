@@ -247,6 +247,8 @@ public class VentanaAdministradores extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        modoEditar = false;
+        
         txtNombre.setText("");
         txtCorreo.setText("");
         txtPassword.setText("");
@@ -314,8 +316,8 @@ public class VentanaAdministradores extends javax.swing.JFrame {
                 controlador.registrarAdmin(nombre, email, password);
                 JOptionPane.showMessageDialog(this, "Administrador registrado con éxito.");
             }
-            cargarTablaAdministradores();
             formularioAdmin.setVisible(false);
+            cargarTablaAdministradores();
         } catch (ConstraintViolationException e) {
             mostrarErroresValidacion(e);
         } catch (SQLException e) {

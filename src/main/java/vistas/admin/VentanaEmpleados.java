@@ -27,8 +27,8 @@ public class VentanaEmpleados extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         cargarTablaEmpleados();
-        personalizarTabla(tabalEmpleados);
-        forzarColorEncabezado(tabalEmpleados);
+        personalizarTabla(tablaEmpleados);
+        forzarColorEncabezado(tablaEmpleados);
     }
 
     /**
@@ -54,7 +54,7 @@ public class VentanaEmpleados extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabalEmpleados = new javax.swing.JTable();
+        tablaEmpleados = new javax.swing.JTable();
         btnEliminar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
@@ -165,7 +165,7 @@ public class VentanaEmpleados extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tabalEmpleados.setModel(new javax.swing.table.DefaultTableModel(
+        tablaEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -176,7 +176,7 @@ public class VentanaEmpleados extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tabalEmpleados);
+        jScrollPane1.setViewportView(tablaEmpleados);
 
         btnEliminar.setBackground(new java.awt.Color(0, 80, 157));
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -245,6 +245,7 @@ public class VentanaEmpleados extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        modoEditar = false;
         txtNombre.setText("");
         txtEmail.setText("");
         txtPassword.setText("");
@@ -256,12 +257,12 @@ public class VentanaEmpleados extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        int fila = tabalEmpleados.getSelectedRow();
+        int fila = tablaEmpleados.getSelectedRow();
         if (fila >= 0) {
             modoEditar = true;
-            emailAnterior = tabalEmpleados.getValueAt(fila, 1).toString();
+            emailAnterior = tablaEmpleados.getValueAt(fila, 1).toString();
             
-            txtNombre.setText(tabalEmpleados.getValueAt(fila, 0).toString());
+            txtNombre.setText(tablaEmpleados.getValueAt(fila, 0).toString());
             txtEmail.setText(emailAnterior);
             txtPassword.setText("");
             
@@ -275,9 +276,9 @@ public class VentanaEmpleados extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        int fila = tabalEmpleados.getSelectedRow();
+        int fila = tablaEmpleados.getSelectedRow();
         if (fila >= 0) {
-            String email = tabalEmpleados.getValueAt(fila, 1).toString();
+            String email = tablaEmpleados.getValueAt(fila, 1).toString();
             
             int confirmacion = JOptionPane.showConfirmDialog(this,
                     "¿Deseas eliminar el administrador con email: " + email + "?",
@@ -312,8 +313,8 @@ public class VentanaEmpleados extends javax.swing.JFrame {
                 controlador.registrarEmpleado(nombre, email, password);
                 JOptionPane.showMessageDialog(this, "Empleado registrado con éxito.");
             }
-            cargarTablaEmpleados();
             formularioEmpleados.setVisible(false);
+            cargarTablaEmpleados();
         } catch (ConstraintViolationException e) {
             mostrarErroresValidacion(e);
         } catch (SQLException e) {
@@ -346,7 +347,7 @@ public class VentanaEmpleados extends javax.swing.JFrame {
                     e.getEmail()
                 });
             }
-            tabalEmpleados.setModel(modelo);
+            tablaEmpleados.setModel(modelo);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this,
                     "Error al cargar los empleados: " + e.getMessage(),
@@ -409,7 +410,7 @@ public class VentanaEmpleados extends javax.swing.JFrame {
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblPassword;
-    private javax.swing.JTable tabalEmpleados;
+    private javax.swing.JTable tablaEmpleados;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JPasswordField txtPassword;
