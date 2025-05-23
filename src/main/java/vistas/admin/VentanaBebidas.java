@@ -1,6 +1,6 @@
 package vistas.admin;
 
-import controladores.EmpleadoControlador;
+import controladores.BebidaControlador;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import java.awt.Color;
@@ -16,19 +16,20 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import modelos.Empleado;
+import modelos.Bebida;
 
-public class VentanaEmpleados extends javax.swing.JFrame {
+public class VentanaBebidas extends javax.swing.JFrame {
     private boolean modoEditar = false;
-    private String emailAnterior = null;
-    private EmpleadoControlador controlador = new EmpleadoControlador();
-
-    public VentanaEmpleados() {
+    private String nombreAnterior = null;
+    private int stockActual = 0;
+    private BebidaControlador controlador = new BebidaControlador();
+    
+    public VentanaBebidas() {
         initComponents();
         setLocationRelativeTo(null);
-        cargarTablaEmpleados();
-        personalizarTabla(tablaEmpleados);
-        forzarColorEncabezado(tablaEmpleados);
+        cargarTablaBebidas();
+        personalizarTabla(tablaBebidas);
+        forzarColorEncabezado(tablaBebidas);
     }
 
     /**
@@ -40,36 +41,40 @@ public class VentanaEmpleados extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        formularioEmpleados = new javax.swing.JDialog();
+        formularioBebidas = new javax.swing.JDialog();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         lblNombre = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
-        lblEmail = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
-        lblPassword = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JPasswordField();
+        lblTamaño = new javax.swing.JLabel();
+        txtTamaño = new javax.swing.JTextField();
+        lblStockMinimo = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
+        lblCategoria = new javax.swing.JLabel();
+        txtStockMinimo = new javax.swing.JTextField();
+        cboxCategoria = new javax.swing.JComboBox<>();
+        txtPrecioUnitario = new javax.swing.JTextField();
+        lblPrecioUnitario = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaEmpleados = new javax.swing.JTable();
-        btnEliminar = new javax.swing.JButton();
-        btnModificar = new javax.swing.JButton();
+        tablaBebidas = new javax.swing.JTable();
         btnAgregar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setText("Datos del empleado");
+        jLabel2.setText("Datos de la bebida");
 
         lblNombre.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblNombre.setText("Nombre:");
 
-        lblEmail.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblEmail.setText("Correo Electrónico:");
+        lblTamaño.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblTamaño.setText("Tamaño (ml):");
 
-        lblPassword.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblPassword.setText("Contraseña:");
+        lblStockMinimo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblStockMinimo.setText("Stock Mínimo:");
 
         btnGuardar.setBackground(new java.awt.Color(0, 80, 157));
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -81,27 +86,42 @@ public class VentanaEmpleados extends javax.swing.JFrame {
             }
         });
 
+        lblCategoria.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblCategoria.setText("Categoría:");
+
+        cboxCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "REFRESCO", "JUGO", "AGUA", "CERVEZA", "ENERGÉTICA", "TE", "CAFE", "LACTEO" }));
+
+        lblPrecioUnitario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblPrecioUnitario.setText("Precio Unitario:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtStockMinimo, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblStockMinimo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(lblTamaño, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtTamaño, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 25, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jSeparator1)
-                            .addComponent(txtNombre)
-                            .addComponent(txtEmail)
-                            .addComponent(txtPassword)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                            .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(145, 145, 145)
-                        .addComponent(btnGuardar)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                            .addComponent(txtPrecioUnitario, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cboxCategoria, 0, 171, Short.MAX_VALUE)
+                            .addComponent(lblPrecioUnitario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblCategoria, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator1)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(149, 149, 149)
+                .addComponent(btnGuardar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,41 +132,52 @@ public class VentanaEmpleados extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblNombre)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(10, 10, 10)
                 .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblEmail)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(lblTamaño))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(lblPrecioUnitario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtTamaño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(39, 39, 39)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblStockMinimo)
+                    .addComponent(lblCategoria))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblPassword)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtStockMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnGuardar)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout formularioEmpleadosLayout = new javax.swing.GroupLayout(formularioEmpleados.getContentPane());
-        formularioEmpleados.getContentPane().setLayout(formularioEmpleadosLayout);
-        formularioEmpleadosLayout.setHorizontalGroup(
-            formularioEmpleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout formularioBebidasLayout = new javax.swing.GroupLayout(formularioBebidas.getContentPane());
+        formularioBebidas.getContentPane().setLayout(formularioBebidasLayout);
+        formularioBebidasLayout.setHorizontalGroup(
+            formularioBebidasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-        formularioEmpleadosLayout.setVerticalGroup(
-            formularioEmpleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        formularioBebidasLayout.setVerticalGroup(
+            formularioBebidasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("GESTIÓN DE EMPLEADOS");
+        setTitle("GESTIÓN DE BEBIDAS");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 43, 91));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Empleados");
+        jLabel1.setText("Bebidas");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -155,7 +186,7 @@ public class VentanaEmpleados extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel1)
-                .addContainerGap(865, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,7 +196,7 @@ public class VentanaEmpleados extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tablaEmpleados.setModel(new javax.swing.table.DefaultTableModel(
+        tablaBebidas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -176,15 +207,15 @@ public class VentanaEmpleados extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tablaEmpleados);
+        jScrollPane1.setViewportView(tablaBebidas);
 
-        btnEliminar.setBackground(new java.awt.Color(0, 80, 157));
-        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminar.setText("Eliminar");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregar.setBackground(new java.awt.Color(0, 80, 157));
+        btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btnAgregar.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
+                btnAgregarActionPerformed(evt);
             }
         });
 
@@ -198,13 +229,13 @@ public class VentanaEmpleados extends javax.swing.JFrame {
             }
         });
 
-        btnAgregar.setBackground(new java.awt.Color(0, 80, 157));
-        btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        btnAgregar.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgregar.setText("Agregar");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminar.setBackground(new java.awt.Color(0, 80, 157));
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
+                btnEliminarActionPerformed(evt);
             }
         });
 
@@ -212,33 +243,31 @@ public class VentanaEmpleados extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAgregar)
                         .addGap(18, 18, 18)
                         .addComponent(btnModificar)
                         .addGap(18, 18, 18)
                         .addComponent(btnEliminar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 964, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 968, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminar)
                     .addComponent(btnModificar)
                     .addComponent(btnAgregar))
-                .addGap(22, 22, 22))
+                .addGap(20, 20, 20))
         );
 
         pack();
@@ -246,83 +275,93 @@ public class VentanaEmpleados extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         modoEditar = false;
-        txtNombre.setText("");
-        txtEmail.setText("");
-        txtPassword.setText("");
         
-        formularioEmpleados.setTitle("AGREGAR EMPLEADO");
-        formularioEmpleados.pack();
-        formularioEmpleados.setLocationRelativeTo(this);
-        formularioEmpleados.setVisible(true);
+        txtNombre.setText("");
+        txtStockMinimo.setText("");
+        txtTamaño.setText("");
+        txtPrecioUnitario.setText("");
+        cboxCategoria.setSelectedItem(0);
+        
+        formularioBebidas.setTitle("AGREGAR BEBIDA");
+        formularioBebidas.pack();
+        formularioBebidas.setLocationRelativeTo(this);
+        formularioBebidas.setVisible(true);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        int fila = tablaEmpleados.getSelectedRow();
+        int fila = tablaBebidas.getSelectedRow();
         if (fila >= 0) {
             modoEditar = true;
-            emailAnterior = tablaEmpleados.getValueAt(fila, 1).toString();
+            nombreAnterior = tablaBebidas.getValueAt(fila, 0).toString();
             
-            txtNombre.setText(tablaEmpleados.getValueAt(fila, 0).toString());
-            txtEmail.setText(emailAnterior);
-            txtPassword.setText("");
+            txtNombre.setText(nombreAnterior);
+            txtPrecioUnitario.setText(tablaBebidas.getValueAt(fila, 1).toString());
+            txtTamaño.setText(tablaBebidas.getValueAt(fila, 2).toString());
+            txtStockMinimo.setText(tablaBebidas.getValueAt(fila, 3).toString());
+            stockActual = Integer.parseInt(tablaBebidas.getValueAt(fila, 4).toString());
+            cboxCategoria.setSelectedItem(tablaBebidas.getValueAt(fila, 5));
             
-            formularioEmpleados.setTitle("MODIFICAR EMPLEADO");
-            formularioEmpleados.pack();
-            formularioEmpleados.setLocationRelativeTo(this);
-            formularioEmpleados.setVisible(true);
+            formularioBebidas.setTitle("MODIFICAR BEBIDA");
+            formularioBebidas.pack();
+            formularioBebidas.setLocationRelativeTo(this);
+            formularioBebidas.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Selecciona un empleado de la tabla.");
+            JOptionPane.showMessageDialog(this, "Selecciona una bebida de la tabla.");
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        int fila = tablaEmpleados.getSelectedRow();
+        int fila = tablaBebidas.getSelectedRow();
         if (fila >= 0) {
-            String email = tablaEmpleados.getValueAt(fila, 1).toString();
-            
+            String nombre = tablaBebidas.getValueAt(fila, 0).toString();
             int confirmacion = JOptionPane.showConfirmDialog(this,
-                    "¿Deseas eliminar el administrador con email: " + email + "?",
+                    "¿Deseas eliminar la bebida: " + nombre + "?",
                     "CONFIRMAR ELIMINACIÓN",
                     JOptionPane.YES_NO_OPTION
             );
             if (confirmacion == JOptionPane.YES_OPTION) {
                 try {
-                    controlador.eliminarEmpleado(email);
-                    cargarTablaEmpleados();
-                    JOptionPane.showMessageDialog(this, "Empleado eliminado con éxito.");
+                    controlador.eliminarBebida(nombre);
+                    cargarTablaBebidas();
+                    JOptionPane.showMessageDialog(this, "Bebida eliminada con éxito.");
                 } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(this, e.getMessage(),
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                } catch (IllegalStateException e) {
                     JOptionPane.showMessageDialog(this, e.getMessage(),
                             "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Selecciona un empleado de la tabla.");
+            JOptionPane.showMessageDialog(this, "Selecciona una bebida de la tabla.");
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         String nombre = txtNombre.getText().trim();
-        String email = txtEmail.getText().trim();
-        String password = new String(txtPassword.getPassword());
-        
+        double precioUnitario = Double.parseDouble(txtPrecioUnitario.getText().trim());
+        int tamaño = Integer.parseInt(txtTamaño.getText().trim());
+        int stockMinimo = Integer.parseInt(txtStockMinimo.getText().trim());
+        String categoria = cboxCategoria.getSelectedItem().toString();
+
         try {
             if (modoEditar) {
-                controlador.actualizarEmpleado(emailAnterior, nombre, email, password);
-                JOptionPane.showMessageDialog(this, "Empleado actualizado con éxito.");
+                controlador.actualizarBebida(nombreAnterior, precioUnitario, stockMinimo, stockActual, nombre, tamaño, categoria);
+                JOptionPane.showMessageDialog(this, "Bebida actualizada con éxito.");
             } else {
-                controlador.registrarEmpleado(nombre, email, password);
-                JOptionPane.showMessageDialog(this, "Empleado registrado con éxito.");
+                controlador.registrarBebida(precioUnitario, stockMinimo, 0, nombre, tamaño, categoria);
+                JOptionPane.showMessageDialog(this, "Bebida registrada con éxito.");
             }
-            formularioEmpleados.setVisible(false);
-            cargarTablaEmpleados();
+            formularioBebidas.setVisible(false);
+            cargarTablaBebidas();
         } catch (ConstraintViolationException e) {
             mostrarErroresValidacion(e);
-        } catch (SQLException e) {
+        } catch (IllegalStateException | SQLException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(),
-                    "ERROR", JOptionPane.ERROR_MESSAGE);
+                "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
-
+    
     private void mostrarErroresValidacion(ConstraintViolationException e) {
         StringBuilder errores = new StringBuilder();
         for (ConstraintViolation<?> v : e.getConstraintViolations()) {
@@ -335,22 +374,27 @@ public class VentanaEmpleados extends javax.swing.JFrame {
         );
     }
     
-    private void cargarTablaEmpleados() {
+    private void cargarTablaBebidas() {
         try {
-            List<Empleado> empleados = controlador.obtenerEmpleados();
+            List<Bebida> bebidas = controlador.obtenerTodasLasBebidas();
             DefaultTableModel modelo = new DefaultTableModel();
             
-            modelo.setColumnIdentifiers(new Object[]{"Nombre", "Email"});
-            for (Empleado e : empleados) {
+            modelo.setColumnIdentifiers(new Object[]{"Nombre", "Precio Unitario",
+                "Tamaño (ml)", "Stock Mínimo", "Stock Actual", "Categoría"});
+            for (Bebida b : bebidas) {
                 modelo.addRow(new Object[]{
-                    e.getNombre(),
-                    e.getEmail()
+                    b.getNombre(),
+                    b.getPrecio_unitario(),
+                    b.getTamaño(),
+                    b.getStock_minimo(),
+                    b.getStock_actual(),
+                    b.getCategoria()
                 });
             }
-            tablaEmpleados.setModel(modelo);
+            tablaBebidas.setModel(modelo);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this,
-                    "Error al cargar los empleados: " + e.getMessage(),
+                    "Error al cargar las bebidas: " + e.getMessage(),
                     "ERROR", JOptionPane.ERROR_MESSAGE
             );
         }
@@ -400,19 +444,23 @@ public class VentanaEmpleados extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
-    private javax.swing.JDialog formularioEmpleados;
+    private javax.swing.JComboBox<String> cboxCategoria;
+    private javax.swing.JDialog formularioBebidas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblCategoria;
     private javax.swing.JLabel lblNombre;
-    private javax.swing.JLabel lblPassword;
-    private javax.swing.JTable tablaEmpleados;
-    private javax.swing.JTextField txtEmail;
+    private javax.swing.JLabel lblPrecioUnitario;
+    private javax.swing.JLabel lblStockMinimo;
+    private javax.swing.JLabel lblTamaño;
+    private javax.swing.JTable tablaBebidas;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtPrecioUnitario;
+    private javax.swing.JTextField txtStockMinimo;
+    private javax.swing.JTextField txtTamaño;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,6 +4,8 @@ import modelos.daos.implementaciones.AdminDAOimpl;
 import modelos.utiles.validaciones.AdminValidacion;
 import java.sql.SQLException;
 import jakarta.validation.ConstraintViolationException;
+import java.util.List;
+import modelos.Admin;
 
 public class AdminControlador {
     private final AdminDAOimpl adminDAO = new AdminDAOimpl();
@@ -67,5 +69,9 @@ public class AdminControlador {
         if (!adminDAO.deleteEliminarAdmin(email)) {
             throw new SQLException("No se pudo eliminar el administrador. Verifique el email proporcionado");
         }
+    }
+    
+    public List<Admin> obtenerAdmins() throws SQLException {
+        return adminDAO.getAdministradores();
     }
 }

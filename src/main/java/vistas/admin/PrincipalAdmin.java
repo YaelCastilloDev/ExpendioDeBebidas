@@ -1,20 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package vistas.admin;
 
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author perso
- */
 public class PrincipalAdmin extends javax.swing.JFrame {
-    
-    /**
-     * Creates new form PrincipalAdmin
-     */
+
     public PrincipalAdmin() {
         initComponents();
         setLocationRelativeTo(null);
@@ -292,39 +281,39 @@ public class PrincipalAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarioActionPerformed
-        // TODO add your handling code here:
+        new VentanaInventario().setVisible(true);
     }//GEN-LAST:event_btnInventarioActionPerformed
 
     private void btnListaPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaPedidosActionPerformed
-        // TODO add your handling code here:
+        new VentanaListaPedidos().setVisible(true);
     }//GEN-LAST:event_btnListaPedidosActionPerformed
 
     private void btnBebidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBebidasActionPerformed
-        // TODO add your handling code here:
+        new VentanaBebidas().setVisible(true);
     }//GEN-LAST:event_btnBebidasActionPerformed
 
     private void btnComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprasActionPerformed
-        // TODO add your handling code here:
+        new VentanaCompras().setVisible(true);
     }//GEN-LAST:event_btnComprasActionPerformed
 
     private void btnProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProveedoresActionPerformed
-        // TODO add your handling code here:
+        new VentanaProveedores().setVisible(true);
     }//GEN-LAST:event_btnProveedoresActionPerformed
 
     private void btnPromocionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromocionesActionPerformed
-        // TODO add your handling code here:
+        new VentanaPromociones().setVisible(true);
     }//GEN-LAST:event_btnPromocionesActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
-        // TODO add your handling code here:
+        new VentanaReportes().setVisible(true);
     }//GEN-LAST:event_btnReportesActionPerformed
 
     private void btnEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadosActionPerformed
-        // TODO add your handling code here:
+        new VentanaEmpleados().setVisible(true);
     }//GEN-LAST:event_btnEmpleadosActionPerformed
 
     private void btnAdministradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministradoresActionPerformed
-        // TODO add your handling code here:
+        new VentanaAdministradores().setVisible(true);
     }//GEN-LAST:event_btnAdministradoresActionPerformed
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed

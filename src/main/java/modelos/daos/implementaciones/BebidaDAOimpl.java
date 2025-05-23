@@ -70,6 +70,69 @@ public class BebidaDAOimpl implements BebidaDAO {
             }
         }
     }
+    
+    
+    @Override
+    public boolean updateBebida(String nombre, Bebida bebida) throws SQLException {
+        String update = "UPDATE bebida SET precio_unitario = ?, stock_minimo = ?, "
+                + "nombre = ?, tamaño = ?, categoria = ? WHERE nombre = ?";
+        Connection conn = BaseDeDatosConexion.obtenerConeccion();
+        PreparedStatement stmt = conn.prepareStatement(update);
+        
+        stmt.setDouble(1, bebida.getPrecio_unitario());
+        stmt.setInt(2, bebida.getStock_minimo());
+        stmt.setString(3, bebida.getNombre());
+        stmt.setInt(4, bebida.getTamaño());
+        stmt.setString(5, bebida.getCategoria());
+        stmt.setString(6, nombre);
+        
+        int rows = stmt.executeUpdate();
+        conn.close();
+        stmt.close();
+        
+        return rows > 0;
+    }
+
+    @Override
+    public List<Bebida> obtenerBebidas() throws SQLException {
+        String sql = "SELECT id_bebida, precio_unitario, stock_minimo, stock_actual, nombre, tamaño, categoria FROM Bebida";
+        List<Bebida> bebidas = new ArrayList<>();
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = BaseDeDatosConexion.obtenerConeccion();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Bebida bebida = new Bebida();
+                bebida.setPrecio_unitario(rs.getDouble("precio_unitario"));
+                bebida.setStock_minimo(rs.getInt("stock_minimo"));
+                bebida.setStock_actual(rs.getInt("stock_actual"));
+                bebida.setNombre(rs.getString("nombre"));
+                bebida.setTamaño(rs.getInt("tamaño"));
+                bebida.setCategoria(rs.getString("categoria"));
+
+                bebidas.add(bebida);
+            }
+        } finally {
+            // Cerrar recursos en orden inverso
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return bebidas;
+    }
 
     @Override
     public List<Bebida> obtenerNombresBebidasMenosVendidas(Connection conexion) throws SQLException {
@@ -111,6 +174,46 @@ public class BebidaDAOimpl implements BebidaDAO {
             }
         }
         return resultados;
+    }
+    
+    @Override
+    public Bebida obtenerBebida(String nombre) throws SQLException {
+        String sql = "SELECT id_bebida, precio_unitario, stock_minimo, stock_actual, nombre, tamaño, categoria FROM Bebida"
+                + "WHERE nombre = ?";
+        Bebida bebida = new Bebida();
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = BaseDeDatosConexion.obtenerConeccion();
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nombre);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                bebida.setPrecio_unitario(rs.getDouble("precio_unitario"));
+                bebida.setStock_minimo(rs.getInt("stock_minimo"));
+                bebida.setStock_actual(rs.getInt("stock_actual"));
+                bebida.setNombre(rs.getString("nombre"));
+                bebida.setTamaño(rs.getInt("tamaño"));
+                bebida.setCategoria(rs.getString("categoria"));
+            }
+        } finally {
+            // Cerrar recursos en orden inverso
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return bebida;
     }
 
     public Integer obtenerIdPorNombre(String nombreBebida) throws SQLException {
@@ -188,9 +291,9 @@ public class BebidaDAOimpl implements BebidaDAO {
     }
 
     public boolean existeEnRelaciones(int idBebida) throws SQLException {
-        String sql = "SELECT (EXISTS(SELECT 1 FROM Detalle_Pedido_Cliente WHERE id_bebida = ?) OR " +
-                "(EXISTS(SELECT 1 FROM Detalle_Pedido_Proveedor WHERE id_bebida = ?)) OR " +
-                "(EXISTS(SELECT 1 FROM Promocion_Bebida WHERE id_bebida = ?)) AS existe";
+        String sql = "SELECT (EXISTS(SELECT 1 FROM Detalle_Pedido_Cliente WHERE id_bebida = ?) "
+                + "OR EXISTS(SELECT 1 FROM Detalle_Pedido_Proveedor WHERE id_bebida = ?) "
+                + "OR EXISTS(SELECT 1 FROM Promocion_Bebida WHERE id_bebida = ?)) AS existe;";
 
         try (Connection conn = BaseDeDatosConexion.obtenerConeccion();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -203,45 +306,5 @@ public class BebidaDAOimpl implements BebidaDAO {
                 return rs.next() && rs.getBoolean("existe");
             }
         }
-    }
-
-    public List<Bebida> getAllBebidas() throws SQLException {
-        String sql = "SELECT id_bebida, precio_unitario, stock_minimo, stock_actual, nombre, tamaño, categoria FROM Bebida";
-        List<Bebida> bebidas = new ArrayList<>();
-
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            conn = BaseDeDatosConexion.obtenerConeccion();
-            stmt = conn.prepareStatement(sql);
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Bebida bebida = new Bebida();
-                bebida.setPrecio_unitario(rs.getDouble("precio_unitario"));
-                bebida.setStock_minimo(rs.getInt("stock_minimo"));
-                bebida.setStock_actual(rs.getInt("stock_actual"));
-                bebida.setNombre(rs.getString("nombre"));
-                bebida.setTamaño(rs.getInt("tamaño"));
-                bebida.setCategoria(rs.getString("categoria"));
-
-                bebidas.add(bebida);
-            }
-        } finally {
-            // Cerrar recursos en orden inverso
-            if (rs != null) {
-                rs.close();
-            }
-            if (stmt != null) {
-                stmt.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-
-        return bebidas;
     }
 }

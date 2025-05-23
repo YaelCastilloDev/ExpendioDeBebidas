@@ -31,7 +31,7 @@ public class BebidaControlador {
         }
     }
 
-    public void eliminarBebida(String nombreBebida) throws SQLException, IllegalArgumentException, IllegalStateException {
+    public void eliminarBebida(String nombreBebida) throws SQLException, IllegalStateException {
         // Obtener ID y verificar existencia
         Integer idBebida = bebidaDAO.obtenerIdPorNombre(nombreBebida);
         if (idBebida == null) {
@@ -46,8 +46,31 @@ public class BebidaControlador {
         // Eliminación final
         bebidaDAO.deleteEliminar(nombreBebida);
     }
+    
+    public void actualizarBebida(String nombreAntiguo, Double precioUnitario,
+            Integer stockMinimo, Integer stockActual, String nombre, Integer tamaño, String categoria)
+            throws ConstraintViolationException, SQLException {
+        Integer idBebida = bebidaDAO.obtenerIdPorNombre(nombreAntiguo);
+        if (idBebida == null) {
+            throw new SQLException("No se encontró la bebida con el nombre especificado");
+        }
+        
+        if (bebidaDAO.existeEnRelaciones(idBebida)) {
+            throw new IllegalStateException("No se puede eliminar la bebida porque está asociada a registros de compra, venta o promociones");
+        }
+        
+        validacion.validarCompleto(precioUnitario, stockMinimo, stockActual, nombre, tamaño, categoria);
+        Bebida bebida = validacion.getBebidaValidada();
+        
+        bebidaDAO.updateBebida(nombreAntiguo, bebida);
+    }
+    
+    public Bebida obtenerBebidaPorNombre(String nombre) throws SQLException {
+        return bebidaDAO.obtenerBebida(nombre);
+    }
+    
     public List<Bebida> obtenerTodasLasBebidas() throws SQLException {
-        return bebidaDAO.getAllBebidas();
+        return bebidaDAO.obtenerBebidas();
     }
 }
 
