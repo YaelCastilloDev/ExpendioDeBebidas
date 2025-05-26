@@ -1,7 +1,6 @@
 package modelos.daos.implementaciones;
 
 import modelos.Bebida;
-import modelos.conexiones.BaseDeDatosConexion;
 import modelos.daos.contratos.BebidaDAO;
 import modelos.views.EstadisticaVentaProductos;
 
@@ -15,18 +14,11 @@ import java.util.List;
 public class BebidaDAOimpl implements BebidaDAO {
 
     @Override
-    public boolean postRegistrar(Bebida bebida) throws SQLException {
+    public boolean postRegistrar(Bebida bebida, Connection conn) throws SQLException {
         String sql = "INSERT INTO Bebida (precio_unitario, stock_minimo, stock_actual, nombre, tamaño, categoria) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
 
-        Connection conn = null;
-        PreparedStatement stmt = null;
-
-        try {
-            // Obtenemos la conexión internamente
-            conn = BaseDeDatosConexion.obtenerConeccion();
-            stmt = conn.prepareStatement(sql);
-
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setBigDecimal(1, new java.math.BigDecimal(bebida.getPrecio_unitario()));
             stmt.setInt(2, bebida.getStock_minimo());
             stmt.setInt(3, bebida.getStock_actual());
@@ -34,78 +26,44 @@ public class BebidaDAOimpl implements BebidaDAO {
             stmt.setInt(5, bebida.getTamaño());
             stmt.setString(6, bebida.getCategoria());
 
-            int filasAfectadas = stmt.executeUpdate();
-            return filasAfectadas > 0;
-        } finally {
-            // Cerramos recursos en orden inverso a su creación
-            if (stmt != null) {
-                stmt.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
+            return stmt.executeUpdate() > 0;
         }
     }
 
     @Override
-    public boolean deleteEliminar(String nombreBebida) throws SQLException {
+    public boolean deleteEliminar(String nombreBebida, Connection conn) throws SQLException {
         String sql = "DELETE FROM Bebida WHERE nombre = ?";
 
-        Connection conn = null;
-        PreparedStatement stmt = null;
-
-        try {
-            conn = BaseDeDatosConexion.obtenerConeccion();
-            stmt = conn.prepareStatement(sql);
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nombreBebida);
-
-            int filasAfectadas = stmt.executeUpdate();
-            return filasAfectadas > 0;
-        } finally {
-            if (stmt != null) {
-                stmt.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
+            return stmt.executeUpdate() > 0;
         }
     }
-    
-    
+
     @Override
-    public boolean updateBebida(String nombre, Bebida bebida) throws SQLException {
-        String update = "UPDATE bebida SET precio_unitario = ?, stock_minimo = ?, "
-                + "nombre = ?, tamaño = ?, categoria = ? WHERE nombre = ?";
-        Connection conn = BaseDeDatosConexion.obtenerConeccion();
-        PreparedStatement stmt = conn.prepareStatement(update);
-        
-        stmt.setDouble(1, bebida.getPrecio_unitario());
-        stmt.setInt(2, bebida.getStock_minimo());
-        stmt.setString(3, bebida.getNombre());
-        stmt.setInt(4, bebida.getTamaño());
-        stmt.setString(5, bebida.getCategoria());
-        stmt.setString(6, nombre);
-        
-        int rows = stmt.executeUpdate();
-        conn.close();
-        stmt.close();
-        
-        return rows > 0;
+    public boolean updateBebida(String nombre, Bebida bebida, Connection conn) throws SQLException {
+        String update = "UPDATE bebida SET precio_unitario = ?, stock_minimo = ?, " +
+                "nombre = ?, tamaño = ?, categoria = ? WHERE nombre = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(update)) {
+            stmt.setDouble(1, bebida.getPrecio_unitario());
+            stmt.setInt(2, bebida.getStock_minimo());
+            stmt.setString(3, bebida.getNombre());
+            stmt.setInt(4, bebida.getTamaño());
+            stmt.setString(5, bebida.getCategoria());
+            stmt.setString(6, nombre);
+
+            return stmt.executeUpdate() > 0;
+        }
     }
 
     @Override
-    public List<Bebida> obtenerBebidas() throws SQLException {
+    public List<Bebida> obtenerBebidas(Connection conn) throws SQLException {
         String sql = "SELECT id_bebida, precio_unitario, stock_minimo, stock_actual, nombre, tamaño, categoria FROM Bebida";
         List<Bebida> bebidas = new ArrayList<>();
 
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            conn = BaseDeDatosConexion.obtenerConeccion();
-            stmt = conn.prepareStatement(sql);
-            rs = stmt.executeQuery();
+        try (PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 Bebida bebida = new Bebida();
@@ -115,160 +73,64 @@ public class BebidaDAOimpl implements BebidaDAO {
                 bebida.setNombre(rs.getString("nombre"));
                 bebida.setTamaño(rs.getInt("tamaño"));
                 bebida.setCategoria(rs.getString("categoria"));
-
                 bebidas.add(bebida);
             }
-        } finally {
-            // Cerrar recursos en orden inverso
-            if (rs != null) {
-                rs.close();
-            }
-            if (stmt != null) {
-                stmt.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
         }
-
         return bebidas;
     }
 
     @Override
-    public List<Bebida> obtenerNombresBebidasMenosVendidas(Connection conexion) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-
-    public List<EstadisticaVentaProductos> obtenerBebidasMenosVendidas(Connection conexion) throws SQLException {
-        String consulta = "SELECT nombre, total_vendida FROM Productos_Menos_Vendidos";
-        List<EstadisticaVentaProductos> resultados = new ArrayList<>();
-
-        try (PreparedStatement stmt = conexion.prepareStatement(consulta);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                String nombre = rs.getString("nombre");
-                int totalVendido = rs.getInt("total_vendida");
-
-
-                resultados.add(new EstadisticaVentaProductos(nombre, totalVendido));
-            }
-        }
-
-        return resultados;
-    }
-
-    public List<EstadisticaVentaProductos> obtenerBebidasMasVendidas(Connection conexion) throws SQLException {
-        String consulta = "SELECT nombre, total_vendida FROM Productos_Mas_Vendidos";
-        List<EstadisticaVentaProductos> resultados = new ArrayList<>();
-
-        try (PreparedStatement stmt = conexion.prepareStatement(consulta);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                String nombre = rs.getString("nombre");
-                int totalVendido = rs.getInt("total_vendida");
-
-                resultados.add(new EstadisticaVentaProductos(nombre, totalVendido));
-            }
-        }
-        return resultados;
-    }
-    
-    @Override
-    public Bebida obtenerBebida(String nombre) throws SQLException {
-        String sql = "SELECT id_bebida, precio_unitario, stock_minimo, stock_actual, nombre, tamaño, categoria FROM Bebida"
-                + "WHERE nombre = ?";
+    public Bebida obtenerBebida(String nombre, Connection conn) throws SQLException {
+        String sql = "SELECT id_bebida, precio_unitario, stock_minimo, stock_actual, nombre, tamaño, categoria FROM Bebida WHERE nombre = ?";
         Bebida bebida = new Bebida();
 
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            conn = BaseDeDatosConexion.obtenerConeccion();
-            stmt = conn.prepareStatement(sql);
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nombre);
-            rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                bebida.setPrecio_unitario(rs.getDouble("precio_unitario"));
-                bebida.setStock_minimo(rs.getInt("stock_minimo"));
-                bebida.setStock_actual(rs.getInt("stock_actual"));
-                bebida.setNombre(rs.getString("nombre"));
-                bebida.setTamaño(rs.getInt("tamaño"));
-                bebida.setCategoria(rs.getString("categoria"));
-            }
-        } finally {
-            // Cerrar recursos en orden inverso
-            if (rs != null) {
-                rs.close();
-            }
-            if (stmt != null) {
-                stmt.close();
-            }
-            if (conn != null) {
-                conn.close();
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    bebida.setPrecio_unitario(rs.getDouble("precio_unitario"));
+                    bebida.setStock_minimo(rs.getInt("stock_minimo"));
+                    bebida.setStock_actual(rs.getInt("stock_actual"));
+                    bebida.setNombre(rs.getString("nombre"));
+                    bebida.setTamaño(rs.getInt("tamaño"));
+                    bebida.setCategoria(rs.getString("categoria"));
+                }
             }
         }
-
         return bebida;
     }
 
-    public Integer obtenerIdPorNombre(String nombreBebida) throws SQLException {
+    @Override
+    public Integer obtenerIdPorNombre(String nombreBebida, Connection conn) throws SQLException {
         String sql = "SELECT id_bebida FROM Bebida WHERE nombre = ?";
 
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            conn = BaseDeDatosConexion.obtenerConeccion();
-            stmt = conn.prepareStatement(sql);
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nombreBebida);
 
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return rs.getInt("id_bebida");
-            } else {
-                return null;
-            }
-        } finally {
-            // Cerrar recursos en orden inverso
-            if (rs != null) {
-                rs.close();
-            }
-            if (stmt != null) {
-                stmt.close();
-            }
-            if (conn != null) {
-                conn.close();
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next() ? rs.getInt("id_bebida") : null;
             }
         }
     }
+
     @Override
-    public boolean existeEnDetallePedidoCliente(int idBebida) throws SQLException {
+    public boolean existeEnDetallePedidoCliente(int idBebida, Connection conn) throws SQLException {
         String sql = "SELECT 1 FROM Detalle_Pedido_Cliente WHERE id_bebida = ? LIMIT 1";
 
-        try (Connection conn = BaseDeDatosConexion.obtenerConeccion();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, idBebida);
             try (ResultSet rs = stmt.executeQuery()) {
-                return rs.next(); // Retorna true si hay al menos un resultado
+                return rs.next();
             }
         }
     }
 
     @Override
-    public boolean existeEnDetallePedidoProveedor(int idBebida) throws SQLException {
+    public boolean existeEnDetallePedidoProveedor(int idBebida, Connection conn) throws SQLException {
         String sql = "SELECT 1 FROM Detalle_Pedido_Proveedor WHERE id_bebida = ? LIMIT 1";
 
-        try (Connection conn = BaseDeDatosConexion.obtenerConeccion();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, idBebida);
             try (ResultSet rs = stmt.executeQuery()) {
                 return rs.next();
@@ -277,12 +139,10 @@ public class BebidaDAOimpl implements BebidaDAO {
     }
 
     @Override
-    public boolean existeEnPromocionBebida(int idBebida) throws SQLException {
+    public boolean existeEnPromocionBebida(int idBebida, Connection conn) throws SQLException {
         String sql = "SELECT 1 FROM Promocion_Bebida WHERE id_bebida = ? LIMIT 1";
 
-        try (Connection conn = BaseDeDatosConexion.obtenerConeccion();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, idBebida);
             try (ResultSet rs = stmt.executeQuery()) {
                 return rs.next();
@@ -290,14 +150,13 @@ public class BebidaDAOimpl implements BebidaDAO {
         }
     }
 
-    public boolean existeEnRelaciones(int idBebida) throws SQLException {
-        String sql = "SELECT (EXISTS(SELECT 1 FROM Detalle_Pedido_Cliente WHERE id_bebida = ?) "
-                + "OR EXISTS(SELECT 1 FROM Detalle_Pedido_Proveedor WHERE id_bebida = ?) "
-                + "OR EXISTS(SELECT 1 FROM Promocion_Bebida WHERE id_bebida = ?)) AS existe;";
+    @Override
+    public boolean existeEnRelaciones(int idBebida, Connection conn) throws SQLException {
+        String sql = "SELECT (EXISTS(SELECT 1 FROM Detalle_Pedido_Cliente WHERE id_bebida = ?) " +
+                "OR EXISTS(SELECT 1 FROM Detalle_Pedido_Proveedor WHERE id_bebida = ?) " +
+                "OR EXISTS(SELECT 1 FROM Promocion_Bebida WHERE id_bebida = ?)) AS existe";
 
-        try (Connection conn = BaseDeDatosConexion.obtenerConeccion();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, idBebida);
             stmt.setInt(2, idBebida);
             stmt.setInt(3, idBebida);
@@ -306,5 +165,47 @@ public class BebidaDAOimpl implements BebidaDAO {
                 return rs.next() && rs.getBoolean("existe");
             }
         }
+    }
+
+    @Override
+    public List<EstadisticaVentaProductos> obtenerBebidasMenosVendidas(Connection conn) throws SQLException {
+        String consulta = "SELECT nombre, total_vendida FROM Productos_Menos_Vendidos";
+        List<EstadisticaVentaProductos> resultados = new ArrayList<>();
+
+        try (PreparedStatement stmt = conn.prepareStatement(consulta);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                resultados.add(new EstadisticaVentaProductos(
+                        rs.getString("nombre"),
+                        rs.getInt("total_vendida")
+                ));
+            }
+        }
+        return resultados;
+    }
+
+    @Override
+    public List<EstadisticaVentaProductos> obtenerBebidasMasVendidas(Connection conn) throws SQLException {
+        String consulta = "SELECT nombre, total_vendida FROM Productos_Mas_Vendidos";
+        List<EstadisticaVentaProductos> resultados = new ArrayList<>();
+
+        try (PreparedStatement stmt = conn.prepareStatement(consulta);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                resultados.add(new EstadisticaVentaProductos(
+                        rs.getString("nombre"),
+                        rs.getInt("total_vendida")
+                ));
+            }
+        }
+        return resultados;
+    }
+
+    @Override
+    public List<Bebida> obtenerNombresBebidasMenosVendidas(Connection conn) throws SQLException {
+        // Implementación similar a las otras
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

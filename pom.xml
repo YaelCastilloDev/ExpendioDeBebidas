@@ -50,7 +50,18 @@
     <artifactId>mysql-connector-j</artifactId>
     <version>8.1.0</version> <!-- Use desired version here, or omit if managed -->
 </dependency>
-
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.5.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>4.5.1</version>
+            <scope>test</scope>
+        </dependency>
     
     <!-- Spring Security Crypto (para BCrypt) -->
     <dependency>

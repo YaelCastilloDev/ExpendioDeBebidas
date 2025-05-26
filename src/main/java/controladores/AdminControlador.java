@@ -1,7 +1,10 @@
 package controladores;
 
+import modelos.conexiones.UsuarioFactory;
 import modelos.daos.implementaciones.AdminDAOimpl;
 import modelos.utiles.validaciones.AdminValidacion;
+
+import java.sql.Connection;
 import java.sql.SQLException;
 import jakarta.validation.ConstraintViolationException;
 import java.util.List;
@@ -13,17 +16,17 @@ public class AdminControlador {
 
     public void registrarAdmin(String nombre, String email, String contrasena)
             throws ConstraintViolationException, IllegalArgumentException, SQLException {
-        // Validar todos los campos (nombre, contraseña y email)
+
         validacion.validarCompleto(nombre, email, contrasena);
 
-        // Verificar si el admin ya existe
-        if (existeAdminPorEmail(email)) {
-            throw new IllegalArgumentException("Ya existe un administrador con el email: " + email);
-        }
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN)) {
+            if (adminDAO.existeEmail(email, conn)) {
+                throw new IllegalArgumentException("Ya existe un administrador con el email: " + email);
+            }
 
-        // Registrar en la base de datos
-        if (!adminDAO.postRegistrar(nombre, contrasena, email)) {
-            throw new SQLException("No se pudo registrar el administrador");
+            if (!adminDAO.postRegistrar(nombre, contrasena, email, conn)) {
+                throw new SQLException("No se pudo registrar el administrador");
+            }
         }
     }
 
@@ -31,8 +34,10 @@ public class AdminControlador {
             throws ConstraintViolationException, IllegalArgumentException, SQLException {
         validacion.validarCompleto(nombre, emailNuevo, contrasena);
 
-        if (!adminDAO.updateActualizarDatosPersonales(nombre, contrasena, emailViejo, emailNuevo)) {
-            throw new SQLException("No se pudo actualizar el administrador");
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN)) {
+            if (!adminDAO.updateActualizarDatosPersonales(nombre, contrasena, emailViejo, emailNuevo, conn)) {
+                throw new SQLException("No se pudo actualizar el administrador");
+            }
         }
     }
 
@@ -40,16 +45,17 @@ public class AdminControlador {
             throws ConstraintViolationException, IllegalArgumentException, SQLException {
         validacion.validarParaLogin(email, contrasena);
 
-        if (!adminDAO.getLogin(email, contrasena)) {
-            throw new IllegalArgumentException("Credenciales inválidas");
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN)) {
+            if (!adminDAO.getLogin(email, contrasena, conn)) {
+                throw new IllegalArgumentException("Credenciales inválidas");
+            }
         }
-        System.out.println("logeado");
     }
 
     private boolean existeAdminPorEmail(String email) throws SQLException {
-        try {
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN)) {
             validacion.validarParaLogin(email, "passwordprueba");
-            return adminDAO.existeEmail(email);
+            return adminDAO.existeEmail(email, conn);
         } catch (ConstraintViolationException e) {
             return false;
         }
@@ -57,21 +63,22 @@ public class AdminControlador {
 
     public void eliminarAdmin(String email)
             throws ConstraintViolationException, IllegalArgumentException, SQLException {
-        // Validar que el email tenga formato correcto
         validacion.validarParaLogin(email, "contrasena123");
 
-        // Verificar que el admin exista antes de intentar eliminarlo
-        if (!existeAdminPorEmail(email)) {
-            throw new IllegalArgumentException("No existe un administrador con el email: " + email);
-        }
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN)) {
+            if (!adminDAO.existeEmail(email, conn)) {
+                throw new IllegalArgumentException("No existe un administrador con el email: " + email);
+            }
 
-        // Ejecutar eliminación
-        if (!adminDAO.deleteEliminarAdmin(email)) {
-            throw new SQLException("No se pudo eliminar el administrador. Verifique el email proporcionado");
+            if (!adminDAO.deleteEliminarAdmin(email, conn)) {
+                throw new SQLException("No se pudo eliminar el administrador");
+            }
         }
     }
-    
+
     public List<Admin> obtenerAdmins() throws SQLException {
-        return adminDAO.getAdministradores();
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN)) {
+            return adminDAO.getAdministradores(conn);
+        }
     }
 }
