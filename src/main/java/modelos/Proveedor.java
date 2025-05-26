@@ -3,7 +3,7 @@ package modelos;
 import jakarta.validation.constraints.*;
 
 public class Proveedor {
-    
+    private int id;
     
     @NotBlank(message = "RFC no puede estar vacío")
     @Size(min = 12, max = 13, message = "RFC debe tener entre 12 y 13 caracteres")
@@ -65,5 +65,13 @@ public class Proveedor {
                 ", razon_social='" + razon_social + '\'' +
                 ", ciudad='" + ciudad + '\'' +
                 '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
