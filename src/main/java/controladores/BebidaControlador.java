@@ -1,13 +1,11 @@
 package controladores;
 
 import modelos.Bebida;
-import modelos.conexiones.UsuarioFactory;
 import modelos.daos.implementaciones.BebidaDAOimpl;
 import modelos.utiles.validaciones.BebidaValidacion;
 import jakarta.validation.ConstraintViolationException;
 import modelos.views.EstadisticaVentaProductos;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -22,27 +20,23 @@ public class BebidaControlador {
         validacion.validarCompleto(precioUnitario, stockMinimo, stockActual, nombre, tamaño, categoria);
         Bebida bebida = validacion.getBebidaValidada();
 
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN)) {
-            if (!bebidaDAO.postRegistrar(bebida, conn)) {
-                throw new SQLException("No se pudo registrar la bebida");
-            }
+        if (!bebidaDAO.postRegistrar(bebida)) {
+            throw new SQLException("No se pudo registrar la bebida");
         }
     }
 
     public void eliminarBebida(String nombreBebida) throws SQLException, IllegalStateException {
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN)) {
-            Integer idBebida = bebidaDAO.obtenerIdPorNombre(nombreBebida, conn);
-            if (idBebida == null) {
-                throw new SQLException("No se encontró la bebida con el nombre especificado");
-            }
+        Integer idBebida = bebidaDAO.obtenerIdPorNombre(nombreBebida);
+        if (idBebida == null) {
+            throw new SQLException("No se encontró la bebida con el nombre especificado");
+        }
 
-            if (bebidaDAO.existeEnRelaciones(idBebida, conn)) {
-                throw new IllegalStateException("No se puede eliminar la bebida porque está asociada a registros");
-            }
+        if (bebidaDAO.existeEnRelaciones(idBebida)) {
+            throw new IllegalStateException("No se puede eliminar la bebida porque está asociada a registros");
+        }
 
-            if (!bebidaDAO.deleteEliminar(nombreBebida, conn)) {
-                throw new SQLException("No se pudo eliminar la bebida");
-            }
+        if (!bebidaDAO.deleteEliminar(nombreBebida)) {
+            throw new SQLException("No se pudo eliminar la bebida");
         }
     }
 
@@ -53,43 +47,33 @@ public class BebidaControlador {
         validacion.validarCompleto(precioUnitario, stockMinimo, stockActual, nombre, tamaño, categoria);
         Bebida bebida = validacion.getBebidaValidada();
 
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN)) {
-            Integer idBebida = bebidaDAO.obtenerIdPorNombre(nombreAntiguo, conn);
-            if (idBebida == null) {
-                throw new SQLException("No se encontró la bebida con el nombre especificado");
-            }
+        Integer idBebida = bebidaDAO.obtenerIdPorNombre(nombreAntiguo);
+        if (idBebida == null) {
+            throw new SQLException("No se encontró la bebida con el nombre especificado");
+        }
 
-            if (bebidaDAO.existeEnRelaciones(idBebida, conn)) {
-                throw new IllegalStateException("No se puede modificar la bebida porque está asociada a registros");
-            }
+        if (bebidaDAO.existeEnRelaciones(idBebida)) {
+            throw new IllegalStateException("No se puede modificar la bebida porque está asociada a registros");
+        }
 
-            if (!bebidaDAO.updateBebida(nombreAntiguo, bebida, conn)) {
-                throw new SQLException("No se pudo actualizar la bebida");
-            }
+        if (!bebidaDAO.updateBebida(nombreAntiguo, bebida)) {
+            throw new SQLException("No se pudo actualizar la bebida");
         }
     }
 
     public Bebida obtenerBebidaPorNombre(String nombre) throws SQLException {
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN)) {
-            return bebidaDAO.obtenerBebida(nombre, conn);
-        }
+        return bebidaDAO.obtenerBebida(nombre);
     }
 
     public List<Bebida> obtenerTodasLasBebidas() throws SQLException {
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN)) {
-            return bebidaDAO.obtenerBebidas(conn);
-        }
+        return bebidaDAO.obtenerBebidas();
     }
 
     public List<EstadisticaVentaProductos> obtenerBebidasMenosVendidas() throws SQLException {
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN)) {
-            return bebidaDAO.obtenerBebidasMenosVendidas(conn);
-        }
+        return bebidaDAO.obtenerBebidasMenosVendidas();
     }
 
     public List<EstadisticaVentaProductos> obtenerBebidasMasVendidas() throws SQLException {
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN)) {
-            return bebidaDAO.obtenerBebidasMasVendidas(conn);
-        }
+        return bebidaDAO.obtenerBebidasMasVendidas();
     }
 }

@@ -1,12 +1,12 @@
 package modelos.daos.implementaciones;
 
+import modelos.conexiones.UsuarioFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import modelos.conexiones.BaseDeDatosConexion;
 
 public class PromocionDAOimpl {
 
@@ -14,7 +14,7 @@ public class PromocionDAOimpl {
         String sql = "SELECT id_promocion FROM Promocion_Bebida WHERE id_bebida = ?";
         List<Integer> promociones = new ArrayList<>();
 
-        try (Connection conn = BaseDeDatosConexion.obtenerConeccion();
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, idBebida);
@@ -33,7 +33,7 @@ public class PromocionDAOimpl {
         String sql = "SELECT id_promocion FROM Promocion_Cliente WHERE id_cliente = ?";
         List<Integer> promociones = new ArrayList<>();
 
-        try (Connection conn = BaseDeDatosConexion.obtenerConeccion();
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, idCliente);
