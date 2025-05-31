@@ -18,22 +18,21 @@ public class BaseDeDatosConexion {
         }
     }
 
-        public static Connection obtenerConeccion() throws SQLException {
-            if (connection == null || connection.isClosed()) {
-                inicializarConnecion();
-            }
-            return connection;
+    public static Connection obtenerConeccion() throws SQLException {
+        if (connection == null || connection.isClosed()) {
+            inicializarConnecion();
         }
-
-        public static void CerrarConneciones() throws SQLException {
-            if (connection != null) {
-                    connection.close();
-                    System.out.println("Database connection closed.");
-
-            }
-        }
-
-        public static void tryConneccion() throws SQLException {
-                BaseDeDatosConexion.inicializarConnecion();
-        }
+        return connection;
     }
+
+    public static void CerrarConneciones() throws SQLException {
+        if (connection != null) {
+                connection.close();
+                System.out.println("Database connection closed.");
+            }
+        }
+
+    public static void tryConneccion() throws SQLException {
+        BaseDeDatosConexion.inicializarConnecion();
+    }
+}

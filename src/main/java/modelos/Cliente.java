@@ -4,15 +4,8 @@ import jakarta.validation.constraints.*;
 
 public class Cliente {
     
-        private int id; 
+    private int id; 
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
     @NotBlank(message = "Nombre no puede estar vacío")
     @Size(max = 25, message = "El nombre no debe exceder los 25 caracteres")
     private String nombre;
@@ -50,6 +43,8 @@ public class Cliente {
     public Cliente() {}
 
     // Getters y Setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public String getPaterno() { return paterno; }

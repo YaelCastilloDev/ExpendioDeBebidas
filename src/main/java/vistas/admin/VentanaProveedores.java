@@ -367,7 +367,7 @@ public class VentanaProveedores extends javax.swing.JFrame {
                     controlador.eliminarProveedor(rfc);
                     cargarTablaProveedores();
                     JOptionPane.showMessageDialog(this, "Proveedor eliminado con éxito.");
-                } catch (SQLException e) {
+                } catch (SQLException | IllegalArgumentException | IllegalStateException e) {
                     JOptionPane.showMessageDialog(this, e.getMessage(),
                             "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
@@ -403,7 +403,7 @@ public class VentanaProveedores extends javax.swing.JFrame {
             cargarTablaProveedores();
         } catch (ConstraintViolationException e) {
             mostrarErroresValidacion(e);
-        } catch (SQLException e) {
+        } catch (SQLException | IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(),
                     "ERROR", JOptionPane.ERROR_MESSAGE);
         }

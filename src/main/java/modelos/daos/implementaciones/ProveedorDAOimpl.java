@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modelos.Proveedor;
+import modelos.conexiones.BaseDeDatosConexion;
 import modelos.conexiones.UsuarioFactory;
 import modelos.daos.contratos.ProveedorDAO;
 
@@ -125,5 +126,25 @@ public class ProveedorDAOimpl implements ProveedorDAO {
         }
 
         return proveedores;
+    }
+    
+    public boolean existeEnRelaciones(String rfc) throws SQLException {
+        String query = "SELECT (EXISTS (SELECT 1 FROM pedido_proveedor "
+                + "WHERE rfc = ?)) AS existe;";
+        Connection connection = BaseDeDatosConexion.obtenerConeccion();
+        PreparedStatement stmt = connection.prepareStatement(query);
+        
+        stmt.setString(1, rfc);
+        ResultSet rs = stmt.executeQuery();
+        
+        boolean existe = false;
+        if (rs.next()) {
+            existe = rs.getBoolean("existe");
+        }
+        connection.close();
+        stmt.close();
+        rs.close();
+        
+        return existe;
     }
 }
