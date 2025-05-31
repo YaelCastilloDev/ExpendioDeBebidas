@@ -1,17 +1,18 @@
 package modelos;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Venta {
     private int idVenta;
     private String folio;
-    private Date fecha;
+    private LocalDate fecha;
     private int idPedidoCliente;
 
     // Constructors
     public Venta() {}
 
-    public Venta(int idVenta, String folio, Date fecha, int idPedidoCliente) {
+    public Venta(int idVenta, String folio, LocalDate fecha, int idPedidoCliente) {
         this.idVenta = idVenta;
         this.folio = folio;
         this.fecha = fecha;
@@ -35,11 +36,11 @@ public class Venta {
         this.folio = folio;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

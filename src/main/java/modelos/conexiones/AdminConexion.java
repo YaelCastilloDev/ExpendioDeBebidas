@@ -18,7 +18,7 @@ public class AdminConexion {
     public static void inicializarConnecion() throws SQLException {
         if (connection == null || connection.isClosed()) {
             String user = "expendioAdmin";
-            String password = "expendioAdmin-12345";
+            String password = "123456";
             String url = "jdbc:mysql://localhost:3306/expendio_bebidas";
 
             connection = DriverManager.getConnection(url, user, password);

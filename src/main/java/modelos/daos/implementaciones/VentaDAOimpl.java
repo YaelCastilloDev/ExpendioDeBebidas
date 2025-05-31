@@ -2,15 +2,17 @@ package modelos.daos.implementaciones;
 
 import modelos.Venta;
 import modelos.daos.contratos.VentaDAO;
-import java.sql.*;
 import modelos.conexiones.UsuarioFactory;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.Date;
 
 public class VentaDAOimpl implements VentaDAO {
 
     @Override
     public Venta procesarPedidoCompleto(int idCliente, String fecha, String estado,
-                                        int idBebida, int cantidad, String folioVenta,
-                                        Connection ignored) throws SQLException {
+                                        int idBebida, int cantidad, String folioVenta)
+            throws SQLException {
 
         String sql = "{CALL sp_transaccion_pedido_completo(?, ?, ?, ?, ?, ?, ?, ?)}";
         Venta venta = new Venta();
@@ -32,11 +34,10 @@ public class VentaDAOimpl implements VentaDAO {
             String resultado = stmt.getString(7);
             int idPedidoGenerado = stmt.getInt(8);
 
-            if (resultado != null && resultado.contains("exitosamente")) {
-                if ("ENTREGADO".equals(estado)) {
-                    venta = obtenerVentaPorPedido(idPedidoGenerado, conn);
-                }
+            if (resultado != null && idPedidoGenerado > 0) {
+                venta = obtenerVentaPorPedido(idPedidoGenerado);
                 venta.setIdPedidoCliente(idPedidoGenerado);
+                venta.setFolio(folioVenta);
                 return venta;
             } else {
                 throw new SQLException(resultado != null ? resultado : "Error desconocido al procesar el pedido");
@@ -44,23 +45,21 @@ public class VentaDAOimpl implements VentaDAO {
         }
     }
 
+    private Venta obtenerVentaPorPedido(int idPedido) throws SQLException {
+        String sql = "SELECT id_venta, fecha FROM venta WHERE id_pedido_cliente = ?";
+        Venta venta = new Venta();
 
-    private Venta obtenerVentaPorPedido(int idPedido, Connection conn) throws SQLException {
-        String sql = "SELECT id_venta, folio, fecha FROM Venta WHERE id_pedido_cliente = ?";
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, idPedido);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    Venta venta = new Venta();
                     venta.setIdVenta(rs.getInt("id_venta"));
-                    venta.setFolio(rs.getString("folio"));
-                    venta.setFecha(rs.getDate("fecha"));
-                    return venta;
-                }
+                    venta.setFecha(rs.getDate("fecha").toLocalDate());                }
             }
         }
-        return new Venta(); // Return empty sale if not found (shouldn't happen for ENTREGADO status)
+        return venta;
     }
 }
