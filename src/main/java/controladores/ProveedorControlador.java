@@ -99,7 +99,7 @@ public class ProveedorControlador {
     }
 
     public void eliminarProveedor(String rfc)
-            throws ConstraintViolationException, IllegalArgumentException, SQLException {
+            throws ConstraintViolationException, IllegalArgumentException, IllegalStateException, SQLException {
         
         // Validación básica del RFC
         if (rfc == null || rfc.length() < 12 || rfc.length() > 13) {
@@ -109,6 +109,10 @@ public class ProveedorControlador {
         // Verificar que el proveedor exista antes de intentar eliminarlo
         if (!existeProveedorPorRfc(rfc)) {
             throw new IllegalArgumentException("No existe un proveedor con el RFC: " + rfc);
+        }
+        
+        if (proveedorDAO.existeEnRelaciones(rfc)) {
+            throw new IllegalStateException("No se puede eliminar el proveedor porque está asociado a registros");
         }
 
         // Ejecutar eliminación
