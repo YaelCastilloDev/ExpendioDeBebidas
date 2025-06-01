@@ -1,32 +1,36 @@
 package company.expendiodebebidas;
 
-import controladores.VentaControlador;
+import modelos.daos.implementaciones.PedidoClienteDAOimpl;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 public class prueba {
     public static void main(String[] args) {
-        VentaControlador controlador = new VentaControlador();
+        PedidoClienteDAOimpl pedidoDAO = new PedidoClienteDAOimpl();
 
         try {
-            // Example data - replace with your actual test data
-            int idCliente = 1;
-            String fecha = "2023-12-15"; // Format: yyyy-MM-dd
-            String estado = "PENDIENTE";
-            int idBebida = 5;
-            int cantidad = 2;
-            String folioVenta = "FOLIO123";
+            // 1. Crear un nuevo pedido
+            int idPedido = pedidoDAO.crearPedidoCliente(
+                    1,                      // ID del cliente
+                    "2023-12-15",           // Fecha del pedido
+                    "PENDIENTE"             // Estado del pedido
+            );
+            System.out.println("Pedido creado con ID: " + idPedido);
 
-            // Process the order
-            var venta = controlador.procesarPedido(idCliente, fecha, estado,
-                    idBebida, cantidad, folioVenta);
+            // 2. Añadir primer detalle al pedido
+            boolean detalle1 = pedidoDAO.agregarDetallePedido(
+                    idPedido,               // ID del pedido recién creado
+                    1,                      // ID de la primera bebida
+                    2                       // Cantidad de la primera bebida
+            );
+            System.out.println("Primer detalle añadido: " + (detalle1 ? "Éxito" : "Fallo"));
 
-            // Print the Venta object
-            System.out.println("Venta creada:");
-            System.out.println("ID Venta: " + venta.getIdVenta());
-            System.out.println("Folio: " + venta.getFolio());
-            System.out.println("Fecha: " + venta.getFecha());
-            System.out.println("ID Pedido Cliente: " + venta.getIdPedidoCliente());
+            // 3. Añadir segundo detalle al pedido
+            boolean detalle2 = pedidoDAO.agregarDetallePedido(
+                    idPedido,               // Mismo ID de pedido
+                    8,                      // ID de la segunda bebida
+                    3                       // Cantidad de la segunda bebida
+            );
+            System.out.println("Segundo detalle añadido: " + (detalle2 ? "Éxito" : "Fallo"));
 
         } catch (SQLException e) {
             System.err.println("Error al procesar el pedido:");
