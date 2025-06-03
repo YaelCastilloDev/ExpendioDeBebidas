@@ -1,8 +1,11 @@
 package modelos.daos.implementaciones;
 
+import modelos.Pedido_Cliente;
 import modelos.daos.contratos.PedidoClienteDAO;
 import modelos.conexiones.UsuarioFactory;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PedidoClienteDAOimpl implements PedidoClienteDAO {
 
@@ -48,5 +51,64 @@ public class PedidoClienteDAOimpl implements PedidoClienteDAO {
 
             throw new SQLException("No se pudo obtener el ID del pedido creado");
         }
+    }
+
+    @Override
+    public boolean cancelarPedido(int idPedidoCliente) throws SQLException {
+        String sql = "UPDATE pedido_cliente SET estado = 'CANCELADO' " +
+                "WHERE id_pedido_cliente = ?";
+
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idPedidoCliente);
+
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+        }
+    }
+
+    @Override
+    public boolean entregarPedido(int idPedidoCliente) throws SQLException {
+        String sql = "UPDATE pedido_cliente SET estado = 'ENTREGADO' " +
+                "WHERE id_pedido_cliente = ?";
+
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idPedidoCliente);
+
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+        }
+    }
+
+    @Override
+    public List<Pedido_Cliente> buscarPedidosPendientes(int idCliente) throws SQLException {
+        String sql = "SELECT id_pedido_cliente, fecha, total, estado, id_cliente " +
+                "FROM pedido_cliente " +
+                "WHERE estado = 'PENDIENTE' AND id_cliente = ?";
+
+        List<Pedido_Cliente> resultados = new ArrayList<>();
+
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idCliente);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Pedido_Cliente pedido = new Pedido_Cliente();
+                    pedido.setId_pedido_cliente(rs.getInt("id_pedido_cliente"));
+                    pedido.setFecha(rs.getDate("fecha").toLocalDate());
+                    pedido.setTotal(rs.getBigDecimal("total"));
+                    pedido.setEstado(rs.getString("estado"));
+                    pedido.setId_cliente(rs.getInt("id_cliente"));
+
+                    resultados.add(pedido);
+                }
+            }
+        }
+        return resultados;
     }
 }

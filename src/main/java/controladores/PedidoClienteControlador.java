@@ -1,7 +1,9 @@
 package controladores;
 
+import modelos.Pedido_Cliente;
 import modelos.daos.implementaciones.PedidoClienteDAOimpl;
 import java.sql.SQLException;
+import java.util.List;
 
 public class PedidoClienteControlador {
     private final PedidoClienteDAOimpl pedidoDAO = new PedidoClienteDAOimpl();
@@ -24,7 +26,7 @@ public class PedidoClienteControlador {
         return pedidoDAO.crearPedidoCliente(idCliente, fecha, estado);
     }
 
-    public boolean agregarDetalle(int idPedido, int idBebida, int cantidad)
+    public boolean agregarDetallePedido(int idPedido, int idBebida, int cantidad)
             throws SQLException, IllegalArgumentException {
 
         if (idPedido <= 0) {
@@ -46,9 +48,21 @@ public class PedidoClienteControlador {
                                           int idBebida, int cantidad) throws SQLException {
         try {
             int idPedido = crearPedido(idCliente, fecha, estado);
-            return agregarDetalle(idPedido, idBebida, cantidad);
+            return agregarDetallePedido(idPedido, idBebida, cantidad);
         } catch (IllegalArgumentException e) {
             throw new SQLException("Datos inválidos: " + e.getMessage());
         }
+    }
+
+    public boolean entregarPedido(int idPedidoCliente) throws SQLException {
+        return pedidoDAO.entregarPedido(idPedidoCliente);
+    }
+
+    public List<Pedido_Cliente> buscarPedidosPendientes(int idCliente) throws SQLException {
+        return pedidoDAO.buscarPedidosPendientes(idCliente);
+    }
+
+    public boolean cancelarPedido(int idPedidoCliente) throws SQLException {
+        return pedidoDAO.cancelarPedido(idPedidoCliente);
     }
 }
