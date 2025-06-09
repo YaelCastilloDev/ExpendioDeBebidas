@@ -4,7 +4,6 @@ import modelos.Bebida;
 import modelos.daos.implementaciones.BebidaDAOimpl;
 import modelos.utiles.validaciones.BebidaValidacion;
 import jakarta.validation.ConstraintViolationException;
-import modelos.views.EstadisticaVentaProductos;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -67,13 +66,5 @@ public class BebidaControlador {
 
     public List<Bebida> obtenerTodasLasBebidas() throws SQLException {
         return bebidaDAO.obtenerBebidas();
-    }
-
-    public List<EstadisticaVentaProductos> obtenerBebidasMenosVendidas() throws SQLException {
-        return bebidaDAO.obtenerBebidasMenosVendidas();
-    }
-
-    public List<EstadisticaVentaProductos> obtenerBebidasMasVendidas() throws SQLException {
-        return bebidaDAO.obtenerBebidasMasVendidas();
     }
 }

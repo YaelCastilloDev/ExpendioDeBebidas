@@ -8,6 +8,9 @@ public class VentasMensuales {
     private BigDecimal totalMensual;
     private long cantidadVentas;  // long (no Long) para evitar null y forzar positivo
 
+    public VentasMensuales() {
+    }
+    
     // Constructor
     public VentasMensuales(Integer año, Integer mes, BigDecimal totalMensual, long cantidadVentas) {
         setAño(año);

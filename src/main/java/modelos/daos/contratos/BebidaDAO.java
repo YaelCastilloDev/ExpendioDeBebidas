@@ -3,7 +3,6 @@ package modelos.daos.contratos;
 import modelos.Bebida;
 import java.sql.SQLException;
 import java.util.List;
-import modelos.views.EstadisticaVentaProductos;
 
 public interface BebidaDAO {
     boolean postRegistrar(Bebida bebida) throws SQLException;
@@ -17,6 +16,4 @@ public interface BebidaDAO {
     boolean existeEnDetallePedidoCliente(int idBebida) throws SQLException;
     boolean existeEnRelaciones(int idBebida) throws SQLException;
     Integer obtenerIdPorNombre(String nombreBebida) throws SQLException;
-    List<EstadisticaVentaProductos> obtenerBebidasMenosVendidas() throws SQLException;
-    List<EstadisticaVentaProductos> obtenerBebidasMasVendidas() throws SQLException;
 }
