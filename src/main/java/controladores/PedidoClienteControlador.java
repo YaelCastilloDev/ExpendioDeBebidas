@@ -19,9 +19,7 @@ public class PedidoClienteControlador {
             throw new IllegalArgumentException("Fecha no puede estar vacía");
         }
 
-        if (!estado.equals("PENDIENTE") && !estado.equals("ENTREGADO") && !estado.equals("CANCELADO")) {
-            throw new IllegalArgumentException("Estado inválido. Debe ser PENDIENTE, ENTREGADO o CANCELADO");
-        }
+
 
         return pedidoDAO.crearPedidoCliente(idCliente, fecha, estado);
     }
