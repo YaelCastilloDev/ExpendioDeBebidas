@@ -92,7 +92,7 @@ public class ReportesDAOimpl implements ReportesDAO {
             while (rs.next()) {
                 EstadisticaVentaProductos estadisticas = new EstadisticaVentaProductos();
                 estadisticas.setIdBebida(rs.getInt("id_bebida"));
-                estadisticas.setNombreBebida(rs.getString("nombbre"));
+                estadisticas.setNombreBebida(rs.getString("nombre"));
                 estadisticas.setTotalVendido(rs.getInt("total_vendida"));
                 resultados.add(estadisticas);
             }
@@ -112,7 +112,7 @@ public class ReportesDAOimpl implements ReportesDAO {
             while (rs.next()) {
                 EstadisticaVentaProductos estadisticas = new EstadisticaVentaProductos();
                 estadisticas.setIdBebida(rs.getInt("id_bebida"));
-                estadisticas.setNombreBebida(rs.getString("nombbre"));
+                estadisticas.setNombreBebida(rs.getString("nombre"));
                 estadisticas.setTotalVendido(rs.getInt("total_vendida"));
                 resultados.add(estadisticas);
             }
@@ -122,7 +122,7 @@ public class ReportesDAOimpl implements ReportesDAO {
 
     @Override
     public List<EstadisticaVentaProductos> obtenerVentasPorProducto() throws SQLException {
-        String sql = "SELECT id_bebida, nombre, cantidad_vendida, total_vendida FROM Ventas_Por_Producto";
+        String sql = "SELECT id_bebida, producto, cantidad_vendida, total_ventas FROM Ventas_Por_Producto";
         List<EstadisticaVentaProductos> resultados = new ArrayList<>();
 
         try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
@@ -132,8 +132,8 @@ public class ReportesDAOimpl implements ReportesDAO {
             while (rs.next()) {
                 EstadisticaVentaProductos estadisticas = new EstadisticaVentaProductos();
                 estadisticas.setIdBebida(rs.getInt("id_bebida"));
-                estadisticas.setNombreBebida(rs.getString("nombbre"));
-                estadisticas.setTotalVendido(rs.getInt("total_vendida"));
+                estadisticas.setNombreBebida(rs.getString("producto"));
+                estadisticas.setTotalVendido(rs.getInt("total_ventas"));
                 estadisticas.setCantidadVendida(rs.getInt("cantidad_vendida"));
                 resultados.add(estadisticas);
             }

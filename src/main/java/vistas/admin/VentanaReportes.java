@@ -1,10 +1,36 @@
 package vistas.admin;
 
+import controladores.ReporteControlador;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.sql.SQLException;
+import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import modelos.views.AnalisisVentas;
+import modelos.views.EstadisticaVentaProductos;
+import modelos.views.StockProductos;
+import modelos.views.VentasAnuales;
+import modelos.views.VentasMensuales;
+import modelos.views.VentasSemanales;
+
 public class VentanaReportes extends javax.swing.JFrame {
+    private ReporteControlador controlador = new ReporteControlador();
+    private boolean[] pestañasCargadas = new boolean[10];
 
     public VentanaReportes() {
         initComponents();
         setLocationRelativeTo(null);
+        cargarTablaAnalisis();
     }
 
     /**
@@ -16,23 +42,877 @@ public class VentanaReportes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        reportes = new javax.swing.JTabbedPane();
+        analisisVentas = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaAnalisis = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        semanales = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaSemanales = new javax.swing.JTable();
+        mensuales = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tablaMensuales = new javax.swing.JTable();
+        anuales = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablaAnuales = new javax.swing.JTable();
+        masVendido = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane = new javax.swing.JScrollPane();
+        tablaMasVendidos = new javax.swing.JTable();
+        menosVendido = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tablaMenosVendidos = new javax.swing.JTable();
+        porProducto = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tablaVentasProductos = new javax.swing.JTable();
+        inventario = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tablaInventario = new javax.swing.JTable();
+        noVendidoPorCliente = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        tablaNoVendidosCliente = new javax.swing.JTable();
+        masVendidoPorCliente = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        tablaMasVendidoCliente = new javax.swing.JTable();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("REPORTES DE VENTAS");
         setResizable(false);
+
+        jPanel1.setBackground(new java.awt.Color(0, 43, 91));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Reportes de Ventas");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        reportes.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                reportesStateChanged(evt);
+            }
+        });
+
+        tablaAnalisis.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaAnalisis);
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setText("Análisis de Ventas");
+
+        javax.swing.GroupLayout analisisVentasLayout = new javax.swing.GroupLayout(analisisVentas);
+        analisisVentas.setLayout(analisisVentasLayout);
+        analisisVentasLayout.setHorizontalGroup(
+            analisisVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(analisisVentasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(analisisVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 967, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+        analisisVentasLayout.setVerticalGroup(
+            analisisVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, analisisVentasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        reportes.addTab("Análisis de Ventas", analisisVentas);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setText("Ventas Semanales");
+
+        tablaSemanales.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tablaSemanales);
+
+        javax.swing.GroupLayout semanalesLayout = new javax.swing.GroupLayout(semanales);
+        semanales.setLayout(semanalesLayout);
+        semanalesLayout.setHorizontalGroup(
+            semanalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(semanalesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(semanalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(semanalesLayout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        semanalesLayout.setVerticalGroup(
+            semanalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(semanalesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        reportes.addTab("Semanales", semanales);
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setText("Ventas Mensuales");
+
+        tablaMensuales.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(tablaMensuales);
+
+        javax.swing.GroupLayout mensualesLayout = new javax.swing.GroupLayout(mensuales);
+        mensuales.setLayout(mensualesLayout);
+        mensualesLayout.setHorizontalGroup(
+            mensualesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mensualesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mensualesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mensualesLayout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        mensualesLayout.setVerticalGroup(
+            mensualesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mensualesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        reportes.addTab("Mensuales", mensuales);
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel6.setText("Ventas Anuales");
+
+        tablaAnuales.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(tablaAnuales);
+
+        javax.swing.GroupLayout anualesLayout = new javax.swing.GroupLayout(anuales);
+        anuales.setLayout(anualesLayout);
+        anualesLayout.setHorizontalGroup(
+            anualesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(anualesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(anualesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(anualesLayout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        anualesLayout.setVerticalGroup(
+            anualesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(anualesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        reportes.addTab("Anuales", anuales);
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel7.setText("Productos más vendidos");
+
+        tablaMasVendidos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane.setViewportView(tablaMasVendidos);
+
+        javax.swing.GroupLayout masVendidoLayout = new javax.swing.GroupLayout(masVendido);
+        masVendido.setLayout(masVendidoLayout);
+        masVendidoLayout.setHorizontalGroup(
+            masVendidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(masVendidoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(masVendidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(masVendidoLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        masVendidoLayout.setVerticalGroup(
+            masVendidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(masVendidoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        reportes.addTab("Más Vendido", masVendido);
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel8.setText("Productos menos vendidos");
+
+        tablaMenosVendidos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane5.setViewportView(tablaMenosVendidos);
+
+        javax.swing.GroupLayout menosVendidoLayout = new javax.swing.GroupLayout(menosVendido);
+        menosVendido.setLayout(menosVendidoLayout);
+        menosVendidoLayout.setHorizontalGroup(
+            menosVendidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(menosVendidoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(menosVendidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(menosVendidoLayout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        menosVendidoLayout.setVerticalGroup(
+            menosVendidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(menosVendidoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        reportes.addTab("Menos Vendido", menosVendido);
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel9.setText("Ventas organizadas por productos");
+
+        tablaVentasProductos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane6.setViewportView(tablaVentasProductos);
+
+        javax.swing.GroupLayout porProductoLayout = new javax.swing.GroupLayout(porProducto);
+        porProducto.setLayout(porProductoLayout);
+        porProductoLayout.setHorizontalGroup(
+            porProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(porProductoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(porProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(porProductoLayout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        porProductoLayout.setVerticalGroup(
+            porProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(porProductoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        reportes.addTab("Por Producto", porProducto);
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel10.setText("Productos con stock mínimo");
+
+        tablaInventario.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane7.setViewportView(tablaInventario);
+
+        javax.swing.GroupLayout inventarioLayout = new javax.swing.GroupLayout(inventario);
+        inventario.setLayout(inventarioLayout);
+        inventarioLayout.setHorizontalGroup(
+            inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(inventarioLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(inventarioLayout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        inventarioLayout.setVerticalGroup(
+            inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(inventarioLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        reportes.addTab("Inventario", inventario);
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel11.setText("Productos no vendidos a un cliente");
+
+        tablaNoVendidosCliente.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane8.setViewportView(tablaNoVendidosCliente);
+
+        javax.swing.GroupLayout noVendidoPorClienteLayout = new javax.swing.GroupLayout(noVendidoPorCliente);
+        noVendidoPorCliente.setLayout(noVendidoPorClienteLayout);
+        noVendidoPorClienteLayout.setHorizontalGroup(
+            noVendidoPorClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(noVendidoPorClienteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(noVendidoPorClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(noVendidoPorClienteLayout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        noVendidoPorClienteLayout.setVerticalGroup(
+            noVendidoPorClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(noVendidoPorClienteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        reportes.addTab("No Vendido/Cliente", noVendidoPorCliente);
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setText("Productos más vendidos a un cliente");
+
+        tablaMasVendidoCliente.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane9.setViewportView(tablaMasVendidoCliente);
+
+        javax.swing.GroupLayout masVendidoPorClienteLayout = new javax.swing.GroupLayout(masVendidoPorCliente);
+        masVendidoPorCliente.setLayout(masVendidoPorClienteLayout);
+        masVendidoPorClienteLayout.setHorizontalGroup(
+            masVendidoPorClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(masVendidoPorClienteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(masVendidoPorClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(masVendidoPorClienteLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        masVendidoPorClienteLayout.setVerticalGroup(
+            masVendidoPorClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(masVendidoPorClienteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        reportes.addTab("Más Vendido/Cliente", masVendidoPorCliente);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1200, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(reportes)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(reportes)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void reportesStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_reportesStateChanged
+        reportes.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int indice = reportes.getSelectedIndex();
+                switch (indice) {
+                    case 0:
+                        if (!pestañasCargadas[indice]) {
+                            pestañasCargadas[indice] = true;
+                            cargarTablaAnalisis();
+                        }
+                        break;
+                    case 1:
+                        if (!pestañasCargadas[indice]) {
+                            pestañasCargadas[indice] = true;
+                            cargarTablaSemanales();
+                        }
+                        break;
+                    case 2:
+                        if (!pestañasCargadas[indice]) {
+                            pestañasCargadas[indice] = true;
+                            cargarTablaMensuales();
+                        }
+                        break;
+                    case 3:
+                        if (!pestañasCargadas[indice]) {
+                            pestañasCargadas[indice] = true;
+                            cargarTablaAnuales();
+                        }
+                        break;
+                    case 4:
+                        if (!pestañasCargadas[indice]) {
+                            pestañasCargadas[indice] = true;
+                            cargarTablaMasVendido();
+                        }
+                        break;
+                    case 5:
+                        if (!pestañasCargadas[indice]) {
+                            pestañasCargadas[indice] = true;
+                            cargarTablaMenosVendido();
+                        }
+                        break;
+                    case 6:
+                        if (!pestañasCargadas[indice]) {
+                            pestañasCargadas[indice] = true;
+                            cargarTablaVentasPorProducto();
+                        }
+                        break;
+                    case 7:
+                        if (!pestañasCargadas[indice]) {
+                            pestañasCargadas[indice] = true;
+                            cargarTablaInventario();
+                        }
+                        break;
+                    case 8:
+                        if (!pestañasCargadas[indice]) {
+                            pestañasCargadas[indice] = true;
+                            cargarTablaNoVendidoPorCliente();
+                        }
+                        break;
+                    case 9:
+                        if (!pestañasCargadas[indice]) {
+                            pestañasCargadas[indice] = true;
+                            cargarTablaMasVendidoPorCliente();
+                        }
+                        break;
+                }
+            }
+        });
+    }//GEN-LAST:event_reportesStateChanged
+    
+    private void cargarTablaAnalisis() {
+        try {
+            List<AnalisisVentas> analisis = controlador.obtenerAnalisisVentas();
+            DefaultTableModel modelo = new DefaultTableModel();
+            
+            modelo.setColumnIdentifiers(new Object[]{"Bebida", "Categoría", "Stock Actual",
+            "Stock Mínimo", "Clientes Únicos", "Total Vendido", "Ingresos Totales", "Estado Venta"});
+            for (AnalisisVentas a : analisis) {
+                modelo.addRow(new Object[]{
+                    a.getBebida(),
+                    a.getCategoria(),
+                    a.getStockActual(),
+                    a.getStockMinimo(),
+                    a.getClientesUnicos(),
+                    a.getTotalVendida(),
+                    a.getIngresosTotales(),
+                    a.getEstadoVenta()
+                });
+            }
+            tablaAnalisis.setModel(modelo);
+            personalizarTabla(tablaAnalisis);
+            forzarColorEncabezado(tablaAnalisis);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar el reporte: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
+    private void cargarTablaSemanales() {
+        try {
+            List<VentasSemanales> semanales = controlador.obtenerVentasSemanales();
+            DefaultTableModel modelo = new DefaultTableModel();
+            
+            modelo.setColumnIdentifiers(new Object[]{"Año", "Semana",
+            "Total Semanal", "Cantidad de Ventas"});
+            for (VentasSemanales v : semanales) {
+                modelo.addRow(new Object[]{
+                    v.getAño(),
+                    v.getSemana(),
+                    v.getTotalSemanal(),
+                    v.getCantidadVentas()
+                });
+            }
+            tablaSemanales.setModel(modelo);
+            personalizarTabla(tablaSemanales);
+            forzarColorEncabezado(tablaSemanales);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar el reporte: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
+    private void cargarTablaMensuales() {
+        try {
+            List<VentasMensuales> mensuales = controlador.obtenerVentasMensuales();
+            DefaultTableModel modelo = new DefaultTableModel();
+            
+            modelo.setColumnIdentifiers(new Object[]{"Año", "Mes",
+            "Total Mensual", "Cantidad de Ventas"});
+            for (VentasMensuales v : mensuales) {
+                modelo.addRow(new Object[]{
+                    v.getAño(),
+                    v.getMes(),
+                    v.getTotalMensual(),
+                    v.getCantidadVentas()
+                });
+            }
+            tablaMensuales.setModel(modelo);
+            personalizarTabla(tablaMensuales);
+            forzarColorEncabezado(tablaMensuales);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar el reporte: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
+    private void cargarTablaAnuales() {
+        try {
+            List<VentasAnuales> anuales = controlador.obtenerVentasAnuales();
+            DefaultTableModel modelo = new DefaultTableModel();
+            
+            modelo.setColumnIdentifiers(new Object[]{"Año",
+            "Total Anual", "Cantidad de Ventas"});
+            for (VentasAnuales v : anuales) {
+                modelo.addRow(new Object[]{
+                    v.getAño(),
+                    v.getTotalAnual(),
+                    v.getCantidadVentas()
+                });
+            }
+            tablaAnuales.setModel(modelo);
+            personalizarTabla(tablaAnuales);
+            forzarColorEncabezado(tablaAnuales);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar el reporte: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
+    private void cargarTablaMasVendido() {
+        try {
+            List<EstadisticaVentaProductos> masVendidos = controlador.obtenerBebidasMasVendidas();
+            DefaultTableModel modelo = new DefaultTableModel();
+            
+            modelo.setColumnIdentifiers(new Object[]{"Bebida", "Cantidad Vendida", "Total Vendido"});
+            for (EstadisticaVentaProductos e : masVendidos) {
+                modelo.addRow(new Object[]{
+                    e.getNombreBebida(),
+                    e.getCantidadVendida(),
+                    e.getTotalVendido()
+                });
+            }
+            tablaMasVendidos.setModel(modelo);
+            personalizarTabla(tablaMasVendidos);
+            forzarColorEncabezado(tablaMasVendidos);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar el reporte: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
+    private void cargarTablaMenosVendido() {
+        try {
+            List<EstadisticaVentaProductos> menosVendidas = controlador.obtenerBebidasMenosVendidas();
+            DefaultTableModel modelo = new DefaultTableModel();
+            
+            modelo.setColumnIdentifiers(new Object[]{"Bebida", "Cantidad Vendida", "Total Vendido"});
+            for (EstadisticaVentaProductos e : menosVendidas) {
+                modelo.addRow(new Object[]{
+                    e.getNombreBebida(),
+                    e.getCantidadVendida(),
+                    e.getTotalVendido()
+                });
+            }
+            tablaMenosVendidos.setModel(modelo);
+            personalizarTabla(tablaMenosVendidos);
+            forzarColorEncabezado(tablaMenosVendidos);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar el reporte: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
+    private void cargarTablaVentasPorProducto() {
+        try {
+            List<EstadisticaVentaProductos> ventas = controlador.obtenerVentasPorProducto();
+            DefaultTableModel modelo = new DefaultTableModel();
+            
+            modelo.setColumnIdentifiers(new Object[]{"Bebida", "Cantidad Vendida", "Total Vendido"});
+            for (EstadisticaVentaProductos e : ventas) {
+                modelo.addRow(new Object[]{
+                    e.getNombreBebida(),
+                    e.getCantidadVendida(),
+                    e.getTotalVendido()
+                });
+            }
+            tablaVentasProductos.setModel(modelo);
+            personalizarTabla(tablaVentasProductos);
+            forzarColorEncabezado(tablaVentasProductos);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar el reporte: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
+    private void cargarTablaInventario() {
+        try {
+            List<StockProductos> inventario = controlador.obtenerBebidasStockMinimo();
+            DefaultTableModel modelo = new DefaultTableModel();
+            
+            modelo.setColumnIdentifiers(new Object[]{"Bebida", "Stock Actual", "Stock Mínimo"});
+            for (StockProductos s : inventario) {
+                modelo.addRow(new Object[]{
+                    s.getNombreBebida(),
+                    s.getStockActual(),
+                    s.getStockMinimo()
+                });
+            }
+            tablaInventario.setModel(modelo);
+            personalizarTabla(tablaInventario);
+            forzarColorEncabezado(tablaInventario);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar el reporte: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
+    private void cargarTablaNoVendidoPorCliente() {
+        
+    }
+    
+    private void cargarTablaMasVendidoPorCliente() {
+        
+    }
+    
+    private void personalizarTabla(JTable tabla) {
+        tabla.setRowHeight(28);
+        tabla.setShowGrid(false);
+        tabla.setIntercellSpacing(new Dimension(0, 0));
+        
+        tabla.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tabla.setForeground(new Color(30, 30, 30));
+        tabla.setBackground(new Color(240, 240, 240));
+        
+        JTableHeader header = tabla.getTableHeader();
+        header.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        header.setBackground(new Color(0, 43, 91));
+        header.setForeground(Color.WHITE);
+        header.setReorderingAllowed(false);
+        
+        tabla.setSelectionBackground(new Color(142, 197, 252));
+        tabla.setSelectionForeground(Color.WHITE);
+    }
+    
+    private void forzarColorEncabezado(JTable tabla) {
+        JTableHeader header = tabla.getTableHeader();
+        header.setDefaultRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+
+                JLabel lbl = (JLabel) super.getTableCellRendererComponent(
+                        table, value, isSelected, hasFocus, row, column);
+
+                lbl.setBackground(new Color(0, 43, 91));
+                lbl.setForeground(Color.WHITE);
+                lbl.setFont(new Font("Segoe UI", Font.BOLD, 15));
+                lbl.setHorizontalAlignment(SwingConstants.CENTER);
+                lbl.setOpaque(true);
+                return lbl;
+            }
+        });
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel analisisVentas;
+    private javax.swing.JPanel anuales;
+    private javax.swing.JPanel inventario;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JPanel masVendido;
+    private javax.swing.JPanel masVendidoPorCliente;
+    private javax.swing.JPanel menosVendido;
+    private javax.swing.JPanel mensuales;
+    private javax.swing.JPanel noVendidoPorCliente;
+    private javax.swing.JPanel porProducto;
+    private javax.swing.JTabbedPane reportes;
+    private javax.swing.JPanel semanales;
+    private javax.swing.JTable tablaAnalisis;
+    private javax.swing.JTable tablaAnuales;
+    private javax.swing.JTable tablaInventario;
+    private javax.swing.JTable tablaMasVendidoCliente;
+    private javax.swing.JTable tablaMasVendidos;
+    private javax.swing.JTable tablaMenosVendidos;
+    private javax.swing.JTable tablaMensuales;
+    private javax.swing.JTable tablaNoVendidosCliente;
+    private javax.swing.JTable tablaSemanales;
+    private javax.swing.JTable tablaVentasProductos;
     // End of variables declaration//GEN-END:variables
 }
