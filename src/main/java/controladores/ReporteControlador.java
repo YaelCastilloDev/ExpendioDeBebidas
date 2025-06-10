@@ -55,7 +55,11 @@ public class ReporteControlador {
         return dao.obtenerProductosMasVendidosPorCliente();
     }
     
-    public List<Bebida> obtenerInventarioBebidas() throws SQLException {
-        return dao.obtenerInventarioBebidas();
+    public List<Bebida> obtenerInventarioBebidasAdmin() throws SQLException {
+        return dao.obtenerInventarioBebidasAdmin();
+    }
+    
+    public List<Bebida> obtenerInventarioBebidasEmpleado() throws SQLException {
+        return dao.obtenerInventarioBebidasEmpleado();
     }
 }

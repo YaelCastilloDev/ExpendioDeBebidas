@@ -227,7 +227,7 @@ public class ReportesDAOimpl implements ReportesDAO {
     }
 
     @Override
-    public List<Bebida> obtenerInventarioBebidas() throws SQLException {
+    public List<Bebida> obtenerInventarioBebidasEmpleado() throws SQLException {
         String sql = "SELECT id_bebida, nombre, tamaño, categoria, precio_unitario, stock_actual " +
                      "FROM bebida;";
         List<Bebida> resultados = new ArrayList<>();
@@ -244,6 +244,31 @@ public class ReportesDAOimpl implements ReportesDAO {
                 bebida.setCategoria(rs.getString("categoria"));
                 bebida.setPrecio_unitario(rs.getDouble("precio_unitario"));
                 bebida.setStock_actual(rs.getInt("stock_actual"));
+                resultados.add(bebida);
+            }
+        }
+        return resultados;
+    }
+    
+    @Override
+    public List<Bebida> obtenerInventarioBebidasAdmin() throws SQLException {
+        String sql = "SELECT id_bebida, nombre, tamaño, categoria, precio_unitario, stock_actual, stock_minimo " +
+                     "FROM bebida;";
+        List<Bebida> resultados = new ArrayList<>();
+        
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.EMPLEADO);
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+                Bebida bebida = new Bebida();
+                bebida.setId(rs.getInt("id_bebida"));
+                bebida.setNombre(rs.getString("nombre"));
+                bebida.setTamaño(rs.getInt("tamaño"));
+                bebida.setCategoria(rs.getString("categoria"));
+                bebida.setPrecio_unitario(rs.getDouble("precio_unitario"));
+                bebida.setStock_actual(rs.getInt("stock_actual"));
+                bebida.setStock_minimo(rs.getInt("stock_minimo"));
                 resultados.add(bebida);
             }
         }

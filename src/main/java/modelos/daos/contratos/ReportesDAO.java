@@ -22,5 +22,6 @@ public interface ReportesDAO {
     List<AnalisisVentas> obtenerAnalisisVentas() throws SQLException;
     List<ProductoVendidoPorCliente> obtenerProductosNoVendidosPorCliente() throws SQLException;
     List<ProductoVendidoPorCliente> obtenerProductosMasVendidosPorCliente() throws SQLException;
-    List<Bebida> obtenerInventarioBebidas() throws SQLException;
+    List<Bebida> obtenerInventarioBebidasEmpleado() throws SQLException;
+    List<Bebida> obtenerInventarioBebidasAdmin() throws SQLException;
 }

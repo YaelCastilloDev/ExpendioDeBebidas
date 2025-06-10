@@ -15,7 +15,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import modelos.Bebida;
-import modelos.views.StockProductos;
 
 public class VentanaInventario extends javax.swing.JFrame {
     private final ReporteControlador controlador = new ReporteControlador();
@@ -106,7 +105,7 @@ public class VentanaInventario extends javax.swing.JFrame {
 
     private void cargarTablaInventario() {
         try {
-            List<Bebida> inventario = controlador.obtenerInventarioBebidas();
+            List<Bebida> inventario = controlador.obtenerInventarioBebidasEmpleado();
             DefaultTableModel modelo = new DefaultTableModel();
             
             modelo.setColumnIdentifiers(new Object[]{"Bebida", "Tamaño (ml)", "Categoría",

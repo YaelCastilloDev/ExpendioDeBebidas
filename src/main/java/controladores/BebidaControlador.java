@@ -67,4 +67,21 @@ public class BebidaControlador {
     public List<Bebida> obtenerTodasLasBebidas() throws SQLException {
         return bebidaDAO.obtenerBebidas();
     }
+    
+    public void actualizarMerma(String nombreAntiguo, Double precioUnitario,
+                                 Integer stockMinimo, Integer stockActual, String nombre, Integer tamaño, String categoria)
+            throws ConstraintViolationException, SQLException {
+
+        validacion.validarCompleto(precioUnitario, stockMinimo, stockActual, nombre, tamaño, categoria);
+        Bebida bebida = validacion.getBebidaValidada();
+
+        Integer idBebida = bebidaDAO.obtenerIdPorNombre(nombreAntiguo);
+        if (idBebida == null) {
+            throw new SQLException("No se encontró la bebida con el nombre especificado");
+        }
+
+        if (!bebidaDAO.updateBebida(nombreAntiguo, bebida)) {
+            throw new SQLException("No se pudo actualizar la bebida");
+        }
+    }
 }
