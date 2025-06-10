@@ -469,7 +469,12 @@ public class VentanaClientes extends javax.swing.JFrame {
     private void cargarTablaClientes() {
         try {
             List<Cliente> clientes = controlador.obtenerClientes();
-            DefaultTableModel modelo = new DefaultTableModel();
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             
             modelo.setColumnIdentifiers(new Object[]{"RFC", "Nombre", "Apellido Paterno",
                 "Apellido Materno", "Email", "Teléfono", "CP", "Colonia", "Ciudad", "Estado"});

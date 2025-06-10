@@ -193,44 +193,6 @@ public class BebidaDAOimpl implements BebidaDAO {
     }
 
     @Override
-    public List<EstadisticaVentaProductos> obtenerBebidasMenosVendidas() throws SQLException {
-        String sql = "SELECT nombre, total_vendida FROM Productos_Menos_Vendidos";
-        List<EstadisticaVentaProductos> resultados = new ArrayList<>();
-
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                resultados.add(new EstadisticaVentaProductos(
-                        rs.getString("nombre"),
-                        rs.getInt("total_vendida")
-                ));
-            }
-        }
-        return resultados;
-    }
-
-    @Override
-    public List<EstadisticaVentaProductos> obtenerBebidasMasVendidas() throws SQLException {
-        String sql = "SELECT nombre, total_vendida FROM Productos_Mas_Vendidos";
-        List<EstadisticaVentaProductos> resultados = new ArrayList<>();
-
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                resultados.add(new EstadisticaVentaProductos(
-                        rs.getString("nombre"),
-                        rs.getInt("total_vendida")
-                ));
-            }
-        }
-        return resultados;
-    }
-
-    @Override
     public List<Bebida> obtenerNombresBebidasMenosVendidas() throws SQLException {
         String sql = "SELECT b.id_bebida, b.nombre FROM Bebida b " +
                    "JOIN Productos_Menos_Vendidos pmv ON b.nombre = pmv.nombre";

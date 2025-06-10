@@ -1,10 +1,36 @@
 package vistas.admin;
 
+import controladores.AdminControlador;
+import controladores.BebidaControlador;
+import controladores.ReporteControlador;
+import jakarta.validation.ConstraintViolationException;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.sql.SQLException;
+import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import modelos.Bebida;
+
 public class VentanaInventario extends javax.swing.JFrame {
+    private final ReporteControlador controladorReporte = new ReporteControlador();
+    private final BebidaControlador controladorBebida = new BebidaControlador();
+    private final AdminControlador controladorAdmin = new AdminControlador();
+    private Bebida bebida;
 
     public VentanaInventario() {
         initComponents();
         setLocationRelativeTo(null);
+        cargarTablaInventario();
+        personalizarTabla(tablaInventario);
+        forzarColorEncabezado(tablaInventario);
     }
 
     /**
@@ -16,23 +42,345 @@ public class VentanaInventario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        formularioInventario = new javax.swing.JDialog();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        lblNombre = new javax.swing.JLabel();
+        txtStockActual = new javax.swing.JTextField();
+        lblStockMinimo = new javax.swing.JLabel();
+        btnGuardar = new javax.swing.JButton();
+        pwdContraseña = new javax.swing.JPasswordField();
+        lblStockMinimo1 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        lblStockMinimo2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaInventario = new javax.swing.JTable();
+        btnModificar = new javax.swing.JButton();
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setText("Datos de la bebida");
+
+        lblNombre.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblNombre.setText("Está a punto de modificar el stock actual por motivos de merma.");
+
+        lblStockMinimo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblStockMinimo.setText("Stock actual:");
+
+        btnGuardar.setBackground(new java.awt.Color(0, 80, 157));
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        lblStockMinimo1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblStockMinimo1.setText("Contraseña de un administrador:");
+
+        lblStockMinimo2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblStockMinimo2.setText("Email de un administrador:");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pwdContraseña)
+                    .addComponent(txtStockActual)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+                    .addComponent(lblNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblStockMinimo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblStockMinimo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtEmail)
+                    .addComponent(lblStockMinimo2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(17, 17, 17))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(144, 144, 144)
+                .addComponent(btnGuardar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblNombre)
+                .addGap(18, 18, 18)
+                .addComponent(lblStockMinimo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtStockActual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(lblStockMinimo2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblStockMinimo1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pwdContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnGuardar)
+                .addGap(15, 15, 15))
+        );
+
+        javax.swing.GroupLayout formularioInventarioLayout = new javax.swing.GroupLayout(formularioInventario.getContentPane());
+        formularioInventario.getContentPane().setLayout(formularioInventarioLayout);
+        formularioInventarioLayout.setHorizontalGroup(
+            formularioInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(formularioInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(formularioInventarioLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        formularioInventarioLayout.setVerticalGroup(
+            formularioInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(formularioInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(formularioInventarioLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
+
+        jPanel1.setBackground(new java.awt.Color(0, 43, 91));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Reporte de Inventario");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tablaInventario.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaInventario);
+
+        btnModificar.setBackground(new java.awt.Color(0, 80, 157));
+        btnModificar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btnModificar.setForeground(new java.awt.Color(255, 255, 255));
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1200, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnModificar)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 968, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnModificar)
+                .addGap(16, 16, 16))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        try {
+            int fila = tablaInventario.getSelectedRow();
+            if (fila >= 0) {
+                String nombre = tablaInventario.getValueAt(fila, 0).toString();
+                bebida = controladorBebida.obtenerBebidaPorNombre(nombre);
+                txtStockActual.setText(tablaInventario.getValueAt(fila, 4).toString());
+
+                formularioInventario.setTitle("MODIFICAR BEBIDA");
+                formularioInventario.pack();
+                formularioInventario.setLocationRelativeTo(this);
+                formularioInventario.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecciona una bebida de la tabla.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        String nombre = bebida.getNombre();
+        String categoria = bebida.getCategoria();
+        int tamaño = bebida.getTamaño();
+        int stockMinimo = bebida.getStock_minimo();
+        int stockActual = Integer.parseInt(txtStockActual.getText().trim());
+        double precioUnitario = bebida.getPrecio_unitario();
+        String contraseña = new String(pwdContraseña.getPassword());
+        String email = txtEmail.getText().trim();
+        
+        try {
+            controladorAdmin.autenticarAdmin(email, contraseña);
+            controladorBebida.actualizarMerma(nombre, precioUnitario,
+                    stockMinimo, stockActual, nombre, tamaño, categoria);
+            JOptionPane.showMessageDialog(this, "Bebida actualizada con éxito.");
+            formularioInventario.setVisible(false);
+            cargarTablaInventario();
+        } catch (IllegalStateException | SQLException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "ERROR", JOptionPane.ERROR_MESSAGE);
+        } catch (ConstraintViolationException e) {
+            mostrarErrorValidaciones(e);
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                "ERROR DE AUTENTICACIÓN", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            txtEmail.setText("");
+            pwdContraseña.setText("");
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+    
+    private void mostrarErrorValidaciones(ConstraintViolationException e) {
+        StringBuilder mensajeError = new StringBuilder("Errores de validación:\n");
+        e.getConstraintViolations().forEach(violation ->
+            mensajeError.append("- ").append(violation.getMessage()).append("\n")
+        );
+        JOptionPane.showMessageDialog(this, mensajeError.toString(),
+                "DATOS INVÁLIDOS",
+                JOptionPane.ERROR_MESSAGE);
+        
+    }
+    
+    private void cargarTablaInventario() {
+        try {
+            List<Bebida> inventario = controladorReporte.obtenerInventarioBebidasAdmin();
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            
+            modelo.setColumnIdentifiers(new Object[]{"Bebida", "Tamaño (ml)", "Categoría",
+            "Precio Unitario", "Stock Actual", "Stock Mínimo"});
+            for (Bebida b : inventario) {
+                modelo.addRow(new Object[]{
+                    b.getNombre(),
+                    b.getTamaño(),
+                    b.getCategoria(),
+                    b.getPrecio_unitario(),
+                    b.getStock_actual(),
+                    b.getStock_minimo()
+                });
+            }
+            tablaInventario.setModel(modelo);
+            personalizarTabla(tablaInventario);
+            forzarColorEncabezado(tablaInventario);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar el reporte: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
+    private void personalizarTabla(JTable tabla) {
+        tabla.setRowHeight(28);
+        tabla.setShowGrid(false);
+        tabla.setIntercellSpacing(new Dimension(0, 0));
+        
+        tabla.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tabla.setForeground(new Color(30, 30, 30));
+        tabla.setBackground(new Color(240, 240, 240));
+        
+        JTableHeader header = tabla.getTableHeader();
+        header.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        header.setBackground(new Color(0, 43, 91));
+        header.setForeground(Color.WHITE);
+        header.setReorderingAllowed(false);
+        
+        tabla.setSelectionBackground(new Color(142, 197, 252));
+        tabla.setSelectionForeground(Color.WHITE);
+    }
+    
+    private void forzarColorEncabezado(JTable tabla) {
+        JTableHeader header = tabla.getTableHeader();
+        header.setDefaultRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+
+                JLabel lbl = (JLabel) super.getTableCellRendererComponent(
+                        table, value, isSelected, hasFocus, row, column);
+
+                lbl.setBackground(new Color(0, 43, 91));
+                lbl.setForeground(Color.WHITE);
+                lbl.setFont(new Font("Segoe UI", Font.BOLD, 15));
+                lbl.setHorizontalAlignment(SwingConstants.CENTER);
+                lbl.setOpaque(true);
+                return lbl;
+            }
+        });
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JDialog formularioInventario;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblStockMinimo;
+    private javax.swing.JLabel lblStockMinimo1;
+    private javax.swing.JLabel lblStockMinimo2;
+    private javax.swing.JPasswordField pwdContraseña;
+    private javax.swing.JTable tablaInventario;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtStockActual;
     // End of variables declaration//GEN-END:variables
 }

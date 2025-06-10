@@ -377,7 +377,12 @@ public class VentanaBebidas extends javax.swing.JFrame {
     private void cargarTablaBebidas() {
         try {
             List<Bebida> bebidas = controlador.obtenerTodasLasBebidas();
-            DefaultTableModel modelo = new DefaultTableModel();
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             
             modelo.setColumnIdentifiers(new Object[]{"Nombre", "Precio Unitario",
                 "Tamaño (ml)", "Stock Mínimo", "Stock Actual", "Categoría"});
