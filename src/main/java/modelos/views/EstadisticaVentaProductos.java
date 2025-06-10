@@ -7,7 +7,13 @@ public class EstadisticaVentaProductos {
     private int totalVendido;
     private int cantidadVendida;
 
-    public EstadisticaVentaProductos() {
+    public EstadisticaVentaProductos(String nombreBebida, int totalVendido) {
+        this.nombreBebida = nombreBebida;
+        this.totalVendido = totalVendido;
+    }
+
+    public EstadisticaVentaProductos(){
+
     }
 
     // Constructor
