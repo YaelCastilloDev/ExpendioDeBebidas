@@ -5,7 +5,6 @@ import java.util.List;
 import modelos.Bebida;
 import modelos.views.AnalisisVentas;
 import modelos.views.EstadisticaVentaProductos;
-import modelos.views.ProductoVendidoPorCliente;
 import modelos.views.StockProductos;
 import modelos.views.VentasAnuales;
 import modelos.views.VentasMensuales;
@@ -20,8 +19,8 @@ public interface ReportesDAO {
     List<EstadisticaVentaProductos> obtenerVentasPorProducto() throws SQLException;
     List<StockProductos> obtenerBebidasStockMinimo() throws SQLException;
     List<AnalisisVentas> obtenerAnalisisVentas() throws SQLException;
-    List<ProductoVendidoPorCliente> obtenerProductosNoVendidosPorCliente() throws SQLException;
-    List<ProductoVendidoPorCliente> obtenerProductosMasVendidosPorCliente() throws SQLException;
+    List<Bebida> obtenerProductosNoVendidosPorCliente(int idCliente) throws SQLException;
+    List<EstadisticaVentaProductos> obtenerProductosMasVendidosPorCliente(int idCliente) throws SQLException;
     List<Bebida> obtenerInventarioBebidasEmpleado() throws SQLException;
     List<Bebida> obtenerInventarioBebidasAdmin() throws SQLException;
 }
