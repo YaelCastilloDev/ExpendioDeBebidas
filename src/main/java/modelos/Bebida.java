@@ -61,4 +61,19 @@ public class Bebida {
                 ", categoria='" + categoria + '\'' +
                 '}';
     }
+    
+        @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Bebida otra = (Bebida) obj;
+        return this.getId() == otra.getId(); // O usa nombre si no hay ID único
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(this.getId());
+    }
+
 }

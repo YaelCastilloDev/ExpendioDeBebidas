@@ -295,7 +295,12 @@ public class VentanaInventario extends javax.swing.JFrame {
     private void cargarTablaInventario() {
         try {
             List<Bebida> inventario = controladorReporte.obtenerInventarioBebidasAdmin();
-            DefaultTableModel modelo = new DefaultTableModel();
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             
             modelo.setColumnIdentifiers(new Object[]{"Bebida", "Tamaño (ml)", "Categoría",
             "Precio Unitario", "Stock Actual", "Stock Mínimo"});

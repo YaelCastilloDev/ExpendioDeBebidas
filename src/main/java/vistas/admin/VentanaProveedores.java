@@ -424,7 +424,12 @@ public class VentanaProveedores extends javax.swing.JFrame {
     private void cargarTablaProveedores() {
         try {
             List<Proveedor> proveedores = controlador.obtenerProveedores();
-            DefaultTableModel modelo = new DefaultTableModel();
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             
             modelo.setColumnIdentifiers(new Object[]{"RFC", "Razón Social",
                 "Email", "Teléfono", "CP", "Colonia", "Ciudad", "Estado"});

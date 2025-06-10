@@ -623,7 +623,12 @@ public class VentanaReportes extends javax.swing.JFrame {
     private void cargarTablaAnalisis() {
         try {
             List<AnalisisVentas> analisis = controlador.obtenerAnalisisVentas();
-            DefaultTableModel modelo = new DefaultTableModel();
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             
             modelo.setColumnIdentifiers(new Object[]{"Bebida", "Categoría", "Stock Actual",
             "Stock Mínimo", "Clientes Únicos", "Total Vendido", "Ingresos Totales", "Estado Venta"});
@@ -653,7 +658,12 @@ public class VentanaReportes extends javax.swing.JFrame {
     private void cargarTablaSemanales() {
         try {
             List<VentasSemanales> semanales = controlador.obtenerVentasSemanales();
-            DefaultTableModel modelo = new DefaultTableModel();
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             
             modelo.setColumnIdentifiers(new Object[]{"Año", "Semana",
             "Total Semanal", "Cantidad de Ventas"});
@@ -679,7 +689,12 @@ public class VentanaReportes extends javax.swing.JFrame {
     private void cargarTablaMensuales() {
         try {
             List<VentasMensuales> mensuales = controlador.obtenerVentasMensuales();
-            DefaultTableModel modelo = new DefaultTableModel();
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             
             modelo.setColumnIdentifiers(new Object[]{"Año", "Mes",
             "Total Mensual", "Cantidad de Ventas"});
@@ -705,7 +720,12 @@ public class VentanaReportes extends javax.swing.JFrame {
     private void cargarTablaAnuales() {
         try {
             List<VentasAnuales> anuales = controlador.obtenerVentasAnuales();
-            DefaultTableModel modelo = new DefaultTableModel();
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             
             modelo.setColumnIdentifiers(new Object[]{"Año",
             "Total Anual", "Cantidad de Ventas"});
@@ -730,7 +750,12 @@ public class VentanaReportes extends javax.swing.JFrame {
     private void cargarTablaMasVendido() {
         try {
             List<EstadisticaVentaProductos> masVendidos = controlador.obtenerBebidasMasVendidas();
-            DefaultTableModel modelo = new DefaultTableModel();
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             
             modelo.setColumnIdentifiers(new Object[]{"Bebida", "Cantidad Vendida", "Total Vendido"});
             for (EstadisticaVentaProductos e : masVendidos) {
@@ -754,7 +779,12 @@ public class VentanaReportes extends javax.swing.JFrame {
     private void cargarTablaMenosVendido() {
         try {
             List<EstadisticaVentaProductos> menosVendidas = controlador.obtenerBebidasMenosVendidas();
-            DefaultTableModel modelo = new DefaultTableModel();
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             
             modelo.setColumnIdentifiers(new Object[]{"Bebida", "Cantidad Vendida", "Total Vendido"});
             for (EstadisticaVentaProductos e : menosVendidas) {
@@ -778,7 +808,12 @@ public class VentanaReportes extends javax.swing.JFrame {
     private void cargarTablaVentasPorProducto() {
         try {
             List<EstadisticaVentaProductos> ventas = controlador.obtenerVentasPorProducto();
-            DefaultTableModel modelo = new DefaultTableModel();
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             
             modelo.setColumnIdentifiers(new Object[]{"Bebida", "Cantidad Vendida", "Total Vendido"});
             for (EstadisticaVentaProductos e : ventas) {
@@ -802,7 +837,12 @@ public class VentanaReportes extends javax.swing.JFrame {
     private void cargarTablaInventario() {
         try {
             List<StockProductos> inventario = controlador.obtenerBebidasStockMinimo();
-            DefaultTableModel modelo = new DefaultTableModel();
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             
             modelo.setColumnIdentifiers(new Object[]{"Bebida", "Stock Actual", "Stock Mínimo"});
             for (StockProductos s : inventario) {

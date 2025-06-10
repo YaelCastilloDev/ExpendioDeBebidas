@@ -1,6 +1,12 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package vistas.empleado;
 
-import controladores.ReporteControlador;
+import controladores.ClienteControlador;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -14,17 +20,24 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import modelos.Bebida;
+import modelos.Cliente;
 
-public class VentanaInventario extends javax.swing.JFrame {
-    private final ReporteControlador controlador = new ReporteControlador();
+/**
+ *
+ * @author perso
+ */
+public class SeleccionCliente extends javax.swing.JFrame {
+    private final ClienteControlador controlador = new ClienteControlador();
 
-    public VentanaInventario() {
+    /**
+     * Creates new form SeleccionCliente
+     */
+    public SeleccionCliente() {
         initComponents();
         setLocationRelativeTo(null);
-        cargarTablaInventario();
-        personalizarTabla(tablaInventario);
-        forzarColorEncabezado(tablaInventario);
+        cargarTablaClientes();
+        personalizarTabla(tablaClientes);
+        forzarColorEncabezado(tablaClientes);
     }
 
     /**
@@ -39,17 +52,18 @@ public class VentanaInventario extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaInventario = new javax.swing.JTable();
+        tablaClientes = new javax.swing.JTable();
+        btnSeleccionar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("INVENTARIO");
+        setTitle("SELECCIÓN DE CLIENTE");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 43, 91));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Reporte de Inventario");
+        jLabel1.setText("Seleccione un cliente de la tabla");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -58,7 +72,7 @@ public class VentanaInventario extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel1)
-                .addContainerGap(741, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -68,7 +82,7 @@ public class VentanaInventario extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tablaInventario.setModel(new javax.swing.table.DefaultTableModel(
+        tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -79,7 +93,17 @@ public class VentanaInventario extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tablaInventario);
+        jScrollPane1.setViewportView(tablaClientes);
+
+        btnSeleccionar.setBackground(new java.awt.Color(0, 80, 157));
+        btnSeleccionar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btnSeleccionar.setForeground(new java.awt.Color(255, 255, 255));
+        btnSeleccionar.setText("Seleccionar");
+        btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -87,25 +111,49 @@ public class VentanaInventario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 968, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 964, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSeleccionar))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnSeleccionar)
+                .addGap(18, 18, 18))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cargarTablaInventario() {
+    private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
+        int fila = tablaClientes.getSelectedRow();
+        if (fila >= 0) {
+            String email = tablaClientes.getValueAt(fila, 4).toString();
+            Cliente cliente = null;
+            try {
+                cliente = controlador.obtenerCliente(email);
+                new SeleccionProductos(cliente).setVisible(true);
+                this.dispose();
+            } catch (ConstraintViolationException e) {
+                mostrarErroresValidacion(e);
+            } catch (SQLException | IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(),
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona un cliente de la tabla.");
+        }
+    }//GEN-LAST:event_btnSeleccionarActionPerformed
+    
+    private void cargarTablaClientes() {
         try {
-            List<Bebida> inventario = controlador.obtenerInventarioBebidasEmpleado();
+            List<Cliente> clientes = controlador.obtenerClientes();
             DefaultTableModel modelo = new DefaultTableModel() {
                 @Override
                 public boolean isCellEditable(int row, int column) {
@@ -113,23 +161,22 @@ public class VentanaInventario extends javax.swing.JFrame {
                 }
             };
             
-            modelo.setColumnIdentifiers(new Object[]{"Bebida", "Tamaño (ml)", "Categoría",
-            "Precio Unitario", "Stock Actual"});
-            for (Bebida b : inventario) {
+            modelo.setColumnIdentifiers(new Object[]{"RFC", "Nombre", "Apellido Paterno",
+                "Apellido Materno", "Email", "Teléfono"});
+            for (Cliente c : clientes) {
                 modelo.addRow(new Object[]{
-                    b.getNombre(),
-                    b.getTamaño(),
-                    b.getCategoria(),
-                    b.getPrecio_unitario(),
-                    b.getStock_actual()
+                    c.getRfc(),
+                    c.getNombre(),
+                    c.getPaterno(),
+                    c.getMaterno(),
+                    c.getEmail(),
+                    c.getTelefono(),
                 });
             }
-            tablaInventario.setModel(modelo);
-            personalizarTabla(tablaInventario);
-            forzarColorEncabezado(tablaInventario);
+            tablaClientes.setModel(modelo);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this,
-                    "Error al cargar el reporte: " + e.getMessage(),
+                    "Error al cargar los clientes: " + e.getMessage(),
                     "ERROR", JOptionPane.ERROR_MESSAGE
             );
         }
@@ -174,10 +221,23 @@ public class VentanaInventario extends javax.swing.JFrame {
         });
     }
     
+    private void mostrarErroresValidacion(ConstraintViolationException e) {
+        StringBuilder errores = new StringBuilder();
+        for (ConstraintViolation<?> v : e.getConstraintViolations()) {
+            errores.append("- ").append(v.getMessage()).append("\n");
+        }
+        JOptionPane.showMessageDialog(this,
+                errores.toString(),
+                "ERRORES DE VALIDACIÓN",
+                JOptionPane.WARNING_MESSAGE
+        );
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSeleccionar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tablaInventario;
+    private javax.swing.JTable tablaClientes;
     // End of variables declaration//GEN-END:variables
 }

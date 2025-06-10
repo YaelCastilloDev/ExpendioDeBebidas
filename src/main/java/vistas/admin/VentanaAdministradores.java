@@ -338,7 +338,12 @@ public class VentanaAdministradores extends javax.swing.JFrame {
     private void cargarTablaAdministradores() {
         try {
             List<Admin> admins = controlador.obtenerAdmins();
-            DefaultTableModel modelo = new DefaultTableModel();
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             
             modelo.setColumnIdentifiers(new Object[]{"Nombre", "Email"});
             for (Admin a : admins) {

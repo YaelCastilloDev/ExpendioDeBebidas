@@ -338,7 +338,12 @@ public class VentanaEmpleados extends javax.swing.JFrame {
     private void cargarTablaEmpleados() {
         try {
             List<Empleado> empleados = controlador.obtenerEmpleados();
-            DefaultTableModel modelo = new DefaultTableModel();
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             
             modelo.setColumnIdentifiers(new Object[]{"Nombre", "Email"});
             for (Empleado e : empleados) {
