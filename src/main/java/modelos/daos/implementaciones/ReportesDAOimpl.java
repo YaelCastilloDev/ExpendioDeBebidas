@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import modelos.Bebida;
 import modelos.conexiones.UsuarioFactory;
 import modelos.daos.contratos.ReportesDAO;
 import modelos.views.AnalisisVentas;
@@ -220,6 +221,30 @@ public class ReportesDAOimpl implements ReportesDAO {
             while (rs.next()) {
                 ProductoVendidoPorCliente producto = new ProductoVendidoPorCliente();
                 resultados.add(producto);
+            }
+        }
+        return resultados;
+    }
+
+    @Override
+    public List<Bebida> obtenerInventarioBebidas() throws SQLException {
+        String sql = "SELECT id_bebida, nombre, tamaño, categoria, precio_unitario, stock_actual " +
+                     "FROM bebida;";
+        List<Bebida> resultados = new ArrayList<>();
+        
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.EMPLEADO);
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+                Bebida bebida = new Bebida();
+                bebida.setId(rs.getInt("id_bebida"));
+                bebida.setNombre(rs.getString("nombre"));
+                bebida.setTamaño(rs.getInt("tamaño"));
+                bebida.setCategoria(rs.getString("categoria"));
+                bebida.setPrecio_unitario(rs.getDouble("precio_unitario"));
+                bebida.setStock_actual(rs.getInt("stock_actual"));
+                resultados.add(bebida);
             }
         }
         return resultados;

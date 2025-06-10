@@ -2,6 +2,7 @@ package controladores;
 
 import java.sql.SQLException;
 import java.util.List;
+import modelos.Bebida;
 import modelos.daos.implementaciones.ReportesDAOimpl;
 import modelos.views.AnalisisVentas;
 import modelos.views.EstadisticaVentaProductos;
@@ -52,5 +53,9 @@ public class ReporteControlador {
     
     public List<ProductoVendidoPorCliente> obtenerProductosMasVendidosPorCliente() throws SQLException {
         return dao.obtenerProductosMasVendidosPorCliente();
+    }
+    
+    public List<Bebida> obtenerInventarioBebidas() throws SQLException {
+        return dao.obtenerInventarioBebidas();
     }
 }

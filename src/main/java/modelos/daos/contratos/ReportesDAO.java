@@ -2,6 +2,7 @@ package modelos.daos.contratos;
 
 import java.sql.SQLException;
 import java.util.List;
+import modelos.Bebida;
 import modelos.views.AnalisisVentas;
 import modelos.views.EstadisticaVentaProductos;
 import modelos.views.ProductoVendidoPorCliente;
@@ -21,4 +22,5 @@ public interface ReportesDAO {
     List<AnalisisVentas> obtenerAnalisisVentas() throws SQLException;
     List<ProductoVendidoPorCliente> obtenerProductosNoVendidosPorCliente() throws SQLException;
     List<ProductoVendidoPorCliente> obtenerProductosMasVendidosPorCliente() throws SQLException;
+    List<Bebida> obtenerInventarioBebidas() throws SQLException;
 }
