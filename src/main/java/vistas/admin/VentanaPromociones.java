@@ -87,16 +87,16 @@ public class VentanaPromociones extends javax.swing.JFrame {
         jLabel4.setText("Datos de la promoción");
 
         lblNombre.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblNombre.setText("Porcentaje:");
+        lblNombre.setText("Porcentaje (%):");
 
         lblMensaje.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblMensaje.setText("Promoción para []: []");
 
         lblNombre2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblNombre2.setText("Fecha inicio:");
+        lblNombre2.setText("Fecha inicio (yyyy-MM-dd):");
 
         lblNombre3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblNombre3.setText("Fecha fin:");
+        lblNombre3.setText("Fecha fin (yyyy-MM-dd):");
 
         btnGuardar.setBackground(new java.awt.Color(0, 80, 157));
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
