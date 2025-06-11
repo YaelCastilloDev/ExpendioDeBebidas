@@ -68,10 +68,6 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{" +
-                "nombre='" + nombre + '\'' +
-                ", paterno='" + paterno + '\'' +
-                ", telefono='" + telefono + '\'' +
-                '}';
+        return String.format("%s %s %s", nombre, paterno, materno);
     }
 }
