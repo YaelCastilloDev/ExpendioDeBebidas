@@ -12,12 +12,7 @@ import java.util.List;
 import modelos.Bebida;
 import modelos.conexiones.UsuarioFactory;
 import modelos.daos.contratos.ReportesDAO;
-import modelos.views.AnalisisVentas;
-import modelos.views.EstadisticaVentaProductos;
-import modelos.views.StockProductos;
-import modelos.views.VentasAnuales;
-import modelos.views.VentasMensuales;
-import modelos.views.VentasSemanales;
+import modelos.views.*;
 
 public class ReportesDAOimpl implements ReportesDAO {
 
@@ -309,6 +304,33 @@ public class ReportesDAOimpl implements ReportesDAO {
                 bebida.setStock_actual(rs.getInt("stock_actual"));
                 bebida.setStock_minimo(rs.getInt("stock_minimo"));
                 resultados.add(bebida);
+            }
+        }
+        return resultados;
+    }
+
+    @Override
+    public List<StockEstado> obtenerStockBajo() throws SQLException {
+        String sql = "SELECT * FROM vw_stock_bajo";
+        List<StockEstado> resultados = new ArrayList<>();
+
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                StockEstado item = new StockEstado(
+                        rs.getInt("id_bebida"),
+                        rs.getString("nombre"),
+                        rs.getString("categoria"),
+                        rs.getInt("tamaño"),
+                        rs.getInt("stock_actual"),
+                        rs.getInt("stock_minimo"),
+                        rs.getBigDecimal("precio_unitario"),
+                        rs.getInt("deficit_stock"),
+                        rs.getString("estado_stock")
+                );
+                resultados.add(item);
             }
         }
         return resultados;

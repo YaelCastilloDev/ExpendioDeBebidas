@@ -3,12 +3,7 @@ package modelos.daos.contratos;
 import java.sql.SQLException;
 import java.util.List;
 import modelos.Bebida;
-import modelos.views.AnalisisVentas;
-import modelos.views.EstadisticaVentaProductos;
-import modelos.views.StockProductos;
-import modelos.views.VentasAnuales;
-import modelos.views.VentasMensuales;
-import modelos.views.VentasSemanales;
+import modelos.views.*;
 
 public interface ReportesDAO {
     List<VentasAnuales> obtenerVentasAnuales() throws SQLException;
@@ -23,4 +18,6 @@ public interface ReportesDAO {
     List<EstadisticaVentaProductos> obtenerProductosMasVendidosPorCliente(int idCliente) throws SQLException;
     List<Bebida> obtenerInventarioBebidasEmpleado() throws SQLException;
     List<Bebida> obtenerInventarioBebidasAdmin() throws SQLException;
+    List<StockEstado> obtenerStockBajo() throws SQLException;
+
 }
