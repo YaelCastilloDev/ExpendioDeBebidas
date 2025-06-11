@@ -1,14 +1,18 @@
 package vistas.empleado;
 
 import controladores.BebidaControlador;
+import controladores.PedidoClienteControlador;
+import controladores.VentaControlador;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -23,6 +27,8 @@ public class SeleccionProductos extends javax.swing.JFrame {
     public Cliente cliente;
     Map<Bebida, Integer> carrito = new LinkedHashMap<>();
     BebidaControlador controladorBebida = new BebidaControlador();
+    VentaControlador controladorVenta = new VentaControlador();
+    PedidoClienteControlador controladorPedido = new PedidoClienteControlador();
 
     public SeleccionProductos(Cliente cliente) {
         initComponents();
@@ -224,11 +230,64 @@ public class SeleccionProductos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRealizarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarPedidoActionPerformed
+        if (carrito.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El carrito está vacío.");
+            return;
+        }
         
+        int idCliente = cliente.getId();
+        String fecha = LocalDate.now().toString();
+        String estado = "PENDIENTE";
+        
+        try {
+            int idPedido = controladorPedido.crearPedido(idCliente, fecha, estado);
+            
+            for (Map.Entry<Bebida, Integer> entry : carrito.entrySet()) {
+                Bebida bebida = entry.getKey();
+                int cantidad = entry.getValue();
+                
+                controladorPedido.agregarDetallePedido(idPedido, bebida.getId(), cantidad);
+            }
+            JOptionPane.showMessageDialog(this, "Pedido registrado exitosamente.");
+            carrito.clear();
+            this.dispose();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al procesar el pedido: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+            );
+        }
     }//GEN-LAST:event_btnRealizarPedidoActionPerformed
 
     private void btnRealizarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarVentaActionPerformed
+        if (carrito.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El carrito está vacío.");
+            return;
+        }
         
+        int idCliente = cliente.getId();
+        String fecha = LocalDate.now().toString();
+        String estado = "PENDIENTE";
+        String folio = "V" + String.format("%010d", new Random().nextInt(1_000_000_000));
+        
+        int registrosExitosos = 0;
+        try {
+            for (Map.Entry<Bebida, Integer> entry : carrito.entrySet()) {
+                Bebida bebida = entry.getKey();
+                int cantidad = entry.getValue();
+                
+                controladorVenta.procesarPedido(idCliente, fecha, estado, bebida.getId(), cantidad, folio);
+                registrosExitosos++;
+            }
+            JOptionPane.showMessageDialog(this, "Venta registrada con éxito.");
+            carrito.clear();
+            this.dispose();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al procesar la venta: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+            );
+        }
     }//GEN-LAST:event_btnRealizarVentaActionPerformed
 
     private void btnSeleccionarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarProductoActionPerformed
