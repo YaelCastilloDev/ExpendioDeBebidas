@@ -54,12 +54,7 @@ public class Bebida {
 
     @Override
     public String toString() {
-        return "Bebida{" +
-                "nombre='" + nombre + '\'' +
-                ", precio_unitario=" + precio_unitario +
-                ", stock_actual=" + stock_actual +
-                ", categoria='" + categoria + '\'' +
-                '}';
+        return String.format("%s %d (%s)", nombre, tamaño, categoria);
     }
     
         @Override

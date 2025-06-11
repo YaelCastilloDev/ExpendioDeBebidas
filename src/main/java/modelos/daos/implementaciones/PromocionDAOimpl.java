@@ -6,13 +6,16 @@ import modelos.daos.contratos.PromocionDAO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import modelos.Promocion;
 
 public class PromocionDAOimpl implements PromocionDAO{
 
     @Override
-    public List<Integer> obtenerPromocionesPorBebida(int idBebida) throws SQLException {
-        String sql = "SELECT id_promocion FROM Promocion_Bebida WHERE id_bebida = ?";
-        List<Integer> promociones = new ArrayList<>();
+    public List<Promocion> obtenerPromocionesPorBebida(int idBebida) throws SQLException {
+        String sql = "SELECT pb.id_promocion, p.porcentaje, p.fecha_inicio, p.fecha_fin "
+                + "FROM Promocion_Bebida pb JOIN promocion p ON  pb.id_promocion = p.id_promocion "
+                + "WHERE pb.id_bebida = ?";
+        List<Promocion> promociones = new ArrayList<>();
 
         try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -21,17 +24,24 @@ public class PromocionDAOimpl implements PromocionDAO{
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    promociones.add(rs.getInt("id_promocion"));
+                    Promocion promocion = new Promocion();
+                    promocion.setId(rs.getInt("id_promocion"));
+                    promocion.setPorcentaje(rs.getDouble("porcentaje"));
+                    promocion.setFecha_inicio(rs.getDate("fecha_inicio"));
+                    promocion.setFecha_fin(rs.getDate("fecha_fin"));
+                    promociones.add(promocion);
                 }
             }
         }
-
         return promociones;
     }
+    
     @Override
-    public List<Integer> obtenerPromocionesPorCliente(int idCliente) throws SQLException {
-        String sql = "SELECT id_promocion FROM Promocion_Cliente WHERE id_cliente = ?";
-        List<Integer> promociones = new ArrayList<>();
+    public List<Promocion> obtenerPromocionesPorCliente(int idCliente) throws SQLException {
+        String sql = "SELECT pc.id_promocion, p.porcentaje, p.fecha_inicio, p.fecha_fin "
+                + "FROM Promocion_Cliente pc JOIN promocion p ON pc.id_promocion = p.id_promocion "
+                + "WHERE pc.id_cliente = ?";
+        List<Promocion> promociones = new ArrayList<>();
 
         try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -40,11 +50,15 @@ public class PromocionDAOimpl implements PromocionDAO{
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    promociones.add(rs.getInt("id_promocion"));
+                    Promocion promocion = new Promocion();
+                    promocion.setId(rs.getInt("id_promocion"));
+                    promocion.setPorcentaje(rs.getDouble("porcentaje"));
+                    promocion.setFecha_inicio(rs.getDate("fecha_inicio"));
+                    promocion.setFecha_fin(rs.getDate("fecha_fin"));
+                    promociones.add(promocion);
                 }
             }
         }
-
         return promociones;
     }
 
