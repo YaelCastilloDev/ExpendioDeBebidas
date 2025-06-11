@@ -57,7 +57,7 @@
                 stmt.setInt(1, idPedidoProveedor);
                 int rowsAffected = stmt.executeUpdate();
 
-                // Returns true if exactly one row was updated
+                // Retorna verdadero si el pedido se cambió a CANCELADO
                 return rowsAffected == 1;
             }
         }
