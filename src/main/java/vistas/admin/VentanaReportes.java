@@ -1,10 +1,13 @@
 package vistas.admin;
 
+import controladores.ClienteControlador;
 import controladores.ReporteControlador;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JLabel;
@@ -16,14 +19,17 @@ import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import modelos.Bebida;
+import modelos.Cliente;
 import modelos.views.AnalisisVentas;
 import modelos.views.EstadisticaVentaProductos;
-import modelos.views.StockProductos;
+import modelos.views.StockEstado;
 import modelos.views.VentasAnuales;
 import modelos.views.VentasMensuales;
 import modelos.views.VentasSemanales;
 
 public class VentanaReportes extends javax.swing.JFrame {
+    private ClienteControlador clienteControlador = new ClienteControlador();
     private ReporteControlador controlador = new ReporteControlador();
     private boolean[] pestañasCargadas = new boolean[10];
 
@@ -31,6 +37,18 @@ public class VentanaReportes extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         cargarTablaAnalisis();
+        txtEmailClienteNo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cargarTablaNoVendidoPorCliente(txtEmailClienteNo.getText().trim());
+            }
+        });
+        txtEmailClienteMas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cargarTablaMasVendidoPorCliente(txtEmailClienteMas.getText().trim());
+            }
+        });
     }
 
     /**
@@ -81,10 +99,14 @@ public class VentanaReportes extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
         tablaNoVendidosCliente = new javax.swing.JTable();
+        jLabel12 = new javax.swing.JLabel();
+        txtEmailClienteNo = new javax.swing.JTextField();
         masVendidoPorCliente = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane9 = new javax.swing.JScrollPane();
         tablaMasVendidoCliente = new javax.swing.JTable();
+        txtEmailClienteMas = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("REPORTES DE VENTAS");
@@ -461,6 +483,12 @@ public class VentanaReportes extends javax.swing.JFrame {
         ));
         jScrollPane8.setViewportView(tablaNoVendidosCliente);
 
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel12.setText("Cliente:");
+
+        txtEmailClienteNo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtEmailClienteNo.setToolTipText("Correo Electrónico del Cliente");
+
         javax.swing.GroupLayout noVendidoPorClienteLayout = new javax.swing.GroupLayout(noVendidoPorCliente);
         noVendidoPorCliente.setLayout(noVendidoPorClienteLayout);
         noVendidoPorClienteLayout.setHorizontalGroup(
@@ -468,19 +496,25 @@ public class VentanaReportes extends javax.swing.JFrame {
             .addGroup(noVendidoPorClienteLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(noVendidoPorClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
                     .addGroup(noVendidoPorClienteLayout.createSequentialGroup()
                         .addComponent(jLabel11)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel12)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtEmailClienteNo, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         noVendidoPorClienteLayout.setVerticalGroup(
             noVendidoPorClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(noVendidoPorClienteLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addGroup(noVendidoPorClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(txtEmailClienteNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -502,6 +536,12 @@ public class VentanaReportes extends javax.swing.JFrame {
         ));
         jScrollPane9.setViewportView(tablaMasVendidoCliente);
 
+        txtEmailClienteMas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtEmailClienteMas.setToolTipText("Correo Electrónico del Cliente");
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel13.setText("Cliente:");
+
         javax.swing.GroupLayout masVendidoPorClienteLayout = new javax.swing.GroupLayout(masVendidoPorCliente);
         masVendidoPorCliente.setLayout(masVendidoPorClienteLayout);
         masVendidoPorClienteLayout.setHorizontalGroup(
@@ -511,7 +551,10 @@ public class VentanaReportes extends javax.swing.JFrame {
                 .addGroup(masVendidoPorClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(masVendidoPorClienteLayout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel13)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtEmailClienteMas, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -519,9 +562,12 @@ public class VentanaReportes extends javax.swing.JFrame {
             masVendidoPorClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(masVendidoPorClienteLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addGroup(masVendidoPorClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtEmailClienteMas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -604,15 +650,21 @@ public class VentanaReportes extends javax.swing.JFrame {
                         }
                         break;
                     case 8:
+                        personalizarTabla(tablaNoVendidosCliente);
+                        forzarColorEncabezado(tablaNoVendidosCliente);
                         if (!pestañasCargadas[indice]) {
                             pestañasCargadas[indice] = true;
-                            cargarTablaNoVendidoPorCliente();
+                            String email = txtEmailClienteNo.getText().trim();
+                            cargarTablaNoVendidoPorCliente(email);
                         }
                         break;
                     case 9:
+                        personalizarTabla(tablaMasVendidoCliente);
+                        forzarColorEncabezado(tablaMasVendidoCliente);
                         if (!pestañasCargadas[indice]) {
                             pestañasCargadas[indice] = true;
-                            cargarTablaMasVendidoPorCliente();
+                            String email = txtEmailClienteMas.getText().trim();
+                            cargarTablaMasVendidoPorCliente(email);
                         }
                         break;
                 }
@@ -757,11 +809,10 @@ public class VentanaReportes extends javax.swing.JFrame {
                 }
             };
             
-            modelo.setColumnIdentifiers(new Object[]{"Bebida", "Cantidad Vendida", "Total Vendido"});
+            modelo.setColumnIdentifiers(new Object[]{"Bebida", "Total Vendido"});
             for (EstadisticaVentaProductos e : masVendidos) {
                 modelo.addRow(new Object[]{
                     e.getNombreBebida(),
-                    e.getCantidadVendida(),
                     e.getTotalVendido()
                 });
             }
@@ -836,7 +887,7 @@ public class VentanaReportes extends javax.swing.JFrame {
     
     private void cargarTablaInventario() {
         try {
-            List<StockProductos> inventario = controlador.obtenerBebidasStockMinimo();
+            List<StockEstado> inventario = controlador.obtenerStockBajo();
             DefaultTableModel modelo = new DefaultTableModel() {
                 @Override
                 public boolean isCellEditable(int row, int column) {
@@ -844,12 +895,19 @@ public class VentanaReportes extends javax.swing.JFrame {
                 }
             };
             
-            modelo.setColumnIdentifiers(new Object[]{"Bebida", "Stock Actual", "Stock Mínimo"});
-            for (StockProductos s : inventario) {
+            modelo.setColumnIdentifiers(new Object[]{"Bebida", "Categoría",
+            "Tamaño", "Stock Actual", "Stock Mínimo", "Precio Unitario",
+            "Deficit de Stock", "Estado del Stock"});
+            for (StockEstado s : inventario) {
                 modelo.addRow(new Object[]{
-                    s.getNombreBebida(),
+                    s.getNombre(),
+                    s.getCategoria(),
+                    s.getTamaño(),
                     s.getStockActual(),
-                    s.getStockMinimo()
+                    s.getStockMinimo(),
+                    s.getPrecioUnitario(),
+                    s.getDeficitStock(),
+                    s.getEstadoStock()
                 });
             }
             tablaInventario.setModel(modelo);
@@ -863,12 +921,61 @@ public class VentanaReportes extends javax.swing.JFrame {
         }
     }
     
-    private void cargarTablaNoVendidoPorCliente() {
-        
+    private void cargarTablaNoVendidoPorCliente(String email) {
+        try {
+            Cliente cliente = clienteControlador.obtenerCliente(email);
+            List<Bebida> bebidas = controlador.obtenerProductosNoVendidosPorClientes(cliente.getId());
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            
+            modelo.setColumnIdentifiers(new Object[]{"Bebida", "Categoría",
+            "Tamaño", "Precio Unitario"});
+            for (Bebida b : bebidas) {
+                modelo.addRow(new Object[]{
+                    b.getNombre(),
+                    b.getCategoria(),
+                    b.getTamaño(),
+                    b.getPrecio_unitario(),
+                });
+            }
+            tablaNoVendidosCliente.setModel(modelo);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar el reporte: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
     
-    private void cargarTablaMasVendidoPorCliente() {
-        
+    private void cargarTablaMasVendidoPorCliente(String email) {
+        try {
+            Cliente cliente = clienteControlador.obtenerCliente(email);
+            List<EstadisticaVentaProductos> productos = controlador.obtenerProductosMasVendidosPorCliente(cliente.getId());
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            
+            modelo.setColumnIdentifiers(new Object[]{"Bebida", "Total Vendido"});
+            for (EstadisticaVentaProductos e : productos) {
+                modelo.addRow(new Object[]{
+                    e.getNombreBebida(),
+                    e.getTotalVendido()
+                });
+            }
+            tablaMasVendidoCliente.setModel(modelo);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar el reporte: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
     
     private void personalizarTabla(JTable tabla) {
@@ -917,6 +1024,8 @@ public class VentanaReportes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -954,5 +1063,7 @@ public class VentanaReportes extends javax.swing.JFrame {
     private javax.swing.JTable tablaNoVendidosCliente;
     private javax.swing.JTable tablaSemanales;
     private javax.swing.JTable tablaVentasProductos;
+    private javax.swing.JTextField txtEmailClienteMas;
+    private javax.swing.JTextField txtEmailClienteNo;
     // End of variables declaration//GEN-END:variables
 }

@@ -229,7 +229,6 @@ public class ReportesDAOimpl implements ReportesDAO {
     @Override
     public List<EstadisticaVentaProductos> obtenerProductosMasVendidosPorCliente(int idCliente) throws SQLException {
         String callProcedure = "{CALL bebida_mas_vendida_a_cliente(?, ?, ?)}";
-        String selectResult = "SELECT @bebida_nombre AS bebida_mas_vendida, @ventas_contar AS ventas_contar";
         List<EstadisticaVentaProductos> result = new ArrayList<>();
 
         try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
@@ -243,18 +242,14 @@ public class ReportesDAOimpl implements ReportesDAO {
 
             // Execute the stored procedure
             callStmt.execute();
-
-            // Get the results from the output parameters
-            try (ResultSet rs = selectStmt.executeQuery(selectResult)) {
-                if (rs.next()) {
-                    String nombreBebida = rs.getString("bebida_mas_vendida");
-                    int totalVendido = rs.getInt("ventas_contar");
-                    
-                    EstadisticaVentaProductos estadisticas = new EstadisticaVentaProductos();
-                    estadisticas.setNombreBebida(nombreBebida);
-                    estadisticas.setTotalVendido(totalVendido);
-                    result.add(estadisticas);
-                }
+            String nombreBebida = callStmt.getString(2);
+            int totalVendido = callStmt.getInt(3);
+            
+            if (nombreBebida != null) {
+                EstadisticaVentaProductos estadisticas = new EstadisticaVentaProductos();
+                estadisticas.setNombreBebida(nombreBebida);
+                estadisticas.setTotalVendido(totalVendido);
+                result.add(estadisticas);
             }
         }
         return result;
