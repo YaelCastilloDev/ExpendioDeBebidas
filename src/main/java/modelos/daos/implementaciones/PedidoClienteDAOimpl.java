@@ -8,6 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PedidoClienteDAOimpl implements PedidoClienteDAO {
+    @Override
+    public boolean cancelarPedido(int idPedidoCliente) throws SQLException {
+        String sql = "{CALL cancelar_pedido(?)}";
+
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+             CallableStatement stmt = conn.prepareCall(sql)) {
+
+            stmt.setInt(1, idPedidoCliente);
+            stmt.execute();
+            return true; // Si no lanza excepción, se canceló correctamente
+        }
+    }
 
     @Override
     public boolean agregarDetallePedido(int idPedidoCliente, int idBebida, int cantidad)
@@ -53,20 +65,7 @@ public class PedidoClienteDAOimpl implements PedidoClienteDAO {
         }
     }
 
-    @Override
-    public boolean cancelarPedido(int idPedidoCliente) throws SQLException {
-        String sql = "UPDATE pedido_cliente SET estado = 'CANCELADO' " +
-                "WHERE id_pedido_cliente = ?";
 
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, idPedidoCliente);
-
-            int affectedRows = stmt.executeUpdate();
-            return affectedRows > 0;
-        }
-    }
 
     @Override
     public boolean entregarPedido(int idPedidoCliente) throws SQLException {

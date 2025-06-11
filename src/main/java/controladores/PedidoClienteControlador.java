@@ -8,6 +8,11 @@ import java.util.List;
 public class PedidoClienteControlador {
     private final PedidoClienteDAOimpl pedidoDAO = new PedidoClienteDAOimpl();
 
+    public boolean cancelarPedido(int idPedidoCliente) throws SQLException {
+        return pedidoDAO.cancelarPedido(idPedidoCliente);
+    }
+
+
     public int crearPedido(int idCliente, String fecha, String estado)
             throws SQLException, IllegalArgumentException {
 
@@ -60,9 +65,5 @@ public class PedidoClienteControlador {
 
     public List<Pedido_Cliente> buscarPedidosPendientes(int idCliente) throws SQLException {
         return pedidoDAO.buscarPedidosPendientes(idCliente);
-    }
-
-    public boolean cancelarPedido(int idPedidoCliente) throws SQLException {
-        return pedidoDAO.cancelarPedido(idPedidoCliente);
     }
 }
