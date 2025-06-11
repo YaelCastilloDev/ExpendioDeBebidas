@@ -27,28 +27,41 @@ import modelos.PedidoProveedor;
             throw e;
         }
     }
-    @Override
-    public boolean crearPedidoAutomatico(int idBebida, int cantidadPedida, String rfcProveedor) throws SQLException {
-        String sql = "{CALL sp_crear_pedido_automatico(?, ?, ?)}";
 
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
-             CallableStatement stmt = conn.prepareCall(sql)) {
+        @Override
+        public int crearPedidoAutomatico(int idBebida, int cantidadPedida, String rfcProveedor) throws SQLException {
+            String sql = "{CALL sp_crear_pedido_automatico(?, ?, ?)}";
+            int idPedidoGenerado = -1;
 
-            stmt.setInt(1, idBebida);
-            stmt.setInt(2, cantidadPedida);
+            try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+                 CallableStatement stmt = conn.prepareCall(sql)) {
 
-            if (rfcProveedor == null || rfcProveedor.isEmpty()) {
-                stmt.setNull(3, Types.VARCHAR);
-            } else {
-                stmt.setString(3, rfcProveedor);
+                stmt.setInt(1, idBebida);
+                stmt.setInt(2, cantidadPedida);
+
+                if (rfcProveedor == null || rfcProveedor.isEmpty()) {
+                    stmt.setNull(3, Types.VARCHAR);
+                } else {
+                    stmt.setString(3, rfcProveedor);
+                }
+
+                // Execute the stored procedure
+                boolean hasResults = stmt.execute();
+
+                // Process the result set if there is one
+                if (hasResults) {
+                    try (ResultSet rs = stmt.getResultSet()) {
+                        if (rs.next()) {
+                            idPedidoGenerado = rs.getInt("id_pedido_proveedor");
+                        }
+                    }
+                }
+
+                return idPedidoGenerado;
+            } catch (SQLException e) {
+                throw e;
             }
-
-            stmt.execute();
-            return true;
-        } catch (SQLException e) {
-            throw e;
         }
-    }
 
         @Override
         public boolean cancelarPedidoProveedor(int idPedidoProveedor) throws SQLException {

@@ -16,13 +16,11 @@ public class PedidoProveedorControlador {
         }
     }
 
-    public boolean crearPedidoAutomatico(int idBebida, int cantidadPedida, String rfcProveedor) {
+    public int crearPedidoAutomatico(int idBebida, int cantidadPedida, String rfcProveedor) {
         try {
             return pedidoProveedorDAO.crearPedidoAutomatico(idBebida, cantidadPedida, rfcProveedor);
         } catch (SQLException e) {
-            // Log the error (consider using a logger)
-            System.err.println("Error al crear pedido automático: " + e.getMessage());
-            return false;
+            return -1; // Retorna -1 si hay algún fallo
         }
     }
 
