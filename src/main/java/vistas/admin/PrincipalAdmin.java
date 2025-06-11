@@ -293,7 +293,7 @@ public class PrincipalAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBebidasActionPerformed
 
     private void btnComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprasActionPerformed
-        new VentanaCompras().setVisible(true);
+        new SeleccionProveedor().setVisible(true);
     }//GEN-LAST:event_btnComprasActionPerformed
 
     private void btnProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProveedoresActionPerformed

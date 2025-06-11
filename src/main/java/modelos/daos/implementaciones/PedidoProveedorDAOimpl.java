@@ -4,6 +4,9 @@
     import modelos.daos.contratos.PedidoProveedorDAO;
 
     import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import modelos.PedidoProveedor;
 
     public class PedidoProveedorDAOimpl implements PedidoProveedorDAO {
     @Override
@@ -61,4 +64,34 @@
                 return rowsAffected == 1;
             }
         }
+        
+    @Override
+    public List<PedidoProveedor> obtenerPedidosPendientes(String rfc) throws SQLException {
+        String sql = "SELECT id_pedido_proveedor, fecha, total, estado, rfc " +
+                     "FROM pedido_proveedor " +
+                     "WHERE estado = 'PENDIENTE' AND rfc = ?";
+
+        List<PedidoProveedor> resultados = new ArrayList<>();
+
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, rfc);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    PedidoProveedor pedido = new PedidoProveedor();
+                    pedido.setId(rs.getInt("id_pedido_proveedor"));
+                    pedido.setFecha(rs.getDate("fecha").toLocalDate());
+                    pedido.setTotal(rs.getBigDecimal("total"));
+                    pedido.setEstado(rs.getString("estado"));
+                    pedido.setRfc(rs.getString("rfc"));
+
+                    resultados.add(pedido);
+                }
+            }
+        }
+
+        return resultados;
+    }
 }

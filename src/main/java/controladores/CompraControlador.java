@@ -38,7 +38,7 @@ public class CompraControlador {
             throw new IllegalArgumentException("La cantidad pedida debe ser mayor a cero");
         }
 
-        String folio = "V" + String.format("%010d", new Random().nextInt(1_000_000_000));
+        String folio = "C" + String.format("%010d", new Random().nextInt(1_000_000_000));
 
         return compraDAO.completarPedidoProveedor(idBebida, cantidadPedida, rfcProveedor, folio);
     }
