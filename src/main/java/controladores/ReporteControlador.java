@@ -4,12 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import modelos.Bebida;
 import modelos.daos.implementaciones.ReportesDAOimpl;
-import modelos.views.AnalisisVentas;
-import modelos.views.EstadisticaVentaProductos;
-import modelos.views.StockProductos;
-import modelos.views.VentasAnuales;
-import modelos.views.VentasMensuales;
-import modelos.views.VentasSemanales;
+import modelos.views.*;
 
 public class ReporteControlador {
     private final ReportesDAOimpl dao = new ReportesDAOimpl();
@@ -60,5 +55,8 @@ public class ReporteControlador {
     
     public List<Bebida> obtenerInventarioBebidasEmpleado() throws SQLException {
         return dao.obtenerInventarioBebidasEmpleado();
+    }
+    public List<StockEstado> obtenerStockBajo() throws SQLException {
+        return dao.obtenerStockBajo();
     }
 }
