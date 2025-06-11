@@ -15,6 +15,18 @@ public class CompraControlador {
         this.compraDAO = new CompraDAOimpl();
     }
 
+    public Compra completarPedidoProveedor(int idPedidoProveedor, String folioFactura)
+            throws SQLException, IllegalArgumentException {
+        // Input validation
+        if (idPedidoProveedor <= 0) {
+            throw new IllegalArgumentException("ID de pedido a proveedor inválido");
+        }
+        if (folioFactura == null || folioFactura.trim().isEmpty()) {
+            throw new IllegalArgumentException("El folio de factura no puede estar vacío");
+        }
+
+        return compraDAO.completarPedidoProveedor(idPedidoProveedor, folioFactura.trim());
+    }
 
     public Compra crearYCompletarCompra(int idBebida, int cantidadPedida, String rfcProveedor)
             throws SQLException, IllegalArgumentException {

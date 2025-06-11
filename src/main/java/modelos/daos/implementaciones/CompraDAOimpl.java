@@ -11,6 +11,22 @@ import java.time.LocalDate;
 public class CompraDAOimpl implements CompraDAO {
 
     @Override
+    public Compra completarPedidoProveedor(int idPedidoProveedor, String folioFactura) throws SQLException {
+        String sql = "{CALL sp_completar_pedido_proveedor(?, ?)}";
+
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+             CallableStatement stmt = conn.prepareCall(sql)) {
+
+            stmt.setInt(1, idPedidoProveedor);
+            stmt.setString(2, folioFactura);
+            stmt.execute();
+
+            // Get the created purchase
+            return obtenerCompraPorPedido(idPedidoProveedor);
+        }
+    }
+
+    @Override
     public Compra completarPedidoProveedor(int idBebida, int cantidadPedida, String rfcProveedor, String folioFactura) throws SQLException {
         String createOrderSql = "{CALL sp_crear_pedido_automatico(?, ?, ?)}";
         String completeOrderSql = "{CALL sp_completar_pedido_proveedor(?, ?)}";

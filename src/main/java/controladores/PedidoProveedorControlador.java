@@ -25,4 +25,13 @@ public class PedidoProveedorControlador {
             return false;
         }
     }
+
+    public boolean cancelarPedidoProveedor(int idPedidoProveedor) throws SQLException, IllegalArgumentException {
+        // Input validation
+        if (idPedidoProveedor <= 0) {
+            throw new IllegalArgumentException("ID de pedido a proveedor inválido");
+        }
+
+        return pedidoProveedorDAO.cancelarPedidoProveedor(idPedidoProveedor);
+    }
 }

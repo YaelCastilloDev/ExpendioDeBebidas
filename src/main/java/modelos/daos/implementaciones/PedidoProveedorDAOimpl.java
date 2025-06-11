@@ -1,14 +1,11 @@
-package modelos.daos.implementaciones;
+    package modelos.daos.implementaciones;
 
-import modelos.conexiones.UsuarioFactory;
-import modelos.daos.contratos.PedidoProveedorDAO;
+    import modelos.conexiones.UsuarioFactory;
+    import modelos.daos.contratos.PedidoProveedorDAO;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Types;
+    import java.sql.*;
 
-public class PedidoProveedorDAOimpl implements PedidoProveedorDAO {
+    public class PedidoProveedorDAOimpl implements PedidoProveedorDAO {
     @Override
     public boolean añadirDetallePedidoProveedor(int idPedidoProveedor, int idBebida, int cantidad) throws SQLException {
         String sql = "{CALL añadir_detalle_pedido_proveedor(?, ?, ?)}";
@@ -49,4 +46,19 @@ public class PedidoProveedorDAOimpl implements PedidoProveedorDAO {
             throw e;
         }
     }
+
+        @Override
+        public boolean cancelarPedidoProveedor(int idPedidoProveedor) throws SQLException {
+            String sql = "UPDATE pedido_proveedor SET estado = 'CANCELADO' WHERE id_pedido_proveedor = ? AND estado = 'PENDIENTE'";
+
+            try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+                stmt.setInt(1, idPedidoProveedor);
+                int rowsAffected = stmt.executeUpdate();
+
+                // Returns true if exactly one row was updated
+                return rowsAffected == 1;
+            }
+        }
 }
