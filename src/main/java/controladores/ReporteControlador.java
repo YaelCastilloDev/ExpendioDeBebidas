@@ -6,7 +6,6 @@ import modelos.Bebida;
 import modelos.daos.implementaciones.ReportesDAOimpl;
 import modelos.views.AnalisisVentas;
 import modelos.views.EstadisticaVentaProductos;
-import modelos.views.ProductoVendidoPorCliente;
 import modelos.views.StockProductos;
 import modelos.views.VentasAnuales;
 import modelos.views.VentasMensuales;
@@ -47,12 +46,12 @@ public class ReporteControlador {
         return dao.obtenerAnalisisVentas();
     }
     
-    public List<ProductoVendidoPorCliente> obtenerProductosNoVendidosPorClientes() throws SQLException {
-        return dao.obtenerProductosNoVendidosPorCliente();
+    public List<Bebida> obtenerProductosNoVendidosPorClientes(int idCliente) throws SQLException {
+        return dao.obtenerProductosNoVendidosPorCliente(idCliente);
     }
     
-    public List<ProductoVendidoPorCliente> obtenerProductosMasVendidosPorCliente() throws SQLException {
-        return dao.obtenerProductosMasVendidosPorCliente();
+    public List<EstadisticaVentaProductos> obtenerProductosMasVendidosPorCliente(int idCliente) throws SQLException {
+        return dao.obtenerProductosMasVendidosPorCliente(idCliente);
     }
     
     public List<Bebida> obtenerInventarioBebidasAdmin() throws SQLException {
