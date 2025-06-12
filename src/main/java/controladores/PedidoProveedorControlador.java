@@ -16,12 +16,9 @@ public class PedidoProveedorControlador {
         }
     }
 
-    public int crearPedidoAutomatico(int idBebida, int cantidadPedida, String rfcProveedor) {
-        try {
+    public int crearPedidoAutomatico(int idBebida, int cantidadPedida, String rfcProveedor) throws SQLException {
             return pedidoProveedorDAO.crearPedidoAutomatico(idBebida, cantidadPedida, rfcProveedor);
-        } catch (SQLException e) {
-            return -1; // Retorna -1 si hay algún fallo
-        }
+
     }
 
     public boolean cancelarPedidoProveedor(int idPedidoProveedor) throws SQLException, IllegalArgumentException {

@@ -31,7 +31,6 @@ import modelos.PedidoProveedor;
         @Override
         public int crearPedidoAutomatico(int idBebida, int cantidadPedida, String rfcProveedor) throws SQLException {
             String sql = "{CALL sp_crear_pedido_automatico(?, ?, ?)}";
-            int idPedidoGenerado = -1;
 
             try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
                  CallableStatement stmt = conn.prepareCall(sql)) {
@@ -48,18 +47,17 @@ import modelos.PedidoProveedor;
                 // Execute the stored procedure
                 boolean hasResults = stmt.execute();
 
-                // Process the result set if there is one
-                if (hasResults) {
-                    try (ResultSet rs = stmt.getResultSet()) {
-                        if (rs.next()) {
-                            idPedidoGenerado = rs.getInt("id_pedido_proveedor");
-                        }
-                    }
+                if (!hasResults) {
+                    throw new SQLException("Ningún result set retornado en el proceso");
                 }
 
-                return idPedidoGenerado;
-            } catch (SQLException e) {
-                throw e;
+                try (ResultSet rs = stmt.getResultSet()) {
+                    if (rs.next()) {
+                        return rs.getInt("id_pedido_proveedor");
+                    } else {
+                        throw new SQLException("No hay información retornada");
+                    }
+                }
             }
         }
 
