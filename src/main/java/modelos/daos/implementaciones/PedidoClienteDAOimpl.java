@@ -27,7 +27,7 @@ public class PedidoClienteDAOimpl implements PedidoClienteDAO {
 
         String sql = "{CALL sp_agregar_detalle_pedido(?, ?, ?, ?)}";
 
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.EMPLEADO);
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
              CallableStatement stmt = conn.prepareCall(sql)) {
 
             stmt.setInt(1, idPedidoCliente);
