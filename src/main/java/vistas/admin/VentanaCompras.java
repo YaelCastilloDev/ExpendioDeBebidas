@@ -1,18 +1,23 @@
 package vistas.admin;
 
 import controladores.BebidaControlador;
+import controladores.CompraControlador;
 import controladores.PedidoProveedorControlador;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.sql.SQLException;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import modelos.Bebida;
 import modelos.PedidoProveedor;
@@ -23,11 +28,17 @@ public class VentanaCompras extends javax.swing.JFrame {
     private Map<Bebida, Integer> carrito = new LinkedHashMap<>();
     private BebidaControlador bebidaControlador = new BebidaControlador();
     private PedidoProveedorControlador pedidoProveedorControlador = new PedidoProveedorControlador();
+    private CompraControlador compraControlador = new CompraControlador();
 
     public VentanaCompras(Proveedor proveedor) {
         this.proveedor = proveedor;
         initComponents();
         setLocationRelativeTo(null);
+        personalizarTabla(tablaCarrito);
+        personalizarTabla(tablaInventario);
+        forzarColorEncabezado(tablaCarrito);
+        forzarColorEncabezado(tablaInventario);
+        cargarTablaInventario();
     }
 
     /**
@@ -230,7 +241,7 @@ public class VentanaCompras extends javax.swing.JFrame {
         if (fila >= 0) {
             String nombreBebida = tablaInventario.getValueAt(fila, 0).toString();
             try {
-                Bebida bebida = controladorBebida.obtenerBebidaPorNombre(nombreBebida);
+                Bebida bebida = bebidaControlador.obtenerBebidaPorNombre(nombreBebida);
                 String input = JOptionPane.showInputDialog(this, "¿Cantidad a agregar?");
                 if (input == null) return;
                 int cantidad = Integer.parseInt(input);
@@ -240,21 +251,8 @@ public class VentanaCompras extends javax.swing.JFrame {
                     return;
                 }
 
-                if (cantidad > bebida.getStock_actual()) {
-                    JOptionPane.showMessageDialog(this, "No hay suficiente stock.");
-                    return;
-                }
-
                 int cantidadEnCarrito = carrito.getOrDefault(bebida, 0);
                 int nuevaCantidadTotal = cantidadEnCarrito + cantidad;
-
-                if (nuevaCantidadTotal > bebida.getStock_actual()) {
-                    JOptionPane.showMessageDialog(this,
-                        "No puedes agregar más de " + bebida.getStock_actual() +
-                        " unidades en total. Ya tienes " + cantidadEnCarrito + " en el carrito.",
-                        "Stock insuficiente", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
 
                 carrito.put(bebida, nuevaCantidadTotal);
                 cargarTablaCarrito();
@@ -272,18 +270,32 @@ public class VentanaCompras extends javax.swing.JFrame {
             return;
         }
 
-        int idCliente = cliente.getId();
-        String fecha = LocalDate.now().toString();
-        String estado = "PENDIENTE";
-
         try {
-            int idPedido = controladorPedido.crearPedido(idCliente, fecha, estado);
-
+            Map.Entry<Bebida, Integer> primerItem = carrito.entrySet().iterator().next();
+            Bebida bebidaPrincipal = primerItem.getKey();
+            int cantidadPrincipal = primerItem.getValue();
+            
+            int idPedido = pedidoProveedorControlador.crearPedidoAutomatico(
+                    bebidaPrincipal.getId(), cantidadPrincipal, proveedor.getRfc()
+            );
+            
+            if (idPedido <= 0) {
+                throw new SQLException("No se pudo crear el pedido a proveedor");
+            }
+            
+            boolean exito = true;
             for (Map.Entry<Bebida, Integer> entry : carrito.entrySet()) {
                 Bebida bebida = entry.getKey();
                 int cantidad = entry.getValue();
-
-                controladorPedido.agregarDetallePedido(idPedido, bebida.getId(), cantidad);
+                
+                if (bebida.getId() == bebidaPrincipal.getId() && cantidad == cantidadPrincipal) {
+                    continue;
+                }
+                exito &= pedidoProveedorControlador.agregarDetalleAPedido(idPedido, bebida.getId(), cantidad);
+            }
+            
+            if (!exito) {
+                throw new SQLException("Error al agregar detalles al pedido.");
             }
             JOptionPane.showMessageDialog(this, "Pedido registrado exitosamente.");
             carrito.clear();
@@ -301,6 +313,63 @@ public class VentanaCompras extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    private void cargarTablaInventario() {
+        try {
+            List<Bebida> bebidas = bebidaControlador.obtenerTodasLasBebidas();
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            
+            modelo.setColumnIdentifiers(new Object[]{"Nombre", "Tamaño (ml)", 
+                "Precio Unitario", "Categoría", "Stock Actual"});
+            for (Bebida b : bebidas) {
+                modelo.addRow(new Object[]{
+                    b.getNombre(),
+                    b.getTamaño(),
+                    b.getPrecio_unitario(),
+                    b.getCategoria(),
+                    b.getStock_actual()
+                });
+            }
+            tablaInventario.setModel(modelo);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar las bebidas: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
+    private void cargarTablaCarrito() {
+        DefaultTableModel modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+            
+        modelo.setColumnIdentifiers(new Object[]{"Nombre", "Tamaño (ml)", 
+                "Precio Unitario", "Cantidad", "Subtotal"});
+        
+        for (Map.Entry<Bebida, Integer> entry : carrito.entrySet()) {
+            Bebida b = entry.getKey();
+            int cantidad = entry.getValue();
+            double subtotal = b.getPrecio_unitario() * cantidad;
+            
+            modelo.addRow(new Object[] {
+                b.getNombre(),
+                b.getTamaño(),
+                b.getPrecio_unitario(),
+                cantidad,
+                subtotal
+            });
+        }
+        tablaCarrito.setModel(modelo);
+    }
+    
     private void personalizarTabla(JTable tabla) {
         tabla.setRowHeight(28);
         tabla.setShowGrid(false);
