@@ -48,7 +48,6 @@ public class CompraDAOimpl implements CompraDAO {
                 }
             }
 
-            // Then complete the order to create the purchase
             try (CallableStatement completeStmt = conn.prepareCall(completeOrderSql)) {
                 completeStmt.setInt(1, idPedidoProveedor);
                 completeStmt.setString(2, folioFactura);

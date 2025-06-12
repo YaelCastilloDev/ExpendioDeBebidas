@@ -279,7 +279,7 @@ public class SeleccionProductos extends javax.swing.JFrame {
                 controladorVenta.procesarPedido(idCliente, fecha, estado, bebida.getId(), cantidad, folio);
                 registrosExitosos++;
             }
-            JOptionPane.showMessageDialog(this, "Venta registrada con éxito.");
+            JOptionPane.showMessageDialog(this, "Venta registrada con éxito.\nFolio generado: " + folio + "\nFecha de la venta: " + fecha);
             carrito.clear();
             this.dispose();
         } catch (SQLException e) {

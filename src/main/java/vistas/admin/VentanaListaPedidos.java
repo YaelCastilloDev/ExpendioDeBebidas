@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -172,10 +173,11 @@ public class VentanaListaPedidos extends javax.swing.JFrame {
             PedidoProveedor pedidoSeleccionado = pedidos.get(fila);
             int idPedido = pedidoSeleccionado.getId();
             String folio = "C" + String.format("%010d", new Random().nextInt(1_000_000_000));
+            LocalDate fecha = LocalDate.now();
             
             try {
                 compraControlador.completarPedidoProveedor(idPedido, folio);
-                JOptionPane.showMessageDialog(this, "Pedido completado con éxito.\nFolio generado: " + folio);
+                JOptionPane.showMessageDialog(this, "Pedido completado con éxito.\nFolio generado: " + folio + "\nFecha de la compra: " + fecha);
                 cargarTablaPedidos();
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this,

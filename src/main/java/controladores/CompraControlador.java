@@ -17,7 +17,6 @@ public class CompraControlador {
 
     public Compra completarPedidoProveedor(int idPedidoProveedor, String folioFactura)
             throws SQLException, IllegalArgumentException {
-        // Input validation
         if (idPedidoProveedor <= 0) {
             throw new IllegalArgumentException("ID de pedido a proveedor inválido");
         }

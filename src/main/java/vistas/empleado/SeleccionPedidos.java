@@ -193,8 +193,8 @@ public class SeleccionPedidos extends javax.swing.JFrame {
             Pedido_Cliente pedidoSeleccionado = pedidos.get(fila);
             int idPedido = pedidoSeleccionado.getId_pedido_cliente();
             try {
-                boolean cancelado = controladorPedidos.entregarPedido(idPedido);
-                if (cancelado) {
+                boolean completado = controladorPedidos.entregarPedido(idPedido);
+                if (completado) {
                     JOptionPane.showMessageDialog(this, "Pedido marcado como completado con éxito.");
                     cargarTablaPedidos();
                 } else {
