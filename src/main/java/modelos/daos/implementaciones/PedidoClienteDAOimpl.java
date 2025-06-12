@@ -12,7 +12,7 @@ public class PedidoClienteDAOimpl implements PedidoClienteDAO {
     public boolean cancelarPedido(int idPedidoCliente) throws SQLException {
         String sql = "{CALL cancelar_pedido(?)}";
 
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.EMPLEADO);
              CallableStatement stmt = conn.prepareCall(sql)) {
 
             stmt.setInt(1, idPedidoCliente);
@@ -27,7 +27,7 @@ public class PedidoClienteDAOimpl implements PedidoClienteDAO {
 
         String sql = "{CALL sp_agregar_detalle_pedido(?, ?, ?, ?)}";
 
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.EMPLEADO);
              CallableStatement stmt = conn.prepareCall(sql)) {
 
             stmt.setInt(1, idPedidoCliente);
@@ -48,7 +48,7 @@ public class PedidoClienteDAOimpl implements PedidoClienteDAO {
 
         String sql = "{CALL sp_crear_pedido_cliente(?, ?, ?)}";
 
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.EMPLEADO); // no está en el script //////////
              CallableStatement stmt = conn.prepareCall(sql)) {
 
             stmt.setInt(1, idCliente);
@@ -72,7 +72,7 @@ public class PedidoClienteDAOimpl implements PedidoClienteDAO {
         String sql = "UPDATE pedido_cliente SET estado = 'ENTREGADO' " +
                 "WHERE id_pedido_cliente = ?";
 
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.EMPLEADO); // no está en el script ///////////
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, idPedidoCliente);
@@ -90,7 +90,7 @@ public class PedidoClienteDAOimpl implements PedidoClienteDAO {
 
         List<Pedido_Cliente> resultados = new ArrayList<>();
 
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.EMPLEADO);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, idCliente);

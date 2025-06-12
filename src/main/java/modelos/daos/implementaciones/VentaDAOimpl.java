@@ -16,7 +16,7 @@ public class VentaDAOimpl implements VentaDAO {
         String sql = "{CALL sp_transaccion_pedido_completo(?, ?, ?, ?, ?, ?, ?, ?)}";
         Venta venta = new Venta();
 
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);////////////////////
              CallableStatement stmt = conn.prepareCall(sql)) {
 
             stmt.setInt(1, idCliente);
@@ -48,7 +48,7 @@ public class VentaDAOimpl implements VentaDAO {
         String sql = "SELECT id_venta, fecha FROM venta WHERE id_pedido_cliente = ?";
         Venta venta = new Venta();
 
-        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
+        try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.EMPLEADO);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, idPedido);

@@ -1889,6 +1889,8 @@ GRANT EXECUTE ON expendio_bebidas.* TO admins;
 
 GRANT SELECT, INSERT, UPDATE ON expendio_bebidas.venta TO empleados;
 GRANT SELECT, INSERT, UPDATE ON expendio_bebidas.cliente TO empleados;
+GRANT SELECT, INSERT, UPDATE ON expendio_bebidas.pedido_cliente TO empleados;
+GRANT SELECT, INSERT, UPDATE ON expendio_bebidas.detalle_pedido_cliente TO empleados;
 GRANT SELECT ON expendio_bebidas.productos_stock_bajo TO empleados;
 GRANT SELECT ON expendio_bebidas.empleado TO empleados;
 GRANT SELECT ON expendio_bebidas.bebida TO empleados;
