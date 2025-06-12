@@ -44,11 +44,11 @@ public class CompraControlador {
     }
 
 
-    public Compra obtenerCompraPorId(int idCompra) throws SQLException, IllegalArgumentException {
-        if (idCompra <= 0) {
+    public Compra obtenerCompraPorId(String folio) throws SQLException, IllegalArgumentException {
+        if (folio == null || folio.isEmpty()) {
             throw new IllegalArgumentException("ID de compra inválido");
         }
-        return compraDAO.obtenerCompraPorId(idCompra);
+        return compraDAO.obtenerCompraPorId(folio);
     }
 
 

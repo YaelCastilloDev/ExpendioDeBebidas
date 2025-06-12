@@ -61,13 +61,13 @@ public class CompraDAOimpl implements CompraDAO {
     }
 
     @Override
-    public Compra obtenerCompraPorId(int idCompra) throws SQLException {
-        String sql = "SELECT * FROM compra WHERE id_compra = ?";
+    public Compra obtenerCompraPorId(String folio) throws SQLException {
+        String sql = "SELECT * FROM compra WHERE folio = ?";
 
         try (Connection conn = UsuarioFactory.obtenerConexion(UsuarioFactory.TipoUsuario.ADMIN);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, idCompra);
+            stmt.setString(1, folio);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -97,7 +97,6 @@ public class CompraDAOimpl implements CompraDAO {
 
     private Compra mapCompraFromResultSet(ResultSet rs) throws SQLException {
         Compra compra = new Compra();
-        compra.setIdCompra(rs.getInt("id_compra"));
         compra.setFolio(rs.getString("folio"));
         compra.setFecha(rs.getDate("fecha").toLocalDate());
         compra.setTotal(rs.getBigDecimal("total"));
