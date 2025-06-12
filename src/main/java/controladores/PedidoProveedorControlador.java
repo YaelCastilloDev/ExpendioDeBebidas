@@ -3,6 +3,8 @@ package controladores;
 import modelos.daos.implementaciones.PedidoProveedorDAOimpl;
 
 import java.sql.SQLException;
+import java.util.List;
+import modelos.PedidoProveedor;
 
 public class PedidoProveedorControlador {
     PedidoProveedorDAOimpl pedidoProveedorDAO = new PedidoProveedorDAOimpl();
@@ -28,5 +30,9 @@ public class PedidoProveedorControlador {
         }
 
         return pedidoProveedorDAO.cancelarPedidoProveedor(idPedidoProveedor);
+    }
+    
+    public List<PedidoProveedor> obtenerPedidosPendientes(String rfc) throws SQLException {
+        return pedidoProveedorDAO.obtenerPedidosPendientes(rfc);
     }
 }

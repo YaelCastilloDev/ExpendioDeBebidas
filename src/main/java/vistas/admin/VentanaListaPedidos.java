@@ -1,10 +1,45 @@
 package vistas.admin;
 
+import controladores.CompraControlador;
+import controladores.PedidoProveedorControlador;
+import controladores.ProveedorControlador;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import modelos.PedidoProveedor;
+import modelos.Proveedor;
+
 public class VentanaListaPedidos extends javax.swing.JFrame {
+    List<PedidoProveedor> pedidos = new ArrayList<>();
+    PedidoProveedorControlador controladorPedidos = new PedidoProveedorControlador();
+    ProveedorControlador proveedorControlador = new ProveedorControlador();
+    CompraControlador compraControlador = new CompraControlador();
 
     public VentanaListaPedidos() {
         initComponents();
         setLocationRelativeTo(null);
+        txtRFCProveedor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cargarTablaPedidos();
+            }
+        });
+        personalizarTabla(tablaPedidos);
+        forzarColorEncabezado(tablaPedidos);
     }
 
     /**
@@ -16,23 +51,255 @@ public class VentanaListaPedidos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txtRFCProveedor = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaPedidos = new javax.swing.JTable();
+        btnMarcarComoCompletado = new javax.swing.JButton();
+        btnCancelarPedido = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GESTIÓN DE PEDIDOS PENDIENTES");
         setResizable(false);
+
+        jPanel1.setBackground(new java.awt.Color(0, 43, 91));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Pedidos a proveedor pendientes");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel1)
+                .addContainerGap(625, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        txtRFCProveedor.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtRFCProveedor.setToolTipText("Correo Electrónico del Cliente");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setText("RFC del Proveedor:");
+
+        tablaPedidos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaPedidos);
+
+        btnMarcarComoCompletado.setBackground(new java.awt.Color(0, 80, 157));
+        btnMarcarComoCompletado.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btnMarcarComoCompletado.setForeground(new java.awt.Color(255, 255, 255));
+        btnMarcarComoCompletado.setText("Marcar Pedido como Completado");
+        btnMarcarComoCompletado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMarcarComoCompletadoActionPerformed(evt);
+            }
+        });
+
+        btnCancelarPedido.setBackground(new java.awt.Color(0, 80, 157));
+        btnCancelarPedido.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btnCancelarPedido.setForeground(new java.awt.Color(255, 255, 255));
+        btnCancelarPedido.setText("Cancelar Pedido");
+        btnCancelarPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarPedidoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1200, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnMarcarComoCompletado)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCancelarPedido))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 966, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtRFCProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtRFCProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancelarPedido)
+                    .addComponent(btnMarcarComoCompletado))
+                .addGap(0, 15, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnMarcarComoCompletadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarcarComoCompletadoActionPerformed
+        int fila = tablaPedidos.getSelectedRow();
+        if (fila >= 0) {
+            PedidoProveedor pedidoSeleccionado = pedidos.get(fila);
+            int idPedido = pedidoSeleccionado.getId();
+            String folio = "C" + String.format("%010d", new Random().nextInt(1_000_000_000));
+            
+            try {
+                compraControlador.completarPedidoProveedor(idPedido, folio);
+                JOptionPane.showMessageDialog(this, "Pedido completado con éxito.\nFolio generado: " + folio);
+                cargarTablaPedidos();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error al completar el pedido: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+                );
+            } catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(this,
+                    "Entrada inválida: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+                );
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona un pedido de la tabla.");
+        }
+    }//GEN-LAST:event_btnMarcarComoCompletadoActionPerformed
+
+    private void btnCancelarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarPedidoActionPerformed
+        int fila = tablaPedidos.getSelectedRow();
+        if (fila >= 0) {
+            PedidoProveedor pedidoSeleccionado = pedidos.get(fila);
+            int idPedido = pedidoSeleccionado.getId();
+            
+            try {
+                boolean cancelado = controladorPedidos.cancelarPedidoProveedor(idPedido);
+                if (cancelado) {
+                    JOptionPane.showMessageDialog(this, "Pedido cancelado con éxito.");
+                    cargarTablaPedidos();
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se pudo cancelar el pedido.");
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error al cargar los pedidos: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+                );
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona un pedido de la tabla.");
+        }
+    }//GEN-LAST:event_btnCancelarPedidoActionPerformed
+    
+    private void cargarTablaPedidos() {
+        try {
+            String rfc = txtRFCProveedor.getText().trim();
+            Proveedor proveedor = proveedorControlador.obtenerProveedor(rfc);
+            if (proveedor == null) {
+                JOptionPane.showMessageDialog(this, "Proveedor no encontrado.");
+                return;
+            }
+            pedidos = controladorPedidos.obtenerPedidosPendientes(proveedor.getRfc());
+            
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            
+            modelo.setColumnIdentifiers(new Object[]{"Fecha", "RFC del Proveedor", "Estado", "Total"});
+            for (PedidoProveedor p : pedidos) {
+                modelo.addRow(new Object[]{
+                    p.getFecha(),
+                    p.getRfc(),
+                    p.getEstado(),
+                    p.getTotal()
+                });
+            }
+            tablaPedidos.setModel(modelo);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar los pedidos: " + e.getMessage(),
+                    "ERROR", JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
+    private void personalizarTabla(JTable tabla) {
+        tabla.setRowHeight(28);
+        tabla.setShowGrid(false);
+        tabla.setIntercellSpacing(new Dimension(0, 0));
+        
+        tabla.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tabla.setForeground(new Color(30, 30, 30));
+        tabla.setBackground(new Color(240, 240, 240));
+        
+        JTableHeader header = tabla.getTableHeader();
+        header.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        header.setBackground(new Color(0, 43, 91));
+        header.setForeground(Color.WHITE);
+        header.setReorderingAllowed(false);
+        
+        tabla.setSelectionBackground(new Color(142, 197, 252));
+        tabla.setSelectionForeground(Color.WHITE);
+    }
+    
+    private void forzarColorEncabezado(JTable tabla) {
+        JTableHeader header = tabla.getTableHeader();
+        header.setDefaultRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+
+                JLabel lbl = (JLabel) super.getTableCellRendererComponent(
+                        table, value, isSelected, hasFocus, row, column);
+
+                lbl.setBackground(new Color(0, 43, 91));
+                lbl.setForeground(Color.WHITE);
+                lbl.setFont(new Font("Segoe UI", Font.BOLD, 15));
+                lbl.setHorizontalAlignment(SwingConstants.CENTER);
+                lbl.setOpaque(true);
+                return lbl;
+            }
+        });
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelarPedido;
+    private javax.swing.JButton btnMarcarComoCompletado;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tablaPedidos;
+    private javax.swing.JTextField txtRFCProveedor;
     // End of variables declaration//GEN-END:variables
 }
