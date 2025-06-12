@@ -64,6 +64,7 @@ public class VentanaCompras extends javax.swing.JFrame {
         btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("COMPRA DE PRODUCTOS");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 43, 91));

@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -21,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import modelos.Bebida;
 import modelos.Cliente;
+import modelos.utiles.exportacion.ExportarExcel;
 import modelos.views.AnalisisVentas;
 import modelos.views.EstadisticaVentaProductos;
 import modelos.views.StockEstado;
@@ -67,46 +69,56 @@ public class VentanaReportes extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaAnalisis = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        btnExportarAnalisis = new javax.swing.JButton();
         semanales = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaSemanales = new javax.swing.JTable();
+        btnExportarSemanales = new javax.swing.JButton();
         mensuales = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaMensuales = new javax.swing.JTable();
+        btnExportarMensuales = new javax.swing.JButton();
         anuales = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tablaAnuales = new javax.swing.JTable();
+        btnExportarAnuales = new javax.swing.JButton();
         masVendido = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane = new javax.swing.JScrollPane();
         tablaMasVendidos = new javax.swing.JTable();
+        btnExportarMas = new javax.swing.JButton();
         menosVendido = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tablaMenosVendidos = new javax.swing.JTable();
+        btnExportarMenos = new javax.swing.JButton();
         porProducto = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         tablaVentasProductos = new javax.swing.JTable();
+        btnExportarPorProducto = new javax.swing.JButton();
         inventario = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         tablaInventario = new javax.swing.JTable();
+        btnExportarInventario = new javax.swing.JButton();
         noVendidoPorCliente = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
         tablaNoVendidosCliente = new javax.swing.JTable();
         jLabel12 = new javax.swing.JLabel();
         txtEmailClienteNo = new javax.swing.JTextField();
+        btnExportarNoVendido = new javax.swing.JButton();
         masVendidoPorCliente = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane9 = new javax.swing.JScrollPane();
         tablaMasVendidoCliente = new javax.swing.JTable();
         txtEmailClienteMas = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
+        btnExportarMasVendido = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("REPORTES DE VENTAS");
@@ -157,24 +169,39 @@ public class VentanaReportes extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("Análisis de Ventas");
 
+        btnExportarAnalisis.setBackground(new java.awt.Color(0, 80, 157));
+        btnExportarAnalisis.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnExportarAnalisis.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportarAnalisis.setText("Exportar");
+        btnExportarAnalisis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarAnalisisActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout analisisVentasLayout = new javax.swing.GroupLayout(analisisVentas);
         analisisVentas.setLayout(analisisVentasLayout);
         analisisVentasLayout.setHorizontalGroup(
             analisisVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(analisisVentasLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(7, 7, 7)
                 .addGroup(analisisVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 967, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
+                    .addGroup(analisisVentasLayout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExportarAnalisis)))
+                .addContainerGap())
         );
         analisisVentasLayout.setVerticalGroup(
             analisisVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, analisisVentasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
+                .addGap(8, 8, 8)
+                .addGroup(analisisVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(btnExportarAnalisis))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -196,6 +223,16 @@ public class VentanaReportes extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tablaSemanales);
 
+        btnExportarSemanales.setBackground(new java.awt.Color(0, 80, 157));
+        btnExportarSemanales.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnExportarSemanales.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportarSemanales.setText("Exportar");
+        btnExportarSemanales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarSemanalesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout semanalesLayout = new javax.swing.GroupLayout(semanales);
         semanales.setLayout(semanalesLayout);
         semanalesLayout.setHorizontalGroup(
@@ -203,19 +240,22 @@ public class VentanaReportes extends javax.swing.JFrame {
             .addGroup(semanalesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(semanalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
                     .addGroup(semanalesLayout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExportarSemanales)))
                 .addContainerGap())
         );
         semanalesLayout.setVerticalGroup(
             semanalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(semanalesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3)
+                .addGroup(semanalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(btnExportarSemanales))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -237,6 +277,16 @@ public class VentanaReportes extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(tablaMensuales);
 
+        btnExportarMensuales.setBackground(new java.awt.Color(0, 80, 157));
+        btnExportarMensuales.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnExportarMensuales.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportarMensuales.setText("Exportar");
+        btnExportarMensuales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarMensualesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mensualesLayout = new javax.swing.GroupLayout(mensuales);
         mensuales.setLayout(mensualesLayout);
         mensualesLayout.setHorizontalGroup(
@@ -246,17 +296,20 @@ public class VentanaReportes extends javax.swing.JFrame {
                 .addGroup(mensualesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mensualesLayout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExportarMensuales))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
                 .addContainerGap())
         );
         mensualesLayout.setVerticalGroup(
             mensualesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mensualesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
+                .addGroup(mensualesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(btnExportarMensuales))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -278,6 +331,16 @@ public class VentanaReportes extends javax.swing.JFrame {
         ));
         jScrollPane4.setViewportView(tablaAnuales);
 
+        btnExportarAnuales.setBackground(new java.awt.Color(0, 80, 157));
+        btnExportarAnuales.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnExportarAnuales.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportarAnuales.setText("Exportar");
+        btnExportarAnuales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarAnualesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout anualesLayout = new javax.swing.GroupLayout(anuales);
         anuales.setLayout(anualesLayout);
         anualesLayout.setHorizontalGroup(
@@ -287,17 +350,20 @@ public class VentanaReportes extends javax.swing.JFrame {
                 .addGroup(anualesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(anualesLayout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExportarAnuales))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
                 .addContainerGap())
         );
         anualesLayout.setVerticalGroup(
             anualesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(anualesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6)
+                .addGroup(anualesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(btnExportarAnuales))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -319,6 +385,16 @@ public class VentanaReportes extends javax.swing.JFrame {
         ));
         jScrollPane.setViewportView(tablaMasVendidos);
 
+        btnExportarMas.setBackground(new java.awt.Color(0, 80, 157));
+        btnExportarMas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnExportarMas.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportarMas.setText("Exportar");
+        btnExportarMas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarMasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout masVendidoLayout = new javax.swing.GroupLayout(masVendido);
         masVendido.setLayout(masVendidoLayout);
         masVendidoLayout.setHorizontalGroup(
@@ -328,17 +404,20 @@ public class VentanaReportes extends javax.swing.JFrame {
                 .addGroup(masVendidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(masVendidoLayout.createSequentialGroup()
                         .addComponent(jLabel7)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExportarMas))
+                    .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
                 .addContainerGap())
         );
         masVendidoLayout.setVerticalGroup(
             masVendidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(masVendidoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel7)
+                .addGroup(masVendidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(btnExportarMas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -360,6 +439,16 @@ public class VentanaReportes extends javax.swing.JFrame {
         ));
         jScrollPane5.setViewportView(tablaMenosVendidos);
 
+        btnExportarMenos.setBackground(new java.awt.Color(0, 80, 157));
+        btnExportarMenos.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnExportarMenos.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportarMenos.setText("Exportar");
+        btnExportarMenos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarMenosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout menosVendidoLayout = new javax.swing.GroupLayout(menosVendido);
         menosVendido.setLayout(menosVendidoLayout);
         menosVendidoLayout.setHorizontalGroup(
@@ -369,17 +458,20 @@ public class VentanaReportes extends javax.swing.JFrame {
                 .addGroup(menosVendidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(menosVendidoLayout.createSequentialGroup()
                         .addComponent(jLabel8)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExportarMenos))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
                 .addContainerGap())
         );
         menosVendidoLayout.setVerticalGroup(
             menosVendidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menosVendidoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel8)
+                .addGroup(menosVendidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(btnExportarMenos))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -401,6 +493,16 @@ public class VentanaReportes extends javax.swing.JFrame {
         ));
         jScrollPane6.setViewportView(tablaVentasProductos);
 
+        btnExportarPorProducto.setBackground(new java.awt.Color(0, 80, 157));
+        btnExportarPorProducto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnExportarPorProducto.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportarPorProducto.setText("Exportar");
+        btnExportarPorProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarPorProductoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout porProductoLayout = new javax.swing.GroupLayout(porProducto);
         porProducto.setLayout(porProductoLayout);
         porProductoLayout.setHorizontalGroup(
@@ -410,17 +512,20 @@ public class VentanaReportes extends javax.swing.JFrame {
                 .addGroup(porProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(porProductoLayout.createSequentialGroup()
                         .addComponent(jLabel9)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExportarPorProducto))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
                 .addContainerGap())
         );
         porProductoLayout.setVerticalGroup(
             porProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(porProductoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel9)
+                .addGroup(porProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(btnExportarPorProducto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -442,6 +547,16 @@ public class VentanaReportes extends javax.swing.JFrame {
         ));
         jScrollPane7.setViewportView(tablaInventario);
 
+        btnExportarInventario.setBackground(new java.awt.Color(0, 80, 157));
+        btnExportarInventario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnExportarInventario.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportarInventario.setText("Exportar");
+        btnExportarInventario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarInventarioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout inventarioLayout = new javax.swing.GroupLayout(inventario);
         inventario.setLayout(inventarioLayout);
         inventarioLayout.setHorizontalGroup(
@@ -451,17 +566,20 @@ public class VentanaReportes extends javax.swing.JFrame {
                 .addGroup(inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(inventarioLayout.createSequentialGroup()
                         .addComponent(jLabel10)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExportarInventario))
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
                 .addContainerGap())
         );
         inventarioLayout.setVerticalGroup(
             inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(inventarioLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel10)
+                .addGroup(inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(btnExportarInventario))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -484,10 +602,20 @@ public class VentanaReportes extends javax.swing.JFrame {
         jScrollPane8.setViewportView(tablaNoVendidosCliente);
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel12.setText("Cliente:");
+        jLabel12.setText("Email del cliente:");
 
         txtEmailClienteNo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtEmailClienteNo.setToolTipText("Correo Electrónico del Cliente");
+
+        btnExportarNoVendido.setBackground(new java.awt.Color(0, 80, 157));
+        btnExportarNoVendido.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnExportarNoVendido.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportarNoVendido.setText("Exportar");
+        btnExportarNoVendido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarNoVendidoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout noVendidoPorClienteLayout = new javax.swing.GroupLayout(noVendidoPorCliente);
         noVendidoPorCliente.setLayout(noVendidoPorClienteLayout);
@@ -496,13 +624,15 @@ public class VentanaReportes extends javax.swing.JFrame {
             .addGroup(noVendidoPorClienteLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(noVendidoPorClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
                     .addGroup(noVendidoPorClienteLayout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel12)
                         .addGap(18, 18, 18)
-                        .addComponent(txtEmailClienteNo, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtEmailClienteNo, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnExportarNoVendido)))
                 .addContainerGap())
         );
         noVendidoPorClienteLayout.setVerticalGroup(
@@ -512,9 +642,10 @@ public class VentanaReportes extends javax.swing.JFrame {
                 .addGroup(noVendidoPorClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(txtEmailClienteNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12))
+                    .addComponent(jLabel12)
+                    .addComponent(btnExportarNoVendido))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -540,7 +671,17 @@ public class VentanaReportes extends javax.swing.JFrame {
         txtEmailClienteMas.setToolTipText("Correo Electrónico del Cliente");
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel13.setText("Cliente:");
+        jLabel13.setText("Email del cliente:");
+
+        btnExportarMasVendido.setBackground(new java.awt.Color(0, 80, 157));
+        btnExportarMasVendido.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnExportarMasVendido.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportarMasVendido.setText("Exportar");
+        btnExportarMasVendido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarMasVendidoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout masVendidoPorClienteLayout = new javax.swing.GroupLayout(masVendidoPorCliente);
         masVendidoPorCliente.setLayout(masVendidoPorClienteLayout);
@@ -553,9 +694,11 @@ public class VentanaReportes extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtEmailClienteMas, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtEmailClienteMas, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                        .addComponent(btnExportarMasVendido))
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
                 .addContainerGap())
         );
         masVendidoPorClienteLayout.setVerticalGroup(
@@ -565,7 +708,8 @@ public class VentanaReportes extends javax.swing.JFrame {
                 .addGroup(masVendidoPorClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtEmailClienteMas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13))
+                    .addComponent(jLabel13)
+                    .addComponent(btnExportarMasVendido))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -588,8 +732,7 @@ public class VentanaReportes extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(reportes)
-                .addContainerGap())
+                .addComponent(reportes))
         );
 
         pack();
@@ -671,6 +814,66 @@ public class VentanaReportes extends javax.swing.JFrame {
             }
         });
     }//GEN-LAST:event_reportesStateChanged
+
+    private void btnExportarAnalisisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarAnalisisActionPerformed
+        exportarTabla(tablaAnalisis, "\"Reporte - Análisis de Ventas\"");
+    }//GEN-LAST:event_btnExportarAnalisisActionPerformed
+
+    private void btnExportarSemanalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarSemanalesActionPerformed
+        exportarTabla(tablaSemanales, "\"Reporte - Ventas Semanales\"");
+    }//GEN-LAST:event_btnExportarSemanalesActionPerformed
+
+    private void btnExportarMensualesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarMensualesActionPerformed
+        exportarTabla(tablaMensuales, "\"Reporte - Ventas Mensuales\"");
+    }//GEN-LAST:event_btnExportarMensualesActionPerformed
+
+    private void btnExportarAnualesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarAnualesActionPerformed
+        exportarTabla(tablaAnuales, "\"Reporte - Ventas Anuales\"");
+    }//GEN-LAST:event_btnExportarAnualesActionPerformed
+
+    private void btnExportarMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarMasActionPerformed
+        exportarTabla(tablaMasVendidos, "\"Reporte - Productos Más Vendidos\"");
+    }//GEN-LAST:event_btnExportarMasActionPerformed
+
+    private void btnExportarMenosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarMenosActionPerformed
+        exportarTabla(tablaMenosVendidos, "\"Reporte - Productos Menos Vendidos\"");
+    }//GEN-LAST:event_btnExportarMenosActionPerformed
+
+    private void btnExportarPorProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarPorProductoActionPerformed
+        exportarTabla(tablaVentasProductos, "\"Reporte - Ventas por Producto\"");
+    }//GEN-LAST:event_btnExportarPorProductoActionPerformed
+
+    private void btnExportarInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarInventarioActionPerformed
+        exportarTabla(tablaInventario, "\"Reporte - Inventario Bajo\"");
+    }//GEN-LAST:event_btnExportarInventarioActionPerformed
+
+    private void btnExportarNoVendidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarNoVendidoActionPerformed
+        exportarTabla(tablaNoVendidosCliente, "\"Reporte - Productos No Vendidos por Cliente\"");
+    }//GEN-LAST:event_btnExportarNoVendidoActionPerformed
+
+    private void btnExportarMasVendidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarMasVendidoActionPerformed
+        exportarTabla(tablaNoVendidosCliente, "\"Reporte - Productos Más Vendidos por Cliente\"");
+    }//GEN-LAST:event_btnExportarMasVendidoActionPerformed
+    
+    private void exportarTabla(javax.swing.JTable tabla, String titulo) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar " + titulo);
+        int seleccion = fileChooser.showSaveDialog(this);
+
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            String path = fileChooser.getSelectedFile().getAbsolutePath();
+            if (!path.toLowerCase().endsWith(".xlsx")) {
+                path += ".xlsx";
+            }
+
+            boolean exito = ExportarExcel.exportarJTableAExcel(tabla, path);
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "El " + titulo + " fue exportado exitosamente.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al exportar " + titulo + ".");
+            }
+        }
+    }
     
     private void cargarTablaAnalisis() {
         try {
@@ -1020,6 +1223,16 @@ public class VentanaReportes extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel analisisVentas;
     private javax.swing.JPanel anuales;
+    private javax.swing.JButton btnExportarAnalisis;
+    private javax.swing.JButton btnExportarAnuales;
+    private javax.swing.JButton btnExportarInventario;
+    private javax.swing.JButton btnExportarMas;
+    private javax.swing.JButton btnExportarMasVendido;
+    private javax.swing.JButton btnExportarMenos;
+    private javax.swing.JButton btnExportarMensuales;
+    private javax.swing.JButton btnExportarNoVendido;
+    private javax.swing.JButton btnExportarPorProducto;
+    private javax.swing.JButton btnExportarSemanales;
     private javax.swing.JPanel inventario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

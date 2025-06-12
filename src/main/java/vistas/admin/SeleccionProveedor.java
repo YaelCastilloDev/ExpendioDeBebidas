@@ -46,6 +46,7 @@ public class SeleccionProveedor extends javax.swing.JFrame {
         btnSeleccionar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("SELECCIÓN DE PROVEEDOR");
 
         jPanel1.setBackground(new java.awt.Color(0, 43, 91));
 

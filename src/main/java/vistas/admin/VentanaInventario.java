@@ -155,6 +155,7 @@ public class VentanaInventario extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GESTIÓN DEL INVENTARIO");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 43, 91));
