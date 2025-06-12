@@ -25,7 +25,7 @@ public class Cliente {
     @Size(min = 10, max = 10, message = "Teléfono debe tener 10 caracteres")
     private String telefono;
     
-    @Size(min = 12, max = 13, message = "RFC debe tener entre 12 y 13 caracteres")
+    // @Size(min = 12, max = 13, message = "RFC debe tener entre 12 y 13 caracteres")
     private String rfc;
     
     @Digits(integer = 5, fraction = 0, message = "Código postal debe tener 5 dígitos")
